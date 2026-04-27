@@ -1,0 +1,594 @@
+<style>
+  :root {
+    --azul-escuro: #0b3d6e;
+    --azul-principal: #0f5ea8;
+    --azul-hover: #0b4d89;
+    --azul-claro: #dbeafe;
+    --azul-suave: #f0f6ff;
+    --verde: #166534;
+    --verde-bg: #dcfce7;
+    --verde-borda: #86efac;
+    --amarelo: #854d0e;
+    --amarelo-bg: #fef3c7;
+    --amarelo-borda: #fcd34d;
+    --laranja: #92400e;
+    --laranja-bg: #fff7ed;
+    --laranja-borda: #fdba74;
+    --cinza-900: #1f2937;
+    --cinza-700: #374151;
+    --cinza-500: #6b7280;
+    --cinza-300: #d1d5db;
+    --cinza-200: #dbe3ee;
+    --cinza-100: #f8fafc;
+    --branco: #ffffff;
+  }
+
+  .horario-wrap {
+    max-width: 1320px; margin: 0 auto; padding: 24px 28px;
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    color: var(--cinza-900); background: var(--cinza-100);
+  }
+
+  .horario-breadcrumb {
+    font-size: 13px; color: var(--cinza-500); margin-bottom: 16px;
+    padding: 10px 14px; background: var(--branco);
+    border: 1px solid var(--cinza-200); border-radius: 8px; display: inline-block;
+  }
+  .horario-breadcrumb a { color: var(--azul-principal); text-decoration: none; font-weight: 500; }
+  .horario-breadcrumb a:hover { text-decoration: underline; }
+
+  .horario-hero {
+    background: linear-gradient(135deg, #0b3d6e 0%, #0f5ea8 60%, #1a7fd4 100%);
+    color: #fff; padding: 32px 36px; border-radius: 16px; margin-bottom: 22px;
+    box-shadow: 0 8px 28px rgba(11,61,110,.20);
+  }
+  .horario-hero h1 { margin: 0 0 10px; font-size: 30px; color: #fff; }
+  .horario-hero p  { margin: 0; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.92); max-width: 900px; }
+
+  .horario-grid-topo {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(175px,1fr));
+    gap: 14px; margin-bottom: 22px;
+  }
+  .info-card {
+    background: var(--branco); border: 1px solid var(--cinza-200);
+    border-left: 4px solid var(--azul-principal); border-radius: 12px;
+    padding: 16px 18px; box-shadow: 0 2px 8px rgba(15,23,42,.05);
+  }
+  .info-card strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--cinza-500); margin-bottom: 5px; }
+  .info-card span   { font-size: 19px; font-weight: 700; color: var(--azul-escuro); }
+
+  .horario-card {
+    background: var(--branco); border: 1px solid var(--cinza-200); border-radius: 16px;
+    padding: 24px 26px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(15,23,42,.04);
+  }
+  .horario-card > h2 {
+    margin: 0 0 18px; font-size: 20px; font-weight: 700; color: var(--azul-escuro);
+    padding-bottom: 12px; border-bottom: 2px solid var(--azul-claro);
+  }
+
+  .secao-titulo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 16px; font-weight: 700; color: var(--azul-escuro);
+    margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid var(--cinza-200);
+  }
+  .secao-icone {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; flex-shrink: 0;
+  }
+  .secao-icone--azul    { background: var(--azul-claro); }
+  .secao-icone--verde   { background: var(--verde-bg); }
+  .secao-icone--laranja { background: var(--laranja-bg); }
+
+  .secao-sep { margin: 22px 0 18px; border: none; border-top: 2px solid var(--azul-claro); }
+
+  /* Prédios */
+  .predios-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(290px,1fr)); gap: 14px;
+  }
+  .predio-card {
+    border: 1px solid var(--cinza-200); border-radius: 12px;
+    background: #fcfdff; overflow: hidden; transition: box-shadow .15s;
+  }
+  .predio-card:hover { box-shadow: 0 4px 16px rgba(15,94,168,.10); }
+  .predio-header {
+    background: var(--azul-escuro); color: #fff;
+    padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .predio-num {
+    background: rgba(255,255,255,.15); border-radius: 6px;
+    padding: 2px 8px; font-size: 11px; font-weight: 700;
+    letter-spacing: .04em; white-space: nowrap; flex-shrink: 0;
+  }
+  .predio-titulo { font-size: 13px; font-weight: 700; line-height: 1.3; }
+  .predio-body { padding: 14px 16px; }
+  .predio-setores { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+  .setor-tag {
+    background: var(--azul-suave); color: var(--azul-principal);
+    border: 1px solid var(--azul-claro); border-radius: 5px;
+    padding: 2px 8px; font-size: 12px; font-weight: 600;
+  }
+  .predio-linha {
+    display: flex; align-items: flex-start; gap: 7px;
+    font-size: 13px; color: var(--cinza-700); padding: 5px 0;
+    border-bottom: 1px solid #eef2f7; line-height: 1.4;
+  }
+  .predio-linha:last-child { border-bottom: none; padding-bottom: 0; }
+  .predio-linha b {
+    color: var(--cinza-500); font-size: 11px; text-transform: uppercase;
+    letter-spacing: .03em; min-width: 70px; flex-shrink: 0; padding-top: 1px;
+  }
+
+  /* Badges */
+  .badge-horario {
+    display: inline-block; background: var(--azul-suave); color: var(--azul-principal);
+    border: 1px solid var(--azul-claro); border-radius: 6px;
+    padding: 2px 8px; font-size: 12px; font-weight: 700; white-space: nowrap;
+  }
+  .badge-horario--verde  { background: var(--verde-bg);   color: var(--verde);   border-color: var(--verde-borda); }
+  .badge-horario--laranja{ background: var(--laranja-bg); color: var(--laranja); border-color: var(--laranja-borda); }
+  .badge-horario--cinza  { background: #f3f4f6; color: var(--cinza-700); border-color: var(--cinza-300); }
+
+  /* Unidades */
+  .unidades-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(275px,1fr)); gap: 14px;
+  }
+  .unidade-card {
+    border: 1px solid var(--cinza-200); border-radius: 12px;
+    padding: 15px 17px; background: #fcfdff; transition: box-shadow .15s;
+  }
+  .unidade-card:hover { box-shadow: 0 4px 14px rgba(15,94,168,.10); }
+  .unidade-nome { font-size: 14px; font-weight: 700; color: var(--azul-escuro); margin: 0 0 10px; line-height: 1.4; }
+  .unidade-linha {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 13px; color: var(--cinza-700); padding: 5px 0;
+    border-bottom: 1px solid #eef2f7; line-height: 1.4;
+  }
+  .unidade-linha:last-child { border-bottom: none; padding-bottom: 0; }
+  .unidade-linha b {
+    color: var(--cinza-500); font-size: 11px; text-transform: uppercase;
+    letter-spacing: .03em; min-width: 68px; flex-shrink: 0; padding-top: 1px;
+  }
+
+  .alerta-box {
+    background: var(--amarelo-bg); border: 1px solid var(--amarelo-borda);
+    border-left: 4px solid var(--amarelo); border-radius: 12px;
+    padding: 14px 18px; font-size: 14px; line-height: 1.6; color: #78350f;
+  }
+  .sucesso-box {
+    background: var(--verde-bg); border: 1px solid var(--verde-borda);
+    border-left: 4px solid var(--verde); border-radius: 12px;
+    padding: 14px 18px; font-size: 14px; line-height: 1.6; color: #14532d;
+  }
+
+  .horario-lista { margin: 12px 0 0; padding-left: 18px; }
+  .horario-lista li { margin-bottom: 8px; line-height: 1.6; font-size: 14px; }
+
+  .horario-rodape { font-size: 13px; color: var(--cinza-500); text-align: center; margin-top: 18px; padding: 12px; }
+
+  .entry-title, .page-title, .ast-page-title,
+  .elementor-widget-theme-post-title { display: none !important; }
+
+  @media (max-width: 768px) {
+    .horario-wrap { padding: 16px 14px; }
+    .horario-hero { padding: 22px 18px; }
+    .horario-hero h1 { font-size: 24px; }
+    .info-card span { font-size: 17px; }
+    .predio-linha b, .unidade-linha b { min-width: 58px; }
+  }
+</style>
+
+<div class="horario-wrap">
+
+  <div class="horario-breadcrumb">
+    <a href="/">Início</a> &raquo;
+    <a href="/transparencia/">Transparência</a> &raquo;
+    <span>Horário de Atendimento</span>
+  </div>
+
+  <div class="horario-hero">
+    <h1>Horário de Atendimento</h1>
+    <p>
+      Consulte os horários de atendimento da Prefeitura Municipal de Arroio dos Ratos,
+      das unidades de ensino e das Unidades de Saúde da Família (ESF).
+      As informações abrangem todos os prédios e setores da administração municipal.
+    </p>
+  </div>
+
+  <div class="horario-grid-topo">
+    <div class="info-card">
+      <strong>Horário geral</strong>
+      <span>08h às 14h</span>
+    </div>
+    <div class="info-card">
+      <strong>Prédios municipais</strong>
+      <span>11 unidades</span>
+    </div>
+    <div class="info-card">
+      <strong>Escolas municipais</strong>
+      <span>7 unidades</span>
+    </div>
+    <div class="info-card">
+      <strong>Postos de saúde</strong>
+      <span>4 ESFs</span>
+    </div>
+    <div class="info-card">
+      <strong>Atualização</strong>
+      <span>Abr/2026</span>
+    </div>
+  </div>
+
+  <!-- ══ 1. PRÉDIOS ══ -->
+  <div class="horario-card">
+    <h2>Prédios e Setores da Administração Municipal</h2>
+
+    <div class="predios-grid">
+
+      <div class="predio-card">
+        <div class="predio-header">
+          <span class="predio-num">PRÉDIO 1</span>
+          <span class="predio-titulo">Prefeitura de Arroio dos Ratos — Sede</span>
+        </div>
+        <div class="predio-body">
+          <div class="predio-setores">
+            <span class="setor-tag">Gabinete do Prefeito</span>
+            <span class="setor-tag">Sec. da Administração</span>
+            <span class="setor-tag">Sec. da Fazenda</span>
+            <span class="setor-tag">Ouvidoria</span>
+          </div>
+          <div class="predio-linha"><b>Endereço</b> Largo do Mineiro, 135</div>
+          <div class="predio-linha"><b>Telefone</b> (51) 3656-2553</div>
+          <div class="predio-linha"><b>Horário</b> <span class="badge-horario">08h às 14h</span></div>
+          <div class="predio-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        </div>
+      </div>
+
+      <div class="predio-card">
+        <div class="predio-header">
+          <span class="predio-num">PRÉDIO 2</span>
+          <span class="predio-titulo">Polo UAB / Turismo, Cultura e Desportos</span>
+        </div>
+        <div class="predio-body">
+          <div class="predio-setores">
+            <span class="setor-tag">Polo UAB</span>
+            <span class="setor-tag">Coord. Turismo, Cultura e Desportos</span>
+          </div>
+          <div class="predio-linha"><b>Endereço</b> Av. João Pereira da Silva</div>
+          <div class="predio-linha"><b>Telefone</b> —</div>
+          <div class="predio-linha"><b>Horário</b> <span class="badge-horario">08h às 14h</span></div>
+          <div class="predio-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        </div>
+      </div>
+
+      <div class="predio-card">
+        <div class="predio-header">
+          <span class="predio-num">PRÉDIO 3</span>
+          <span class="predio-titulo">Desenvolvimento / Agricultura / SINE</span>
+        </div>
+        <div class="predio-body">
+          <div class="predio-setores">
+            <span class="setor-tag">SINE – FGTAS</span>
+            <span class="setor-tag">Sala do Empreendedor</span>
+            <span class="setor-tag">Sec. do Desenvolvimento</span>
+            <span class="setor-tag">Sec. da Agricultura</span>
+            <span class="setor-tag">Inspetoria Veterinária</span>
+            <span class="setor-tag">Talão do Produtor</span>
+          </div>
+          <div class="predio-linha"><b>Endereço</b> Av. Amadeu Dalbem, 031</div>
+          <div class="predio-linha"><b>SINE tel.</b> (51) 3656-1348</div>
+          <div class="predio-linha"><b>Horário</b> <span class="badge-horario">08h às 14h</span></div>
+          <div class="predio-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        </div>
+      </div>
+
+      <div class="predio-card">
+        <div class="predio-header">
+          <span class="predio-num">PRÉDIO 4</span>
+          <span class="predio-titulo">Secretaria de Obras e Transporte</span>
+        </div>
+        <div class="predio-body">
+          <div class="predio-setores">
+            <span class="setor-tag">Sec. de Obras e Transporte</span>
+            <span class="setor-tag">Almoxarifado</span>
+          </div>
+          <div class="predio-linha"><b>Endereço</b> R. Antônio Rodrigues de Oliveira, 02</div>
+          <div class="predio-linha"><b>Telefone</b> (51) 3656-3699</div>
+          <div class="predio-linha"><b>Horário</b> <span class="badge-horario badge-horario--laranja">08h às 17h ★</span></div>
+          <div class="predio-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        </div>
+      </div>
+
+      <div class="predio-card">
+        <div class="predio-header">
+          <span class="predio-num">PRÉDIO 5</span>
+          <span class="predio-titulo">Garagem — Secretaria de Educação</span>
+        </div>
+        <div class="predio-body">
+          <div class="predio-setores">
+            <span class="setor-tag">Garagem Sec. de Educação</span>
+          </div>
+          <div class="predio-linha"><b>Endereço</b> Av. João Pereira da Silva</div>
+          <div class="predio-linha"><b>Telefone</b> (51) 3656-1018</div>
+          <div class="predio-linha"><b>Horário</b> <span class="badge-horario badge-horario--cinza">Operacional</span></div>
+          <div class="predio-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        </div>
+      </div>
+
+      <div class="predio-card">
+        <div class="predio-header">
+          <span class="predio-num">PRÉDIO 6</span>
+          <span class="predio-titulo">Secretaria de Educação — Sede Administrativa</span>
+        </div>
+        <div class="predio-body">
+          <div class="predio-setores">
+            <span class="setor-tag">Secretaria de Educação</span>
+          </div>
+          <div class="predio-linha"><b>Endereço</b> Av. Espanha, 2 — sala 1</div>
+          <div class="predio-linha"><b>Telefone</b> (51) 3656-3292</div>
+          <div class="predio-linha"><b>Horário</b> <span class="badge-horario">08h às 14h</span></div>
+          <div class="predio-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        </div>
+      </div>
+
+      <div class="predio-card">
+        <div class="predio-header">
+          <span class="predio-num">PRÉDIO 7</span>
+          <span class="predio-titulo">CRAS / Assistência Social / Cadastro Único</span>
+        </div>
+        <div class="predio-body">
+          <div class="predio-setores">
+            <span class="setor-tag">Sec. de Cidadania e Assist. Social</span>
+            <span class="setor-tag">CRAS</span>
+            <span class="setor-tag">Cadastro Único</span>
+          </div>
+          <div class="predio-linha"><b>Endereço</b> R. Dr. Roberto Cardoso, 213</div>
+          <div class="predio-linha"><b>Telefone</b> (51) 3656-3298</div>
+          <div class="predio-linha"><b>WhatsApp</b> (51) 99796-0903</div>
+          <div class="predio-linha"><b>Horário</b> <span class="badge-horario">08h às 14h</span></div>
+          <div class="predio-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        </div>
+      </div>
+
+      <div class="predio-card">
+        <div class="predio-header">
+          <span class="predio-num">PRÉDIO 8</span>
+          <span class="predio-titulo">PIM — Primeira Infância Melhor</span>
+        </div>
+        <div class="predio-body">
+          <div class="predio-setores">
+            <span class="setor-tag">PIM</span>
+          </div>
+          <div class="predio-linha"><b>Endereço</b> R. Cândido de Souza, 393</div>
+          <div class="predio-linha"><b>Telefone</b> —</div>
+          <div class="predio-linha"><b>Horário</b> <span class="badge-horario">08h às 14h</span></div>
+          <div class="predio-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        </div>
+      </div>
+
+      <div class="predio-card">
+        <div class="predio-header">
+          <span class="predio-num">PRÉDIO 9</span>
+          <span class="predio-titulo">Meio Ambiente / Patrimônio / TI / Controle Interno</span>
+        </div>
+        <div class="predio-body">
+          <div class="predio-setores">
+            <span class="setor-tag">Sec. do Meio Ambiente</span>
+            <span class="setor-tag">Setor de Patrimônio</span>
+            <span class="setor-tag">Controle Interno</span>
+            <span class="setor-tag">Setor de TI</span>
+          </div>
+          <div class="predio-linha"><b>Endereço</b> R. Prof. Horácio Prates, 180</div>
+          <div class="predio-linha"><b>Telefone</b> (51) 3656-2553 ramal 503</div>
+          <div class="predio-linha"><b>WhatsApp</b> (51) 99978-3014</div>
+          <div class="predio-linha"><b>Horário</b> <span class="badge-horario">08h às 14h</span></div>
+          <div class="predio-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        </div>
+      </div>
+
+      <div class="predio-card">
+        <div class="predio-header">
+          <span class="predio-num">PRÉDIO 10</span>
+          <span class="predio-titulo">Secretaria de Saúde / Farmácia do SUS</span>
+        </div>
+        <div class="predio-body">
+          <div class="predio-setores">
+            <span class="setor-tag">Secretaria de Saúde</span>
+            <span class="setor-tag">Farmácia do SUS</span>
+            <span class="setor-tag">Transporte da Saúde</span>
+          </div>
+          <div class="predio-linha"><b>Endereço</b> R. Dr. Roberto Cardoso, 659</div>
+          <div class="predio-linha"><b>Transp. Saúde</b> (51) 99770-3174</div>
+          <div class="predio-linha"><b>Horário</b> <span class="badge-horario">08h às 14h</span></div>
+          <div class="predio-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        </div>
+      </div>
+
+      <div class="predio-card">
+        <div class="predio-header">
+          <span class="predio-num">PRÉDIO 11</span>
+          <span class="predio-titulo">Fisioterapia / Junta Militar / FAPS / Planejamento</span>
+        </div>
+        <div class="predio-body">
+          <div class="predio-setores">
+            <span class="setor-tag">Fisioterapia</span>
+            <span class="setor-tag">Junta Militar</span>
+            <span class="setor-tag">FAPS</span>
+            <span class="setor-tag">Assessoria de Planejamento</span>
+            <span class="setor-tag">Coordenadoria da Mulher</span>
+          </div>
+          <div class="predio-linha"><b>Endereço</b> R. Joaquim Vicente Maia, 805</div>
+          <div class="predio-linha"><b>Fisioterapia</b> (51) 99504-8765 / 3656-3950</div>
+          <div class="predio-linha"><b>Junta Militar</b> (51) 99280-1299</div>
+          <div class="predio-linha"><b>FAPS</b> (51) 99746-7895</div>
+          <div class="predio-linha"><b>Horário</b> <span class="badge-horario">08h às 14h</span></div>
+          <div class="predio-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        </div>
+      </div>
+
+    </div><!-- /predios-grid -->
+
+    <div class="sucesso-box" style="margin-top:18px;">
+      ★ <strong>Exceção:</strong> O Prédio 4 (Secretaria de Obras e Transporte) possui horário
+      estendido das <strong>08h às 17h</strong>. Todos os demais prédios funcionam das <strong>08h às 14h</strong>,
+      de segunda a sexta-feira.
+    </div>
+
+  </div><!-- /horario-card predios -->
+
+  <!-- ══ 2. ESCOLAS ══ -->
+  <div class="horario-card">
+    <h2>Unidades de Ensino Municipal</h2>
+
+    <div class="secao-titulo">
+      <div class="secao-icone secao-icone--azul">📚</div>
+      Ensino Fundamental — 5 escolas
+    </div>
+    <div class="unidades-grid">
+      <div class="unidade-card">
+        <p class="unidade-nome">E.M.E.F. Anita Garibaldi</p>
+        <div class="unidade-linha"><b>Etapa</b> Ensino Fundamental</div>
+        <div class="unidade-linha"><b>Localidade</b> Vila Garcia</div>
+        <div class="unidade-linha"><b>Manhã</b> <span class="badge-horario">08h às 12h</span></div>
+        <div class="unidade-linha"><b>Tarde</b> <span class="badge-horario">13h às 17h</span></div>
+        <div class="unidade-linha"><b>Dias</b> Segunda a sexta-feira</div>
+      </div>
+      <div class="unidade-card">
+        <p class="unidade-nome">E.M.E.F. James Johnson</p>
+        <div class="unidade-linha"><b>Etapa</b> Ensino Fundamental</div>
+        <div class="unidade-linha"><b>Localidade</b> Zona Rural</div>
+        <div class="unidade-linha"><b>Manhã</b> <span class="badge-horario">08h às 12h</span></div>
+        <div class="unidade-linha"><b>Tarde</b> <span class="badge-horario">13h às 17h</span></div>
+        <div class="unidade-linha"><b>Dias</b> Segunda a sexta-feira</div>
+      </div>
+      <div class="unidade-card">
+        <p class="unidade-nome">E.M.E.F. Miguel Couto</p>
+        <div class="unidade-linha"><b>Etapa</b> Ensino Fundamental</div>
+        <div class="unidade-linha"><b>Localidade</b> Nossa Senhora Aparecida</div>
+        <div class="unidade-linha"><b>Manhã</b> <span class="badge-horario">08h às 12h</span></div>
+        <div class="unidade-linha"><b>Tarde</b> <span class="badge-horario">13h às 17h</span></div>
+        <div class="unidade-linha"><b>Dias</b> Segunda a sexta-feira</div>
+      </div>
+      <div class="unidade-card">
+        <p class="unidade-nome">E.M.E.F. Osvaldo Cruz</p>
+        <div class="unidade-linha"><b>Etapa</b> Ensino Fundamental</div>
+        <div class="unidade-linha"><b>Localidade</b> Alto da Bela Vista</div>
+        <div class="unidade-linha"><b>Manhã</b> <span class="badge-horario">08h às 12h</span></div>
+        <div class="unidade-linha"><b>Tarde</b> <span class="badge-horario">13h às 17h</span></div>
+        <div class="unidade-linha"><b>Dias</b> Segunda a sexta-feira</div>
+      </div>
+      <div class="unidade-card">
+        <p class="unidade-nome">E.M.E.F. Santa Rita de Cássia</p>
+        <div class="unidade-linha"><b>Etapa</b> Ensino Fundamental</div>
+        <div class="unidade-linha"><b>Localidade</b> Atafona</div>
+        <div class="unidade-linha"><b>Manhã</b> <span class="badge-horario">08h às 12h</span></div>
+        <div class="unidade-linha"><b>Tarde</b> <span class="badge-horario">13h às 17h</span></div>
+        <div class="unidade-linha"><b>Dias</b> Segunda a sexta-feira</div>
+      </div>
+    </div>
+
+    <hr class="secao-sep">
+
+    <div class="secao-titulo">
+      <div class="secao-icone secao-icone--laranja">🎨</div>
+      Educação Infantil — 2 escolas
+    </div>
+    <div class="unidades-grid">
+      <div class="unidade-card">
+        <p class="unidade-nome">E.M.E.I. Recanto do Saber</p>
+        <div class="unidade-linha"><b>Etapa</b> Educação Infantil</div>
+        <div class="unidade-linha"><b>Localidade</b> Santa Bárbara</div>
+        <div class="unidade-linha"><b>Manhã</b> <span class="badge-horario">08h às 12h</span></div>
+        <div class="unidade-linha"><b>Tarde</b> <span class="badge-horario">13h às 17h</span></div>
+        <div class="unidade-linha"><b>Dias</b> Segunda a sexta-feira</div>
+      </div>
+      <div class="unidade-card">
+        <p class="unidade-nome">E.M.E.I. Thereza Franceschi Vieira</p>
+        <div class="unidade-linha"><b>Etapa</b> Educação Infantil</div>
+        <div class="unidade-linha"><b>Localidade</b> Santa Bárbara</div>
+        <div class="unidade-linha"><b>Manhã</b> <span class="badge-horario">08h às 12h</span></div>
+        <div class="unidade-linha"><b>Tarde</b> <span class="badge-horario">13h às 17h</span></div>
+        <div class="unidade-linha"><b>Dias</b> Segunda a sexta-feira</div>
+      </div>
+    </div>
+
+    <div class="alerta-box" style="margin-top:16px;">
+      Os horários das escolas municipais referem-se ao funcionamento das aulas e ao atendimento
+      administrativo. O calendário escolar pode incluir recessos, feriados e alterações conforme
+      deliberação da Secretaria Municipal de Educação — <strong>(51) 3656-3292</strong>.
+    </div>
+  </div>
+
+  <!-- ══ 3. ESFs ══ -->
+  <div class="horario-card">
+    <h2>Unidades de Saúde da Família (ESF)</h2>
+
+    <div class="secao-titulo">
+      <div class="secao-icone secao-icone--verde">🏥</div>
+      Estratégia Saúde da Família — 4 unidades
+    </div>
+    <div class="unidades-grid">
+      <div class="unidade-card">
+        <p class="unidade-nome">ESF I — Noé Viriato dos Santos</p>
+        <div class="unidade-linha"><b>Tipo</b> Unidade de Saúde da Família</div>
+        <div class="unidade-linha"><b>Manhã</b> <span class="badge-horario badge-horario--verde">08h às 12h</span></div>
+        <div class="unidade-linha"><b>Tarde</b> <span class="badge-horario badge-horario--verde">13h às 17h</span></div>
+        <div class="unidade-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        <div class="unidade-linha"><b>Obs.</b> Agenda e demanda espontânea</div>
+      </div>
+      <div class="unidade-card">
+        <p class="unidade-nome">ESF II — Enf. Miguel Florkovski</p>
+        <div class="unidade-linha"><b>Tipo</b> Unidade de Saúde da Família</div>
+        <div class="unidade-linha"><b>Manhã</b> <span class="badge-horario badge-horario--verde">08h às 12h</span></div>
+        <div class="unidade-linha"><b>Tarde</b> <span class="badge-horario badge-horario--verde">13h às 17h</span></div>
+        <div class="unidade-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        <div class="unidade-linha"><b>Obs.</b> Agenda e demanda espontânea</div>
+      </div>
+      <div class="unidade-card">
+        <p class="unidade-nome">ESF III — Dr. Aurélio Rodrigues Ariza</p>
+        <div class="unidade-linha"><b>Tipo</b> Unidade de Saúde da Família</div>
+        <div class="unidade-linha"><b>Manhã</b> <span class="badge-horario badge-horario--verde">08h às 12h</span></div>
+        <div class="unidade-linha"><b>Tarde</b> <span class="badge-horario badge-horario--verde">13h às 17h</span></div>
+        <div class="unidade-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        <div class="unidade-linha"><b>Obs.</b> Agenda e demanda espontânea</div>
+      </div>
+      <div class="unidade-card">
+        <p class="unidade-nome">ESF IV — Dr. Tirteu Castro de Castro</p>
+        <div class="unidade-linha"><b>Tipo</b> Unidade de Saúde da Família</div>
+        <div class="unidade-linha"><b>Manhã</b> <span class="badge-horario badge-horario--verde">08h às 12h</span></div>
+        <div class="unidade-linha"><b>Tarde</b> <span class="badge-horario badge-horario--verde">13h às 17h</span></div>
+        <div class="unidade-linha"><b>Dias</b> Segunda a sexta-feira</div>
+        <div class="unidade-linha"><b>Obs.</b> Agenda e demanda espontânea</div>
+      </div>
+    </div>
+
+    <div class="alerta-box" style="margin-top:16px;">
+      O atendimento nas ESFs está sujeito a alterações por escala de profissionais, férias médicas,
+      campanhas de vacinação ou outras demandas da Secretaria Municipal de Saúde.
+      Contato Transporte da Saúde: <strong>(51) 99770-3174</strong>.
+    </div>
+  </div>
+
+  <!-- ══ 4. INFORMAÇÕES GERAIS ══ -->
+  <div class="horario-card">
+    <h2>Informações Gerais ao Cidadão</h2>
+    <div class="alerta-box">
+      Os horários de atendimento poderão sofrer alteração em razão de feriados, pontos facultativos,
+      decretos municipais, recessos administrativos ou atendimentos especiais de secretarias,
+      unidades escolares e unidades de saúde.
+    </div>
+    <ul class="horario-lista">
+      <li>Os canais eletrônicos (Ouvidoria e SIC) permanecem disponíveis 24 horas no Portal da Transparência.</li>
+      <li>Para pedidos de informação (LAI), utilize os canais do e-SIC disponíveis no portal.</li>
+      <li>Dúvidas sobre setor ou horário: telefone geral da Prefeitura <strong>(51) 3656-2553</strong>.</li>
+      <li>Agendamento nas ESFs: entre em contato diretamente com a unidade de referência da sua área.</li>
+      <li>Assuntos escolares: Secretaria de Educação <strong>(51) 3656-3292</strong>.</li>
+      <li>Assistência Social / CRAS: <strong>(51) 3656-3298</strong> ou WhatsApp <strong>(51) 99796-0903</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="horario-rodape">
+    Página elaborada para facilitar o acesso à informação e a transparência do atendimento ao cidadão
+    — Prefeitura Municipal de Arroio dos Ratos &middot; Atualização: abril/2026.
+  </div>
+
+</div>

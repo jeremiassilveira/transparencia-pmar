@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de Cookies – Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root {
+  --azul-escuro: #0b3d6e;
+  --azul-principal: #0f5ea8;
+  --azul-hover: #0b4d89;
+  --azul-claro: #dbeafe;
+  --azul-suave: #f0f6ff;
+  --verde: #166534;
+  --verde-bg: #dcfce7;
+  --verde-borda: #86efac;
+  --amarelo: #854d0e;
+  --amarelo-bg: #fef3c7;
+  --amarelo-borda: #fcd34d;
+  --cinza-900: #1f2937;
+  --cinza-700: #374151;
+  --cinza-500: #6b7280;
+  --cinza-200: #dbe3ee;
+  --cinza-100: #f8fafc;
+  --branco: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0;
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  color: var(--cinza-900);
+  background: var(--cinza-100);
+}
+
+.entry-title, .page-title, .ast-page-title,
+.elementor-widget-theme-post-title { display: none !important; }
+
+.wrap { max-width: 1100px; margin: 0 auto; padding: 24px 28px; }
+
+.breadcrumb {
+  font-size: 13px; color: var(--cinza-500);
+  margin-bottom: 16px; padding: 10px 14px;
+  background: var(--branco); border: 1px solid var(--cinza-200);
+  border-radius: 8px; display: inline-block;
+}
+.breadcrumb a { color: var(--azul-principal); text-decoration: none; font-weight: 500; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+.hero {
+  background: linear-gradient(135deg, #0b3d6e 0%, #0f5ea8 60%, #1a7fd4 100%);
+  color: #fff; padding: 32px 36px; border-radius: 16px;
+  margin-bottom: 22px; box-shadow: 0 8px 28px rgba(11,61,110,.20);
+}
+.hero h1 { margin: 0 0 10px; font-size: 28px; line-height: 1.2; color: #fff; }
+.hero p { margin: 0; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.92); max-width: 860px; }
+
+.topo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px; margin-bottom: 22px;
+}
+.info-card {
+  background: var(--branco); border: 1px solid var(--cinza-200);
+  border-left: 4px solid var(--azul-principal);
+  border-radius: 12px; padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(15,23,42,.05);
+}
+.info-card strong {
+  display: block; font-size: 11px; text-transform: uppercase;
+  letter-spacing: .04em; color: var(--cinza-500); margin-bottom: 5px;
+}
+.info-card span { font-size: 16px; font-weight: 700; color: var(--azul-escuro); line-height: 1.3; }
+
+.card {
+  background: var(--branco); border: 1px solid var(--cinza-200);
+  border-radius: 16px; padding: 24px 26px; margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(15,23,42,.04);
+}
+.card > h2 {
+  margin: 0 0 18px; font-size: 20px; color: var(--azul-escuro);
+  padding-bottom: 12px; border-bottom: 2px solid var(--azul-claro);
+}
+
+.nota-box {
+  background: var(--azul-suave); border: 1px solid var(--azul-claro);
+  border-left: 4px solid var(--azul-principal);
+  border-radius: 12px; padding: 14px 18px;
+  font-size: 14px; line-height: 1.6; color: var(--cinza-700);
+}
+.alerta-box {
+  background: var(--amarelo-bg); border: 1px solid var(--amarelo-borda);
+  border-left: 4px solid var(--amarelo);
+  border-radius: 12px; padding: 14px 18px;
+  font-size: 14px; line-height: 1.6; color: #78350f;
+}
+.sucesso-box {
+  background: var(--verde-bg); border: 1px solid var(--verde-borda);
+  border-left: 4px solid var(--verde);
+  border-radius: 12px; padding: 14px 18px;
+  font-size: 14px; line-height: 1.6; color: #14532d;
+}
+
+/* Tabela de cookies */
+.tabela-cookies {
+  width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 14px;
+}
+.tabela-cookies thead tr {
+  background: var(--azul-escuro); color: #fff;
+}
+.tabela-cookies th {
+  padding: 11px 14px; text-align: left; font-size: 12px;
+  text-transform: uppercase; letter-spacing: .04em; font-weight: 600;
+}
+.tabela-cookies td {
+  padding: 11px 14px; border-bottom: 1px solid var(--cinza-200);
+  color: var(--cinza-700); vertical-align: top;
+}
+.tabela-cookies tr:last-child td { border-bottom: none; }
+.tabela-cookies tr:nth-child(even) td { background: #f8fafc; }
+
+.badge {
+  display: inline-block; border-radius: 20px; padding: 3px 10px;
+  font-size: 11px; font-weight: 700; white-space: nowrap;
+}
+.badge-essencial { background: #dcfce7; color: #166534; }
+.badge-analitico { background: #dbeafe; color: #1e40af; }
+.badge-nao-usa { background: #f1f5f9; color: #64748b; }
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+}
+.subcard {
+  border: 1px solid var(--cinza-200); border-radius: 14px;
+  background: #fcfdff; padding: 16px 18px;
+}
+.subcard h3 { margin: 0 0 10px; color: var(--azul-escuro); font-size: 16px; }
+.subcard p { font-size: 14px; line-height: 1.7; color: var(--cinza-700); margin: 0; }
+
+.lista { margin: 0; padding-left: 18px; }
+.lista li { margin-bottom: 8px; font-size: 14px; line-height: 1.6; color: var(--cinza-700); }
+
+.botao {
+  display: inline-block; background: var(--azul-principal);
+  color: #fff; padding: 12px 20px; border-radius: 8px;
+  text-decoration: none; font-weight: 700; font-size: 14px; margin-top: 12px;
+}
+.botao:hover { background: var(--azul-hover); }
+
+.rodape {
+  font-size: 13px; color: var(--cinza-500);
+  text-align: center; margin-top: 18px; padding: 12px;
+}
+
+@media (max-width: 768px) {
+  .wrap { padding: 16px 14px; }
+  .hero { padding: 22px 18px; }
+  .hero h1 { font-size: 22px; }
+  .tabela-cookies { display: block; overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="breadcrumb">
+    <a href="/">Início</a> &raquo;
+    <a href="/transparencia/">Transparência</a> &raquo;
+    <a href="/lgpd-e-governo-digital/">LGPD e Governo Digital</a> &raquo;
+    <span>Política de Cookies</span>
+  </div>
+
+  <div class="hero">
+    <h1>Política de Cookies</h1>
+    <p>
+      Esta página informa como a Prefeitura Municipal de Arroio dos Ratos utiliza cookies e
+      tecnologias semelhantes no portal institucional, garantindo transparência ao cidadão sobre
+      o que é coletado e com qual finalidade.
+    </p>
+  </div>
+
+  <div class="topo-grid">
+    <div class="info-card">
+      <strong>Responsável</strong>
+      <span>Coordenação de Informática</span>
+    </div>
+    <div class="info-card">
+      <strong>Base legal</strong>
+      <span>LGPD — Lei nº 13.709/2018</span>
+    </div>
+    <div class="info-card">
+      <strong>Atualização</strong>
+      <span>Abril de 2026</span>
+    </div>
+    <div class="info-card">
+      <strong>Cookies de terceiros</strong>
+      <span>Não utilizados</span>
+    </div>
+  </div>
+
+  <!-- O que são cookies -->
+  <div class="card">
+    <h2>O que são cookies</h2>
+    <div class="nota-box">
+      Cookies são pequenos arquivos de texto armazenados no dispositivo do usuário quando ele
+      acessa um site. Eles permitem que o portal reconheça preferências de navegação e melhore
+      a experiência do cidadão, sem identificar pessoalmente o visitante.
+    </div>
+    <p style="font-size:14px;color:var(--cinza-700);margin-top:16px;margin-bottom:0;">
+      O portal da Prefeitura Municipal de Arroio dos Ratos pode utilizar cookies estritamente
+      necessários ao funcionamento técnico das páginas e, quando aplicável, cookies analíticos
+      para mensurar o acesso às informações públicas. <strong>Não são utilizados cookies de
+      publicidade, rastreamento comercial ou de terceiros.</strong>
+    </p>
+  </div>
+
+  <!-- Tipos de cookies -->
+  <div class="card">
+    <h2>Tipos de cookies utilizados</h2>
+    <div class="grid-2" style="margin-bottom:18px;">
+      <div class="subcard">
+        <h3>🔒 Cookies essenciais</h3>
+        <p>
+          Necessários para o funcionamento básico do portal. Permitem navegação entre páginas,
+          uso de formulários e acesso a áreas de transparência. Não podem ser desativados
+          sem comprometer o funcionamento do site.
+        </p>
+      </div>
+      <div class="subcard">
+        <h3>📊 Cookies analíticos</h3>
+        <p>
+          Permitem contabilizar o número de acessos e entender quais seções do portal são mais
+          consultadas pelo cidadão. As informações são agregadas e anônimas — nenhum dado
+          pessoal identificável é coletado.
+        </p>
+      </div>
+    </div>
+
+    <table class="tabela-cookies">
+      <thead>
+        <tr>
+          <th>Cookie</th>
+          <th>Finalidade</th>
+          <th>Tipo</th>
+          <th>Duração</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>wordpress_sec</strong></td>
+          <td>Sessão de autenticação do sistema WordPress (apenas para administradores)</td>
+          <td><span class="badge badge-essencial">Essencial</span></td>
+          <td>Sessão</td>
+        </tr>
+        <tr>
+          <td><strong>wordpress_logged_in</strong></td>
+          <td>Controle de acesso de usuários autenticados no painel administrativo</td>
+          <td><span class="badge badge-essencial">Essencial</span></td>
+          <td>Sessão</td>
+        </tr>
+        <tr>
+          <td><strong>wp-settings</strong></td>
+          <td>Preferências de exibição do painel WordPress</td>
+          <td><span class="badge badge-essencial">Essencial</span></td>
+          <td>1 ano</td>
+        </tr>
+        <tr>
+          <td><strong>_ga / _gid</strong></td>
+          <td>Estatísticas de acesso — Google Analytics (dados anonimizados)</td>
+          <td><span class="badge badge-analitico">Analítico</span></td>
+          <td>2 anos / 24h</td>
+        </tr>
+        <tr>
+          <td><strong>Publicidade / rastreamento</strong></td>
+          <td>Não aplicável — o portal não utiliza cookies desta categoria</td>
+          <td><span class="badge badge-nao-usa">Não utilizado</span></td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Gerenciamento -->
+  <div class="card">
+    <h2>Como gerenciar os cookies</h2>
+    <p style="font-size:14px;color:var(--cinza-700);margin-top:0;">
+      O cidadão pode configurar seu navegador para bloquear ou excluir cookies a qualquer momento.
+      Consulte as instruções do seu navegador:
+    </p>
+    <div class="grid-2">
+      <div class="subcard">
+        <h3>Principais navegadores</h3>
+        <ul class="lista">
+          <li><strong>Google Chrome:</strong> Configurações → Privacidade e segurança → Cookies</li>
+          <li><strong>Mozilla Firefox:</strong> Opções → Privacidade e Segurança → Cookies</li>
+          <li><strong>Microsoft Edge:</strong> Configurações → Privacidade → Cookies</li>
+          <li><strong>Safari:</strong> Preferências → Privacidade → Gerenciar dados</li>
+        </ul>
+      </div>
+      <div class="subcard">
+        <h3>Efeito da desativação</h3>
+        <p>
+          A desativação de cookies essenciais pode comprometer o funcionamento de algumas
+          funcionalidades do portal. Cookies analíticos podem ser desativados sem impacto
+          na navegação ou no acesso às informações públicas.
+        </p>
+      </div>
+    </div>
+    <div class="alerta-box" style="margin-top:16px;">
+      A desativação de cookies não impede o acesso às informações de transparência — todas as
+      páginas públicas do portal são acessíveis independentemente da configuração de cookies.
+    </div>
+  </div>
+
+  <!-- Dados pessoais -->
+  <div class="card">
+    <h2>Cookies e dados pessoais</h2>
+    <div class="sucesso-box">
+      Os cookies utilizados no portal <strong>não coletam dados pessoais identificáveis</strong> do
+      cidadão. As informações analíticas são sempre anonimizadas e utilizadas exclusivamente
+      para fins estatísticos e de melhoria do portal público.
+    </div>
+    <p style="font-size:14px;color:var(--cinza-700);margin-top:16px;margin-bottom:0;">
+      Para informações sobre o tratamento de dados pessoais pelo Município, consulte a
+      Política de Privacidade e o canal do Encarregado de Proteção de Dados.
+    </p>
+  </div>
+
+  <!-- Atualizações -->
+  <div class="card">
+    <h2>Atualização desta política</h2>
+    <p style="font-size:14px;color:var(--cinza-700);margin-top:0;">
+      Esta Política de Cookies pode ser atualizada periodicamente para refletir mudanças
+      técnicas ou normativas. A data da última revisão está indicada no topo desta página.
+      Recomendamos a consulta periódica.
+    </p>
+    <p style="font-size:14px;color:var(--cinza-700);">
+      <strong>Responsável:</strong> Coordenação de Informática — Prefeitura Municipal de Arroio dos Ratos<br>
+      <strong>Última atualização:</strong> Abril de 2026
+    </p>
+  </div>
+
+  <!-- Links relacionados -->
+  <div class="card">
+    <h2>Documentos relacionados</h2>
+    <a href="/politica-de-privacidade/" class="botao" style="margin-right:10px;">Política de Privacidade</a>
+    <a href="/encarregado-lgpd/" class="botao" style="background:#374151;">Encarregado LGPD (DPO)</a>
+  </div>
+
+  <div class="rodape">
+    Prefeitura Municipal de Arroio dos Ratos — Coordenação de Informática — Política de Cookies — Abril de 2026
+  </div>
+
+</div>
+</body>
+</html>

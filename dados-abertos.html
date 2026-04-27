@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dados Abertos – Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root {
+  --azul-escuro: #0b3d6e;
+  --azul-principal: #0f5ea8;
+  --azul-hover: #0b4d89;
+  --azul-claro: #dbeafe;
+  --azul-suave: #f0f6ff;
+  --verde: #166534;
+  --verde-bg: #dcfce7;
+  --verde-borda: #86efac;
+  --amarelo: #854d0e;
+  --amarelo-bg: #fef3c7;
+  --amarelo-borda: #fcd34d;
+  --cinza-900: #1f2937;
+  --cinza-700: #374151;
+  --cinza-500: #6b7280;
+  --cinza-200: #dbe3ee;
+  --cinza-100: #f8fafc;
+  --branco: #ffffff;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: "Segoe UI", Arial, sans-serif; color: var(--cinza-900); background: var(--cinza-100); }
+.entry-title, .page-title, .ast-page-title, .elementor-widget-theme-post-title { display: none !important; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 24px 28px; }
+
+.breadcrumb { font-size: 13px; color: var(--cinza-500); margin-bottom: 16px; padding: 10px 14px; background: var(--branco); border: 1px solid var(--cinza-200); border-radius: 8px; display: inline-block; }
+.breadcrumb a { color: var(--azul-principal); text-decoration: none; font-weight: 500; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+.hero { background: linear-gradient(135deg, #0b3d6e 0%, #0f5ea8 60%, #1a7fd4 100%); color: #fff; padding: 32px 36px; border-radius: 16px; margin-bottom: 22px; box-shadow: 0 8px 28px rgba(11,61,110,.20); }
+.hero h1 { margin: 0 0 10px; font-size: 28px; line-height: 1.2; color: #fff; }
+.hero p { margin: 0; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.92); max-width: 860px; }
+
+.topo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px; }
+.info-card { background: var(--branco); border: 1px solid var(--cinza-200); border-left: 4px solid var(--azul-principal); border-radius: 12px; padding: 16px 18px; box-shadow: 0 2px 8px rgba(15,23,42,.05); }
+.info-card strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--cinza-500); margin-bottom: 5px; }
+.info-card span { font-size: 16px; font-weight: 700; color: var(--azul-escuro); line-height: 1.3; }
+
+.card { background: var(--branco); border: 1px solid var(--cinza-200); border-radius: 16px; padding: 24px 26px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(15,23,42,.04); }
+.card > h2 { margin: 0 0 18px; font-size: 20px; color: var(--azul-escuro); padding-bottom: 12px; border-bottom: 2px solid var(--azul-claro); }
+
+.nota-box { background: var(--azul-suave); border: 1px solid var(--azul-claro); border-left: 4px solid var(--azul-principal); border-radius: 12px; padding: 14px 18px; font-size: 14px; line-height: 1.6; color: var(--cinza-700); }
+.alerta-box { background: var(--amarelo-bg); border: 1px solid var(--amarelo-borda); border-left: 4px solid var(--amarelo); border-radius: 12px; padding: 14px 18px; font-size: 14px; line-height: 1.6; color: #78350f; }
+.sucesso-box { background: var(--verde-bg); border: 1px solid var(--verde-borda); border-left: 4px solid var(--verde); border-radius: 12px; padding: 14px 18px; font-size: 14px; line-height: 1.6; color: #14532d; }
+
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.subcard { border: 1px solid var(--cinza-200); border-radius: 14px; background: #fcfdff; padding: 16px 18px; }
+.subcard h3 { margin: 0 0 10px; color: var(--azul-escuro); font-size: 16px; }
+.subcard p { font-size: 14px; line-height: 1.7; color: var(--cinza-700); margin: 0; }
+
+/* Tabela de conjuntos de dados */
+.tabela { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 14px; }
+.tabela thead tr { background: var(--azul-escuro); color: #fff; }
+.tabela th { padding: 11px 14px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; font-weight: 600; }
+.tabela td { padding: 11px 14px; border-bottom: 1px solid var(--cinza-200); color: var(--cinza-700); vertical-align: middle; }
+.tabela tr:last-child td { border-bottom: none; }
+.tabela tr:nth-child(even) td { background: #f8fafc; }
+.tabela a { color: var(--azul-principal); text-decoration: none; font-weight: 600; }
+.tabela a:hover { text-decoration: underline; }
+
+.badge { display: inline-block; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.badge-csv { background: #dcfce7; color: #166534; }
+.badge-json { background: #dbeafe; color: #1e40af; }
+.badge-xlsx { background: #fef3c7; color: #854d0e; }
+.badge-portal { background: #f1f5f9; color: #475569; }
+
+/* Regras de utilização */
+.regras-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.regra-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px; background: var(--azul-suave); border: 1px solid var(--azul-claro); border-radius: 10px; }
+.regra-item .ri { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.regra-item p { font-size: 13px; color: var(--cinza-700); margin: 0; line-height: 1.5; }
+
+/* Extensões */
+.ext-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.ext-badge { background: var(--cinza-200); color: var(--cinza-700); border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 700; }
+
+.lista { margin: 0; padding-left: 18px; }
+.lista li { margin-bottom: 8px; font-size: 14px; line-height: 1.6; color: var(--cinza-700); }
+
+.botao { display: inline-block; background: var(--azul-principal); color: #fff; padding: 11px 18px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px; margin-top: 10px; }
+.botao:hover { background: var(--azul-hover); }
+.botao-cinza { background: #374151; }
+.botao-cinza:hover { background: #1f2937; }
+
+.rodape { font-size: 13px; color: var(--cinza-500); text-align: center; margin-top: 18px; padding: 12px; }
+
+@media (max-width: 768px) { .wrap { padding: 16px 14px; } .hero { padding: 22px 18px; } .hero h1 { font-size: 22px; } .tabela { display: block; overflow-x: auto; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="breadcrumb">
+    <a href="/">Início</a> &raquo;
+    <a href="/transparencia/">Transparência</a> &raquo;
+    <a href="/servicos-digitais/">Serviços Digitais</a> &raquo;
+    <span>Dados Abertos</span>
+  </div>
+
+  <div class="hero">
+    <h1>Dados Abertos</h1>
+    <p>
+      Conjuntos de dados públicos disponíveis para consulta, download e reutilização
+      pela sociedade, em conformidade com a Lei de Acesso à Informação (Lei nº 12.527/2011)
+      e a Lei do Governo Digital (Lei nº 14.129/2021).
+    </p>
+  </div>
+
+  <div class="topo-grid">
+    <div class="info-card">
+      <strong>Responsável</strong>
+      <span>Coordenação de Informática</span>
+    </div>
+    <div class="info-card">
+      <strong>Base legal</strong>
+      <span>Lei nº 14.129/2021</span>
+    </div>
+    <div class="info-card">
+      <strong>Licença</strong>
+      <span>Uso livre — Creative Commons</span>
+    </div>
+    <div class="info-card">
+      <strong>Atualização</strong>
+      <span>Abril de 2026</span>
+    </div>
+  </div>
+
+  <!-- O que são dados abertos -->
+  <div class="card">
+    <h2>O que são dados abertos</h2>
+    <div class="nota-box">
+      Dados abertos são informações públicas disponibilizadas em formato legível por máquina,
+      estruturado e sem restrição de licença, permitindo que qualquer pessoa acesse, utilize,
+      redistribua e recombine os dados livremente.
+    </div>
+    <p style="font-size:14px;color:var(--cinza-700);margin-top:14px;margin-bottom:0;">
+      A Lei nº 14.129/2021 (Lei do Governo Digital) e a Lei nº 12.527/2011 (LAI) estabelecem
+      a obrigatoriedade de publicação de dados em formato aberto pelos entes públicos,
+      promovendo transparência, controle social e inovação.
+    </p>
+  </div>
+
+  <!-- Conjuntos de dados disponíveis -->
+  <div class="card">
+    <h2>Conjuntos de dados disponíveis</h2>
+    <div class="alerta-box" style="margin-bottom:16px;">
+      Os conjuntos de dados abertos do Município estão disponíveis no portal de transparência.
+      Para dados financeiros completos, utilize também o portal do TCE-RS e o SICONFI.
+    </div>
+    <table class="tabela">
+      <thead>
+        <tr>
+          <th>Conjunto de dados</th>
+          <th>Descrição</th>
+          <th>Formato</th>
+          <th>Acesso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Receitas</strong></td>
+          <td>Receitas previstas e realizadas por exercício</td>
+          <td><span class="badge badge-portal">Portal</span></td>
+          <td><a href="/receitas/">Acessar</a></td>
+        </tr>
+        <tr>
+          <td><strong>Despesas</strong></td>
+          <td>Empenhos, liquidações e pagamentos</td>
+          <td><span class="badge badge-portal">Portal</span></td>
+          <td><a href="/despesas/">Acessar</a></td>
+        </tr>
+        <tr>
+          <td><strong>Servidores</strong></td>
+          <td>Relação nominal, cargos, lotações e remunerações</td>
+          <td><span class="badge badge-portal">Portal</span></td>
+          <td><a href="/servidores/">Acessar</a></td>
+        </tr>
+        <tr>
+          <td><strong>Licitações e Contratos</strong></td>
+          <td>Editais, resultados e contratos celebrados</td>
+          <td><span class="badge badge-portal">Portal</span></td>
+          <td><a href="/licitacoes/">Acessar</a></td>
+        </tr>
+        <tr>
+          <td><strong>Emendas Parlamentares Federais</strong></td>
+          <td>Identificação, valores e execução das emendas federais</td>
+          <td><span class="badge badge-csv">CSV</span> <span class="badge badge-portal">Portal</span></td>
+          <td><a href="/emendas-parlamentares-federais/">Acessar</a></td>
+        </tr>
+        <tr>
+          <td><strong>Concursos e Seleções Públicas</strong></td>
+          <td>Editais, resultados e nomeações</td>
+          <td><span class="badge badge-portal">Portal</span></td>
+          <td><a href="/concursos-e-selecoes-publicas/">Acessar</a></td>
+        </tr>
+        <tr>
+          <td><strong>Obras Públicas</strong></td>
+          <td>Obras em andamento e concluídas com valores e situação</td>
+          <td><span class="badge badge-portal">Portal</span></td>
+          <td><a href="/obras/">Acessar</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Formatos aceitos -->
+  <div class="card">
+    <h2>Formatos de arquivo utilizados</h2>
+    <p style="font-size:14px;color:var(--cinza-700);margin-top:0;">
+      Os dados são disponibilizados em formatos abertos e editáveis, conforme orientação
+      da cartilha PNTP e da Lei nº 14.129/2021:
+    </p>
+    <div class="ext-row">
+      <span class="ext-badge">.CSV</span>
+      <span class="ext-badge">.XLSX</span>
+      <span class="ext-badge">.JSON</span>
+      <span class="ext-badge">.PDF</span>
+      <span class="ext-badge">.ODS</span>
+      <span class="ext-badge">.XML</span>
+    </div>
+    <p style="font-size:13px;color:var(--cinza-500);margin-top:12px;margin-bottom:0;">
+      Formatos proprietários bloqueados (como .DOC sem versão aberta) não são utilizados para
+      disponibilização de dados abertos.
+    </p>
+  </div>
+
+  <!-- Regras de utilização -->
+  <div class="card">
+    <h2>Regras de utilização</h2>
+    <div class="regras-grid">
+      <div class="regra-item">
+        <div class="ri">✅</div>
+        <p><strong>Uso livre:</strong> Os dados podem ser utilizados, redistribuídos e recombinados sem restrição de licença.</p>
+      </div>
+      <div class="regra-item">
+        <div class="ri">📌</div>
+        <p><strong>Atribuição:</strong> Recomenda-se citar a fonte: <em>Prefeitura Municipal de Arroio dos Ratos</em>.</p>
+      </div>
+      <div class="regra-item">
+        <div class="ri">⚠️</div>
+        <p><strong>Responsabilidade:</strong> O Município não se responsabiliza por usos indevidos ou interpretações equivocadas dos dados.</p>
+      </div>
+      <div class="regra-item">
+        <div class="ri">🔒</div>
+        <p><strong>Dados pessoais:</strong> Dados que possam identificar individualmente cidadãos são tratados conforme a LGPD e não são disponibilizados abertamente.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Regulamentação local -->
+  <div class="card">
+    <h2>Regulamentação local</h2>
+    <div class="grid-2">
+      <div class="subcard">
+        <h3>Base legal federal</h3>
+        <p>Lei nº 14.129/2021 — Lei do Governo Digital; Lei nº 12.527/2011 — Lei de Acesso à Informação; Lei nº 13.709/2018 — LGPD.</p>
+      </div>
+      <div class="subcard">
+        <h3>Regulamentação municipal</h3>
+        <p>O Município de Arroio dos Ratos dispõe de Política de Segurança da Informação e Plano de Ação LGPD que regem o tratamento e a publicação de dados públicos.</p>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--cinza-500);margin-top:14px;margin-bottom:0;">
+      Para solicitar conjunto de dados não listado acima, utilize o canal de Acesso à Informação (e-SIC).
+    </p>
+    <a href="/acesso-a-informacao/" class="botao">Acesso à Informação (e-SIC)</a>
+    <a href="/servicos-digitais/" class="botao botao-cinza" style="margin-left:8px;">← Voltar a Serviços Digitais</a>
+  </div>
+
+  <div class="rodape">
+    Prefeitura Municipal de Arroio dos Ratos — Coordenação de Informática — Dados Abertos — Abril de 2026
+  </div>
+
+</div>
+</body>
+</html>

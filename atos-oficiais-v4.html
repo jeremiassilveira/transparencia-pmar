@@ -1,0 +1,1412 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════════════╗
+  ║  ATOS OFICIAIS — Prefeitura de Arroio dos Ratos                     ║
+  ║  Versão: 4.0 — API REST do WordPress + Exportação Multiformato      ║
+  ╠══════════════════════════════════════════════════════════════════════╣
+  ║  NOVIDADES v4.0:                                                     ║
+  ║  • Exportação em 6 formatos: CSV, XLSX, JSON, ODS, XML, PDF          ║
+  ║  • SheetJS para XLSX e ODS (CDN cdnjs.cloudflare.com)                ║
+  ║  • Barra de exportação com identidade visual por formato             ║
+  ║  • Código inteiramente comentado para manutenção futura              ║
+  ╠══════════════════════════════════════════════════════════════════════╣
+  ║  INSTRUÇÕES DE USO:                                                  ║
+  ║  1. Cole este bloco HTML em uma página do WordPress (editor HTML).   ║
+  ║  2. O script detecta automaticamente o domínio e usa a API REST.     ║
+  ║  3. Não requer plugin adicional — API REST nativa (WordPress 4.7+).  ║
+  ║  4. Ajuste CONFIG.slugsCategoria conforme as categorias do seu WP.   ║
+  ║     Para verificar slugs: /wp-json/wp/v2/categories?per_page=100     ║
+  ╚══════════════════════════════════════════════════════════════════════╝
+-->
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     DEPENDÊNCIA EXTERNA — SheetJS (necessário apenas para XLSX e ODS)
+     Carregado antes do conteúdo para garantir disponibilidade no script.
+     Fonte: cdnjs.cloudflare.com (permitido pela política de segurança WP)
+     Se preferir hospedar localmente: baixe xlsx.full.min.js e ajuste src.
+     ═══════════════════════════════════════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     ESTRUTURA HTML PRINCIPAL
+     Todos os IDs referenciados no JavaScript estão marcados com
+     o comentário  ← JS  para facilitar localização.
+     ═══════════════════════════════════════════════════════════════════ -->
+<div class="atos-oficiais-wrap">
+
+  <!-- Trilha de navegação (breadcrumb) -->
+  <div class="atos-breadcrumbs">
+    <a href="/">Início</a> &raquo;
+    <a href="/consultardados/">Consultar Dados</a> &raquo;
+    <span>Atos Oficiais</span>
+  </div>
+
+  <!-- Cabeçalho da página -->
+  <section class="atos-hero">
+    <h1>Atos Oficiais</h1>
+    <p>
+      Consulta dos atos oficiais publicados pela Prefeitura Municipal de Arroio dos Ratos,
+      incluindo decretos, portarias, contratos, convênios, licitações, legislação orçamentária
+      e demais documentos oficiais, com filtros e exportação em múltiplos formatos.
+    </p>
+  </section>
+
+  <!-- ── Totalizadores: atualizados pelo JS após carga ── -->
+  <section class="atos-totalizadores">
+    <div class="total-card">
+      <span class="total-numero" id="total-atos">—</span>       <!-- ← JS -->
+      <span class="total-label">atos oficiais localizados</span>
+    </div>
+    <div class="total-card">
+      <span class="total-numero" id="total-anos">—</span>       <!-- ← JS -->
+      <span class="total-label">exercícios</span>
+    </div>
+    <div class="total-card">
+      <span class="total-numero" id="total-grupos">—</span>     <!-- ← JS -->
+      <span class="total-label">grupos</span>
+    </div>
+    <div class="total-card total-card--azul">
+      <span class="total-numero" id="total-visiveis">—</span>   <!-- ← JS -->
+      <span class="total-label">resultado atual</span>
+    </div>
+  </section>
+
+  <!-- ── Seção de Filtros ── -->
+  <section class="atos-card">
+    <h2>Filtros</h2>
+    <div class="atos-filtros">
+      <!-- Selects são preenchidos dinamicamente pelo JS -->
+      <div class="filtro-grupo">
+        <label for="filtro-ano">Exercício</label>
+        <select id="filtro-ano"><option value="">Todos</option></select>     <!-- ← JS -->
+      </div>
+      <div class="filtro-grupo">
+        <label for="filtro-grupo">Grupo</label>
+        <select id="filtro-grupo"><option value="">Todos</option></select>   <!-- ← JS -->
+      </div>
+      <div class="filtro-grupo">
+        <label for="filtro-tipo">Tipo do Ato</label>
+        <select id="filtro-tipo"><option value="">Todos</option></select>    <!-- ← JS -->
+      </div>
+      <div class="filtro-grupo">
+        <label for="filtro-numero">Número</label>
+        <input type="text" id="filtro-numero" placeholder="Ex: 123/2026">   <!-- ← JS -->
+      </div>
+      <div class="filtro-grupo">
+        <label for="filtro-objeto">Objeto / Título</label>
+        <input type="text" id="filtro-objeto" placeholder="Ex: nomeação, contrato, orçamento"> <!-- ← JS -->
+      </div>
+      <div class="filtro-grupo">
+        <label for="filtro-status">Status</label>
+        <select id="filtro-status">                                          <!-- ← JS -->
+          <option value="">Todos</option>
+          <option value="Publicado">Publicado</option>
+          <option value="Revogado">Revogado</option>
+          <option value="Anulado">Anulado</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Botões de ação dos filtros -->
+    <div class="atos-acoes">
+      <button id="btn-filtrar" type="button">🔍 Filtrar</button>   <!-- ← JS -->
+      <button id="btn-limpar"  type="button">✕ Limpar</button>     <!-- ← JS -->
+    </div>
+
+    <!-- Mensagem de contagem após filtrar (oculta por padrão) -->
+    <div id="resultado-filtro" class="resultado-filtro" style="display:none;"></div> <!-- ← JS -->
+  </section>
+
+  <!-- ── Seção da Tabela ── -->
+  <section class="atos-card">
+    <h2>Tabela de Atos Oficiais</h2>
+    <p class="atos-nota">
+      Dados carregados automaticamente via API do WordPress.
+      O link "Abrir" leva ao conteúdo oficial publicado.
+    </p>
+
+    <!-- ── BARRA DE EXPORTAÇÃO PNTP ──────────────────────────────────
+         Cada botão chama uma função de exportação específica.
+         Disponível em 6 formatos conforme exigência da Cartilha PNTP.
+         A barra fica visível SOMENTE após carregamento dos dados (← JS).
+         ──────────────────────────────────────────────────────────── -->
+    <div id="barra-exportacao" class="export-bar-pntp" style="display:none;"> <!-- ← JS: exibe após carga -->
+      <span class="export-label">Exportar dados visíveis:</span>
+
+      <!-- CSV: separado por ponto-e-vírgula, encoding UTF-8 com BOM -->
+      <button class="btn-export-fmt" onclick="exportarCSV()"  title="Exportar em CSV (separado por ponto-e-vírgula)">
+        <span class="fmt-dot dot-csv"></span> CSV
+      </button>
+
+      <!-- XLSX: planilha Excel, requer SheetJS -->
+      <button class="btn-export-fmt" onclick="exportarXLSX()" title="Exportar em planilha Excel (.xlsx)">
+        <span class="fmt-dot dot-xlsx"></span> XLSX
+      </button>
+
+      <!-- JSON: estruturado com metadados de fonte e data -->
+      <button class="btn-export-fmt" onclick="exportarJSON()" title="Exportar em JSON estruturado">
+        <span class="fmt-dot dot-json"></span> JSON
+      </button>
+
+      <!-- ODS: formato aberto LibreOffice/OpenDocument, requer SheetJS -->
+      <button class="btn-export-fmt" onclick="exportarODS()"  title="Exportar em ODS (LibreOffice/OpenDocument)">
+        <span class="fmt-dot dot-ods"></span> ODS
+      </button>
+
+      <!-- XML: marcação estruturada com tags semânticas -->
+      <button class="btn-export-fmt" onclick="exportarXML()"  title="Exportar em XML estruturado">
+        <span class="fmt-dot dot-xml"></span> XML
+      </button>
+
+      <!-- PDF: usa window.print() com @media print configurado abaixo -->
+      <button class="btn-export-fmt" onclick="exportarPDF()"  title="Exportar / Imprimir como PDF">
+        <span class="fmt-dot dot-pdf"></span> PDF
+      </button>
+    </div>
+    <!-- ── FIM DA BARRA DE EXPORTAÇÃO ─────────────────────────────── -->
+
+    <!-- Nota explicativa dos formatos -->
+    <p id="nota-exportacao" class="export-nota" style="display:none;"> <!-- ← JS -->
+      Exporta somente os registros visíveis conforme os filtros aplicados.
+      Formatos disponíveis conforme a Cartilha PNTP 4ª Edição 2026 (Atricon).
+    </p>
+
+    <!-- Indicador de carregamento (visível durante fetch da API) -->
+    <div id="atos-loading" class="atos-loading">
+      <span class="loading-spinner"></span>
+      Carregando atos oficiais…
+      <small id="loading-detalhe" style="display:block;margin-top:6px;font-size:12px;opacity:.7;"></small>
+    </div>
+
+    <!-- Mensagem de erro da API (oculta por padrão) -->
+    <div id="atos-erro" class="atos-erro" style="display:none;"></div>  <!-- ← JS -->
+
+    <!-- Tabela principal (oculta até carga completa) -->
+    <div class="atos-table-wrap" id="table-wrap" style="display:none;">  <!-- ← JS -->
+      <table id="tabela-atos">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Ano</th>
+            <th>Grupo</th>
+            <th>Tipo do Ato</th>
+            <th>Número</th>
+            <th>Objeto / Título</th>
+            <th>Status</th>
+            <th>Abrir</th>
+          </tr>
+        </thead>
+        <tbody id="atos-tbody"></tbody>  <!-- ← JS: linhas injetadas dinamicamente -->
+      </table>
+    </div>
+
+    <!-- Mensagem quando filtro não retorna resultados -->
+    <div id="msg-sem-resultado" class="msg-sem-resultado" style="display:none;">
+      Nenhum ato oficial encontrado com os filtros informados.
+      <a href="#" id="link-limpar">Limpar filtros</a>  <!-- ← JS -->
+    </div>
+  </section>
+
+  <!-- Rodapé informativo -->
+  <section class="atos-card atos-card--info">
+    <h2>Observação Técnica</h2>
+    <p>
+      Esta página reúne automaticamente publicações do WordPress organizadas nos seguintes grupos:
+      <strong>Administração, Pessoal, Legislação, Licitações e Contratos, Convênios,
+      Finanças e Orçamento, Saúde, Seleções Públicas</strong> e Outros.
+    </p>
+    <p>
+      Para melhor padronização, recomenda-se publicar os títulos com identificação clara
+      do tipo do ato, número e ano. Exemplo: <em>Portaria nº 45/2026 — Nomeação de servidor</em>.
+    </p>
+    <p class="atos-atualizacao">Atualização automática conforme os posts publicados no WordPress.</p>
+  </section>
+</div><!-- fim .atos-oficiais-wrap -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     ESTILOS CSS
+     Organizado em blocos:
+       1. Variáveis de cor
+       2. Layout geral
+       3. Hero / totalizadores / cards
+       4. Filtros e botões de ação
+       5. Barra de exportação (NOVO v4)
+       6. Tabela e badges
+       7. Estados (loading, erro, sem resultado)
+       8. Rodapé informativo
+       9. Correção de título duplicado WordPress/Astra
+      10. Responsivo (max-width: 900px)
+      11. Impressão / @media print (necessário para exportar PDF limpo)
+     ═══════════════════════════════════════════════════════════════════ -->
+<style>
+
+/* ── 1. Variáveis de cor ──────────────────────────────────────────── */
+:root {
+  --azul-escuro:    #0b3d6e;
+  --azul-principal: #0f5ea8;
+  --azul-hover:     #0b4d89;
+  --azul-claro:     #dbeafe;
+  --azul-suave:     #f0f6ff;
+  --cinza-900:      #1f2937;
+  --cinza-700:      #374151;
+  --cinza-500:      #6b7280;
+  --cinza-300:      #d1d5db;
+  --cinza-200:      #dbe3ee;
+  --cinza-100:      #f8fafc;
+  --branco:         #ffffff;
+  /* Status badges */
+  --verde:        #166534; --verde-bg:     #dcfce7; --verde-borda:    #86efac;
+  --amarelo:      #854d0e; --amarelo-bg:   #fef3c7; --amarelo-borda:  #fcd34d;
+  --vermelho:     #991b1b; --vermelho-bg:  #fee2e2; --vermelho-borda: #fca5a5;
+}
+
+/* ── 2. Layout geral ─────────────────────────────────────────────── */
+.atos-oficiais-wrap {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 24px 28px;
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  color: var(--cinza-900);
+  background: var(--cinza-100);
+}
+
+/* ── 3. Hero, breadcrumb, totalizadores, cards ───────────────────── */
+.atos-breadcrumbs {
+  font-size: 13px; color: var(--cinza-500); margin-bottom: 16px;
+  padding: 10px 14px; background: var(--branco);
+  border: 1px solid var(--cinza-200); border-radius: 8px; display: inline-block;
+}
+.atos-breadcrumbs a { color: var(--azul-principal); text-decoration: none; font-weight: 500; }
+.atos-breadcrumbs a:hover { text-decoration: underline; }
+
+.atos-hero {
+  background: linear-gradient(135deg, #0b3d6e 0%, #0f5ea8 60%, #1a7fd4 100%);
+  color: #fff; padding: 32px 36px; border-radius: 16px; margin-bottom: 20px;
+  box-shadow: 0 8px 32px rgba(11,61,110,.22);
+}
+.atos-hero h1 { margin: 0 0 10px; font-size: 30px; color: #fff; }
+.atos-hero p  { margin: 0; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.9); max-width: 850px; }
+
+.atos-totalizadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px; margin-bottom: 20px;
+}
+.total-card {
+  background: var(--branco); border: 1px solid var(--cinza-200); border-radius: 12px;
+  padding: 18px 20px; display: flex; flex-direction: column; gap: 4px;
+  box-shadow: 0 2px 8px rgba(15,23,42,.05); border-left: 4px solid var(--azul-principal);
+}
+.total-card--azul { border-left-color: var(--azul-escuro); }
+.total-numero { font-size: 22px; font-weight: 700; color: var(--azul-escuro); line-height: 1; }
+.total-label  { font-size: 12px; color: var(--cinza-500); text-transform: uppercase; letter-spacing: .03em; }
+
+.atos-card {
+  background: var(--branco); border: 1px solid var(--cinza-200); border-radius: 16px;
+  padding: 24px 26px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(15,23,42,.04);
+}
+.atos-card h2 {
+  margin: 0 0 18px; font-size: 20px; font-weight: 700; color: var(--azul-escuro);
+  padding-bottom: 12px; border-bottom: 2px solid var(--azul-claro);
+}
+.atos-nota {
+  font-size: 13px; color: var(--cinza-500); margin: -10px 0 16px;
+  padding: 10px 14px; background: var(--azul-suave);
+  border-radius: 8px; border-left: 3px solid var(--azul-principal);
+}
+
+/* ── 4. Filtros e botões ─────────────────────────────────────────── */
+.atos-filtros {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+.filtro-grupo { display: flex; flex-direction: column; gap: 5px; }
+.filtro-grupo label {
+  font-size: 12px; font-weight: 600; color: var(--cinza-500);
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.atos-filtros input,
+.atos-filtros select {
+  width: 100%; height: 42px; padding: 10px 12px;
+  border: 1px solid #cfd8e3; border-radius: 8px;
+  background: var(--branco); color: var(--cinza-900); font-size: 14px;
+  box-sizing: border-box; transition: border-color .2s, box-shadow .2s;
+}
+.atos-filtros input:focus,
+.atos-filtros select:focus {
+  outline: none; border-color: var(--azul-principal);
+  box-shadow: 0 0 0 3px rgba(15,94,168,.12);
+}
+
+.atos-acoes {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--cinza-200);
+}
+.atos-acoes button {
+  min-height: 42px; padding: 10px 20px; border-radius: 8px; border: none;
+  font-size: 14px; font-weight: 600; cursor: pointer; transition: all .2s;
+}
+#btn-filtrar { background: var(--azul-principal); color: #fff; }
+#btn-filtrar:hover { background: var(--azul-hover); }
+#btn-limpar { background: #f3f4f6; color: var(--cinza-700); border: 1px solid var(--cinza-300); }
+#btn-limpar:hover { background: #e5e7eb; }
+
+.resultado-filtro {
+  margin-top: 12px; font-size: 13px; color: var(--azul-principal); font-weight: 600;
+  padding: 8px 12px; background: var(--azul-suave);
+  border-radius: 6px; border-left: 3px solid var(--azul-principal);
+}
+
+/* ── 5. BARRA DE EXPORTAÇÃO (NOVO v4) ───────────────────────────────
+   Substitui o antigo botão único "Exportar CSV".
+   Cada formato tem um ponto colorido para identificação rápida.
+   ─────────────────────────────────────────────────────────────────── */
+.export-bar-pntp {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #f5f6f8;
+  border: 1px solid #dde1e8;
+  border-radius: 10px;
+  margin-bottom: 6px;
+}
+.export-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cinza-500);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin-right: 4px;
+}
+/* Botão base de formato */
+.btn-export-fmt {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: var(--branco);
+  color: var(--cinza-700);
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+  white-space: nowrap;
+}
+.btn-export-fmt:hover { background: #eef0f3; border-color: #aaa; }
+/* Ponto colorido identificador de cada formato */
+.fmt-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+/* Cores convencionadas por formato */
+.dot-csv  { background: #2e7d32; } /* verde — dados tabulares */
+.dot-xlsx { background: #1565c0; } /* azul  — Excel           */
+.dot-json { background: #e65100; } /* laranja — JSON          */
+.dot-ods  { background: #00695c; } /* verde-teal — OpenDoc    */
+.dot-xml  { background: #4527a0; } /* roxo — XML              */
+.dot-pdf  { background: #b71c1c; } /* vermelho — PDF          */
+
+/* Nota explicativa abaixo da barra */
+.export-nota {
+  font-size: 11px;
+  color: var(--cinza-500);
+  margin: 0 0 14px 2px;
+  font-style: italic;
+}
+
+/* ── 6. Tabela e badges ──────────────────────────────────────────── */
+.atos-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--cinza-200);
+  border-radius: 12px;
+}
+#tabela-atos {
+  width: 100%; min-width: 1100px;
+  border-collapse: collapse; background: var(--branco);
+}
+#tabela-atos thead th {
+  background: var(--azul-escuro); color: #fff; text-align: left;
+  padding: 13px 12px; font-size: 12px; font-weight: 700;
+  border-bottom: 2px solid #072d52;
+  text-transform: uppercase; letter-spacing: .04em; white-space: nowrap;
+}
+#tabela-atos tbody td {
+  padding: 13px 12px; font-size: 13.5px;
+  border-bottom: 1px solid #eef2f7;
+  vertical-align: middle; color: var(--cinza-900);
+}
+#tabela-atos tbody tr:nth-child(even) { background: #fafcff; }
+#tabela-atos tbody tr:hover { background: #f0f6ff; }
+
+/* Badges de status */
+.badge {
+  display: inline-block; padding: 4px 12px; border-radius: 999px;
+  font-size: 12px; font-weight: 700; white-space: nowrap; border: 1px solid transparent;
+}
+.badge--verde    { background: var(--verde-bg);    color: var(--verde);    border-color: var(--verde-borda); }
+.badge--amarelo  { background: var(--amarelo-bg);  color: var(--amarelo);  border-color: var(--amarelo-borda); }
+.badge--vermelho { background: var(--vermelho-bg); color: var(--vermelho); border-color: var(--vermelho-borda); }
+.badge--cinza    { background: #f3f4f6; color: var(--cinza-700); border-color: var(--cinza-300); }
+
+/* Botão de abertura do ato */
+.btn-abrir {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 7px 13px; border-radius: 8px; background: var(--azul-claro);
+  color: #1d4ed8; text-decoration: none; font-size: 13px; font-weight: 700;
+  border: 1px solid #bfdbfe; white-space: nowrap;
+}
+.btn-abrir:hover { background: #bfdbfe; color: #1e3a8a; }
+
+/* ── 7. Estados ──────────────────────────────────────────────────── */
+.atos-loading {
+  padding: 20px 16px; border-radius: 8px; font-size: 14px;
+  background: var(--azul-suave); color: var(--azul-escuro); border: 1px solid var(--azul-claro);
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.loading-spinner {
+  width: 18px; height: 18px;
+  border: 3px solid var(--azul-claro); border-top-color: var(--azul-principal);
+  border-radius: 50%; animation: spin .8s linear infinite; flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.atos-erro {
+  padding: 16px; border-radius: 8px; font-size: 14px;
+  background: var(--vermelho-bg); color: var(--vermelho); border: 1px solid var(--vermelho-borda);
+  white-space: pre-wrap;
+}
+
+.msg-sem-resultado { text-align: center; padding: 32px; color: var(--cinza-500); font-size: 14px; }
+.msg-sem-resultado a { color: var(--azul-principal); font-weight: 600; }
+
+/* ── 8. Rodapé informativo ───────────────────────────────────────── */
+.atos-card--info { border-left: 4px solid var(--azul-principal); background: var(--azul-suave); }
+.atos-atualizacao { font-size: 12px; color: var(--cinza-500); padding-top: 10px; border-top: 1px solid var(--cinza-200); }
+
+/* ── 9. Correção título duplicado WordPress / Astra ─────────────── */
+/* O tema pode exibir o título nativo da página além do título do HTML.
+   Esta regra oculta o título do tema, mantendo apenas o do HTML. */
+.entry-title,
+.page-title,
+.ast-page-title,
+.elementor-widget-theme-post-title { display: none !important; }
+
+/* ── 10. Responsivo ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .atos-oficiais-wrap { padding: 14px 16px; }
+  .atos-hero { padding: 22px 20px; }
+  .atos-hero h1 { font-size: 24px; }
+  .atos-card { padding: 18px 16px; }
+  .atos-acoes { flex-direction: column; }
+  .atos-acoes button { width: 100%; }
+  /* Barra de exportação em telas pequenas: botões menores */
+  .btn-export-fmt { font-size: 11px; padding: 5px 9px; }
+}
+
+/* ── 11. @media print — necessário para exportação PDF limpa ────────
+   Oculta tudo que não é conteúdo do ato: menu, header, filtros, etc.
+   O botão de exportar PDF chama window.print(), que usa estas regras.
+   ─────────────────────────────────────────────────────────────────── */
+@media print {
+  /* Ocultar elementos de interface e navegação */
+  .atos-breadcrumbs,
+  .atos-acoes,
+  .atos-totalizadores,
+  .atos-card--info,
+  .atos-nota,
+  .export-bar-pntp,
+  .export-nota,
+  #resultado-filtro,
+  .btn-abrir { display: none !important; }
+
+  /* Ocultar elementos do tema WordPress no PDF */
+  header, footer, nav, #wpadminbar,
+  .site-header, .site-footer, .main-navigation,
+  .elementor-location-header, .elementor-location-footer { display: none !important; }
+
+  /* Resetar fundo e sombras para impressão */
+  .atos-oficiais-wrap { padding: 0; background: #fff; max-width: 100%; }
+  .atos-hero {
+    background: none !important; color: #000 !important;
+    box-shadow: none; border-bottom: 2px solid #000;
+    border-radius: 0; padding: 12px 0;
+  }
+  .atos-hero h1 { color: #000 !important; font-size: 20px; }
+  .atos-card { box-shadow: none; border: none; padding: 0; }
+
+  /* Forçar cor de fundo do cabeçalho da tabela */
+  #tabela-atos thead th { background: #333 !important; -webkit-print-color-adjust: exact; }
+
+  /* Evitar quebra de linha dentro de células */
+  #tabela-atos tbody td { font-size: 11px; padding: 8px 6px; }
+}
+</style>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     JAVASCRIPT — Estrutura de blocos:
+       A. CONFIGURAÇÃO        — slugs de categoria, posts por página
+       B. DETECÇÃO DA API     — base URL do WordPress REST API
+       C. REFERÊNCIAS DOM     — todos os getElementById centralizados
+       D. ESTADO DA APLICAÇÃO — arrays de dados (originais / filtrados)
+       E. UTILITÁRIOS         — normalizar, stripHtml, formatarData, etc.
+       F. CLASSIFICAÇÃO       — função classificar(titulo) → {grupo, tipo}
+       G. EXTRAÇÃO DE DADOS   — extrairNumero, inferirStatus, badgeClass
+       H. RENDERIZAÇÃO        — popularSelect, prepararFiltros, renderTabela
+       I. FILTROS             — aplicarFiltros, limparFiltros
+       J. EXPORTAÇÃO (v4)     — CSV, XLSX, JSON, ODS, XML, PDF
+       K. API WORDPRESS       — buscarIdsCategorias, init (fetch paginado)
+       L. EVENTOS             — addEventListener para botões e selects
+     ═══════════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  "use strict";
+
+  /* ════════════════════════════════════════════════════════════════
+     A. CONFIGURAÇÃO
+     ────────────────────────────────────────────────────────────────
+     slugsCategoria: lista dos slugs de categoria do WordPress.
+     Para verificar os slugs disponíveis no seu WP:
+       /wp-json/wp/v2/categories?per_page=100
+     postsPorPagina: máximo permitido pela API REST (100).
+     ════════════════════════════════════════════════════════════════ */
+  var CONFIG = {
+    slugsCategoria: [
+      /* ── Administração geral ── */
+      "atos-oficiais",
+      "decreto", "decretos",
+      "portarias", "extrato-de-portaria",
+      "resolucoes",
+      "audiencia-publica", "audiencias-publicas",
+
+      /* ── Legislação e orçamento ── */
+      "legislacao",
+      "lei-de-diretrizes-orcamentarias", "ldo",
+      "lei-orcamentaria-anual", "loa",
+      "lei-de-responsabilidade-fiscal", "lrf",
+      "execucao-dos-orcamentos",
+
+      /* ── Finanças / balanços ── */
+      "balanco-anual", "balanco-financeiro", "balanco-patrimonial",
+      "contas-publicas",
+      "demonstracao-das-variacoes-patrimoniais", "dvp",
+      "demonstracao-do-fluxo-de-caixa", "dfc",
+
+      /* ── Licitações ── */
+      "licitacoes", "editais", "editais-de-convocacao",
+      "concorrencias", "concorrencia",
+      "pregoes", "pregao",
+      "convites", "tomada-de-precos",
+      "dispensas-e-inexigibilidades", "dispensa", "inexigibilidade",
+      "exclusivo-para-me-e-epp",
+      "chamada-publica", "chamamento-publico", "credenciamento",
+      "leiloes", "homologacao-de-classificacao", "todos-os-documentos",
+
+      /* ── Contratos ── */
+      "contratos-administrativos", "contratos-e-aditivos",
+      "contratos-e-seus-aditivos", "fiscais-de-contrato",
+
+      /* ── Convênios ── */
+      "convenios",
+
+      /* ── Pessoal ── */
+      "pessoal", "processo-de-escolha",
+
+      /* ── Saúde / Covid ── */
+      "covid", "covid-19", "saude",
+
+      /* ── Concursos e Seleções ── */
+      "concursos", "processo-seletivo", "processo-seletivo-simplificado"
+    ],
+    postsPorPagina: 100
+  };
+
+  /* ════════════════════════════════════════════════════════════════
+     B. DETECÇÃO DA API REST DO WORDPRESS
+     ────────────────────────────────────────────────────────────────
+     Tenta usar wpApiSettings.root (injetado pelo WP quando o
+     script está numa página nativa). Se não disponível, monta
+     a URL padrão com base no domínio atual.
+     ════════════════════════════════════════════════════════════════ */
+  var API_BASE = (window.wpApiSettings && window.wpApiSettings.root)
+    ? window.wpApiSettings.root.replace(/\/$/, "")
+    : (window.location.origin + "/wp-json/wp/v2");
+
+  /* Garante que o path /wp/v2 esteja presente */
+  if (API_BASE.indexOf("/wp/v2") === -1) {
+    API_BASE = API_BASE.replace(/\/$/, "") + "/wp/v2";
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     C. REFERÊNCIAS DOM
+     ────────────────────────────────────────────────────────────────
+     Todos os getElementById centralizados aqui.
+     Se precisar renomear um ID no HTML, basta alterar nesta seção.
+     ════════════════════════════════════════════════════════════════ */
+  var tbody            = document.getElementById("atos-tbody");
+  var loading          = document.getElementById("atos-loading");
+  var loadingDet       = document.getElementById("loading-detalhe");
+  var erroEl           = document.getElementById("atos-erro");
+  var tableWrap        = document.getElementById("table-wrap");
+  var semResultado     = document.getElementById("msg-sem-resultado");
+  var linkLimpar       = document.getElementById("link-limpar");
+  var resultFiltro     = document.getElementById("resultado-filtro");
+  var barraExportacao  = document.getElementById("barra-exportacao");   /* ← NOVO v4 */
+  var notaExportacao   = document.getElementById("nota-exportacao");    /* ← NOVO v4 */
+
+  /* Filtros */
+  var filtroAno    = document.getElementById("filtro-ano");
+  var filtroGrupo  = document.getElementById("filtro-grupo");
+  var filtroTipo   = document.getElementById("filtro-tipo");
+  var filtroNumero = document.getElementById("filtro-numero");
+  var filtroObjeto = document.getElementById("filtro-objeto");
+  var filtroStatus = document.getElementById("filtro-status");
+
+  /* Botões de ação dos filtros */
+  var btnFiltrar = document.getElementById("btn-filtrar");
+  var btnLimpar  = document.getElementById("btn-limpar");
+
+  /* Totalizadores */
+  var elTotalAtos     = document.getElementById("total-atos");
+  var elTotalAnos     = document.getElementById("total-anos");
+  var elTotalGrupos   = document.getElementById("total-grupos");
+  var elTotalVisiveis = document.getElementById("total-visiveis");
+
+  /* ════════════════════════════════════════════════════════════════
+     D. ESTADO DA APLICAÇÃO
+     ────────────────────────────────────────────────────────────────
+     dadosOriginais: todos os atos carregados da API (imutável após carga)
+     dadosFiltrados: subconjunto aplicado pelos filtros (usado na exportação)
+     ════════════════════════════════════════════════════════════════ */
+  var dadosOriginais = [];
+  var dadosFiltrados = [];
+
+  /* ════════════════════════════════════════════════════════════════
+     E. UTILITÁRIOS
+     ════════════════════════════════════════════════════════════════ */
+
+  /** Remove acentos e converte para minúsculas para comparação segura */
+  function normalizar(str) {
+    return (str || "").toString()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase().trim();
+  }
+
+  /** Remove tags HTML e retorna só o texto (para títulos vindos da API) */
+  function stripHtml(html) {
+    var d = document.createElement("div");
+    d.innerHTML = html || "";
+    return (d.textContent || d.innerText || "").trim();
+  }
+
+  /** Converte "2026-04-15T10:30:00" → "15/04/2026" */
+  function formatarData(isoStr) {
+    if (!isoStr) return "";
+    var m = isoStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return m ? m[3] + "/" + m[2] + "/" + m[1] : isoStr;
+  }
+
+  /** Extrai apenas o ano de uma string ISO */
+  function anoDeIso(isoStr) {
+    if (!isoStr) return "";
+    var m = isoStr.match(/^(\d{4})/);
+    return m ? m[1] : "";
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     F. CLASSIFICAÇÃO AUTOMÁTICA POR TÍTULO
+     ────────────────────────────────────────────────────────────────
+     Recebe o título do post e retorna { grupo, tipo } usando regex.
+     Ordem: da mais específica para a mais genérica.
+     Para adicionar um novo tipo: insira um novo bloco if ANTES do
+     retorno genérico { grupo:"Outros", tipo:"Ato Oficial" }.
+     ════════════════════════════════════════════════════════════════ */
+  function classificar(titulo) {
+    var t = normalizar(titulo);
+
+    /* ── Saúde / Covid ── */
+    if (/covid[\s\-]?19|covid/.test(t))          return { grupo:"Saúde",              tipo:"Covid-19" };
+    if (/sa[uú]de/.test(t))                       return { grupo:"Saúde",              tipo:"Saúde" };
+
+    /* ── Seleções Públicas ── */
+    if (/concurso\s+p[uú]blico|\bconcurso\b/.test(t)) return { grupo:"Seleções Públicas", tipo:"Concurso Público" };
+    if (/processo\s+seletivo\s+simplificado|\bpss\b/.test(t)) return { grupo:"Seleções Públicas", tipo:"Processo Seletivo Simplificado" };
+    if (/processo\s+seletivo/.test(t))            return { grupo:"Seleções Públicas", tipo:"Processo Seletivo" };
+    if (/teste\s+seletivo/.test(t))               return { grupo:"Seleções Públicas", tipo:"Teste Seletivo" };
+    if (/processo\s+de\s+escolha/.test(t))        return { grupo:"Seleções Públicas", tipo:"Processo de Escolha" };
+
+    /* ── Finanças e Orçamento ── */
+    if (/lei\s+(de\s+)?diretrizes\s+or[cç]ament[aá]rias|\bldo\b/.test(t)) return { grupo:"Finanças e Orçamento", tipo:"Lei de Diretrizes Orçamentárias (LDO)" };
+    if (/lei\s+or[cç]ament[aá]ria\s+anual|\bloa\b/.test(t))               return { grupo:"Finanças e Orçamento", tipo:"Lei Orçamentária Anual (LOA)" };
+    if (/lei\s+(de\s+)?responsabilidade\s+fiscal|\blrf\b/.test(t))         return { grupo:"Finanças e Orçamento", tipo:"Lei de Responsabilidade Fiscal (LRF)" };
+    if (/execu[cç][aã]o\s+(dos\s+)?or[cç]amentos?/.test(t))               return { grupo:"Finanças e Orçamento", tipo:"Execução dos Orçamentos" };
+    if (/balan[cç]o\s+anual/.test(t))    return { grupo:"Finanças e Orçamento", tipo:"Balanço Anual" };
+    if (/balan[cç]o\s+financeiro/.test(t)) return { grupo:"Finanças e Orçamento", tipo:"Balanço Financeiro" };
+    if (/balan[cç]o\s+patrimonial/.test(t)) return { grupo:"Finanças e Orçamento", tipo:"Balanço Patrimonial" };
+    if (/\bbalan[cç]o\b/.test(t))        return { grupo:"Finanças e Orçamento", tipo:"Balanço" };
+    if (/demonstra[cç][aã]o\s+(das\s+)?varia[cç][oõ]es\s+patrimoniais|\bdvp\b/.test(t)) return { grupo:"Finanças e Orçamento", tipo:"Demonstração das Variações Patrimoniais (DVP)" };
+    if (/demonstra[cç][aã]o\s+(do\s+)?fluxo\s+de\s+caixa|\bdfc\b/.test(t)) return { grupo:"Finanças e Orçamento", tipo:"Demonstração do Fluxo de Caixa (DFC)" };
+    if (/contas\s+p[uú]blicas/.test(t))  return { grupo:"Finanças e Orçamento", tipo:"Contas Públicas" };
+
+    /* ── Convênios ── */
+    if (/conv[eê]nio/.test(t)) return { grupo:"Convênios", tipo:"Convênio" };
+
+    /* ── Contratos ── */
+    if (/extrato\s+de\s+contrato/.test(t))  return { grupo:"Contratos", tipo:"Extrato de Contrato" };
+    if (/termo\s+aditivo|aditivo/.test(t))  return { grupo:"Contratos", tipo:"Termo Aditivo" };
+    if (/fiscal\s+de\s+contrato/.test(t))   return { grupo:"Contratos", tipo:"Fiscal de Contrato" };
+    if (/contrato\s+administrativo/.test(t)) return { grupo:"Contratos", tipo:"Contrato Administrativo" };
+    if (/\bcontrato\b/.test(t))              return { grupo:"Contratos", tipo:"Contrato" };
+
+    /* ── Licitações ── */
+    if (/chamada\s+p[uú]blica/.test(t))     return { grupo:"Licitações", tipo:"Chamada Pública" };
+    if (/chamamento\s+p[uú]blico/.test(t))  return { grupo:"Licitações", tipo:"Chamamento Público" };
+    if (/credenciamento/.test(t))            return { grupo:"Licitações", tipo:"Credenciamento" };
+    if (/\bleil[oã]o|\bleil[oõ]es\b/.test(t)) return { grupo:"Licitações", tipo:"Leilão" };
+    if (/exclusivo\s+para\s+me|me\s+e\s+epp/.test(t)) return { grupo:"Licitações", tipo:"Exclusivo ME/EPP" };
+    if (/homologa[cç][aã]o\s+de\s+classifica[cç][aã]o|homologa[cç][aã]o|adjudica[cç][aã]o/.test(t)) return { grupo:"Licitações", tipo:"Homologação/Adjudicação" };
+    if (/pregão\s+eletr[oô]nico/.test(t))   return { grupo:"Licitações", tipo:"Pregão Eletrônico" };
+    if (/pregão\s+presencial/.test(t))      return { grupo:"Licitações", tipo:"Pregão Presencial" };
+    if (/\bpreg[aã]o\b/.test(t))            return { grupo:"Licitações", tipo:"Pregão" };
+    if (/concorr[eê]ncia/.test(t))          return { grupo:"Licitações", tipo:"Concorrência" };
+    if (/tomada\s+de\s+pre[cç]/.test(t))    return { grupo:"Licitações", tipo:"Tomada de Preços" };
+    if (/dispensa\s+de\s+licita[cç][aã]o|dispensa/.test(t)) return { grupo:"Licitações", tipo:"Dispensa de Licitação" };
+    if (/inexigibilidade/.test(t))           return { grupo:"Licitações", tipo:"Inexigibilidade" };
+    if (/aviso\s+de\s+licita[cç][aã]o/.test(t)) return { grupo:"Licitações", tipo:"Aviso de Licitação" };
+    if (/edital\s+de\s+convoca[cç][aã]o/.test(t)) return { grupo:"Licitações", tipo:"Edital de Convocação" };
+    if (/\bedital\b/.test(t))               return { grupo:"Licitações", tipo:"Edital de Licitação" };
+
+    /* ── Legislação ── */
+    if (/lei\s+municipal|lei\s+n[º°]|\blei\s+\d/.test(t)) return { grupo:"Legislação", tipo:"Lei Municipal" };
+    if (/regimento|regulamento/.test(t))    return { grupo:"Legislação", tipo:"Regulamento/Regimento" };
+    if (/resolu[cç][aã]o/.test(t))          return { grupo:"Legislação", tipo:"Resolução" };
+
+    /* ── Audiência Pública ── */
+    if (/audi[eê]ncia\s+p[uú]blica/.test(t)) return { grupo:"Administração", tipo:"Audiência Pública" };
+
+    /* ── Pessoal ── */
+    if (/nomea[cç][aã]o/.test(t))   return { grupo:"Pessoal", tipo:"Nomeação" };
+    if (/exonera[cç][aã]o/.test(t)) return { grupo:"Pessoal", tipo:"Exoneração" };
+    if (/designa[cç][aã]o/.test(t)) return { grupo:"Pessoal", tipo:"Designação" };
+    if (/f[eé]rias/.test(t))        return { grupo:"Pessoal", tipo:"Férias" };
+    if (/licen[cç]a/.test(t))       return { grupo:"Pessoal", tipo:"Licença" };
+    if (/afastamento|afasta/.test(t)) return { grupo:"Pessoal", tipo:"Afastamento" };
+    if (/aposentadoria/.test(t))    return { grupo:"Pessoal", tipo:"Aposentadoria" };
+    if (/admiss[aã]o|contrata[cç][aã]o\s+de\s+pessoal/.test(t)) return { grupo:"Pessoal", tipo:"Admissão" };
+
+    /* ── Administração ── */
+    if (/extrato\s+de\s+portaria/.test(t))  return { grupo:"Administração", tipo:"Extrato de Portaria" };
+    if (/\bportaria\b/.test(t))             return { grupo:"Administração", tipo:"Portaria" };
+    if (/\bdecreto\b/.test(t))             return { grupo:"Administração", tipo:"Decreto" };
+    if (/aviso\s+p[uú]blico/.test(t))       return { grupo:"Administração", tipo:"Aviso Público" };
+    if (/di[aá]rio\s+oficial/.test(t))      return { grupo:"Administração", tipo:"Diário Oficial" };
+
+    /* Fallback genérico */
+    return { grupo:"Outros", tipo:"Ato Oficial" };
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     G. EXTRAÇÃO DE DADOS DO TÍTULO
+     ════════════════════════════════════════════════════════════════ */
+
+  /**
+   * Extrai o número do ato do título.
+   * Padrões reconhecidos:  "nº 45/2026", "n. 45/2026", "123/2026"
+   * Retorna "—" se não encontrar.
+   */
+  function extrairNumero(titulo) {
+    var m = titulo.match(/n[º°.]?\s*(\d{1,5}[\/\-]\d{4})/i);
+    if (m) return m[1].replace("-", "/");
+    m = titulo.match(/\b(\d{1,5}\/20\d{2})\b/);
+    if (m) return m[1];
+    return "—";
+  }
+
+  /**
+   * Infere o status do ato pelo título.
+   * Procura palavras como "revogado", "anulado" no título.
+   * Default: "Publicado".
+   */
+  function inferirStatus(titulo) {
+    var t = normalizar(titulo);
+    if (/revog/.test(t))   return "Revogado";
+    if (/anu[la]/.test(t)) return "Anulado";
+    return "Publicado";
+  }
+
+  /** Retorna a classe CSS de badge conforme o status */
+  function badgeClass(status) {
+    var s = normalizar(status);
+    if (s === "publicado")               return "badge badge--verde";
+    if (s === "revogado" || s === "anulado") return "badge badge--vermelho";
+    return "badge badge--cinza";
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     H. RENDERIZAÇÃO
+     ════════════════════════════════════════════════════════════════ */
+
+  /**
+   * Busca os IDs de categoria na API com base nos slugs configurados.
+   * Necessário para filtrar os posts por categoria no endpoint /posts.
+   */
+  async function buscarIdsCategorias(slugs) {
+    var url = API_BASE + "/categories?per_page=100&_fields=id,slug,name";
+    var resp = await fetch(url, { credentials: "same-origin" });
+    if (!resp.ok) throw new Error(
+      "Erro ao acessar a API REST do WordPress.\nURL: " + url + "\nStatus: " + resp.status
+    );
+    var cats = await resp.json();
+
+    /* Monta mapa slug → id para busca rápida */
+    var mapa = {};
+    cats.forEach(function(c){ mapa[c.slug] = c.id; });
+
+    var ids = [];
+    slugs.forEach(function(slug){
+      if (mapa[slug] && ids.indexOf(mapa[slug]) === -1)
+        ids.push(mapa[slug]);
+      /* Tenta também sem acentos */
+      var slugNorm = normalizar(slug).replace(/\s+/g, "-");
+      if (mapa[slugNorm] && ids.indexOf(mapa[slugNorm]) === -1)
+        ids.push(mapa[slugNorm]);
+    });
+
+    if (!ids.length) {
+      console.warn("[Atos Oficiais v4] Nenhuma categoria encontrada. Slugs disponíveis: "
+        + cats.map(function(c){ return c.slug; }).join(", "));
+    }
+    return ids;
+  }
+
+  /**
+   * Converte um objeto post da API em um objeto de dados normalizado.
+   * Centraliza toda a lógica de transformação num único lugar.
+   */
+  function postParaAto(post) {
+    var titulo  = stripHtml(post.title && post.title.rendered ? post.title.rendered : "");
+    var link    = post.link || "#";
+    var dataIso = post.date || "";
+    var cl      = classificar(titulo);
+
+    return {
+      data    : formatarData(dataIso),
+      dataSort: dataIso,             /* usado para ordenação */
+      ano     : anoDeIso(dataIso),
+      grupo   : cl.grupo,
+      tipo    : cl.tipo,
+      numero  : extrairNumero(titulo),
+      objeto  : titulo,
+      status  : inferirStatus(titulo),
+      link    : link
+    };
+  }
+
+  /**
+   * Preenche um elemento <select> com opções únicas ordenadas.
+   * Mantém o valor selecionado atual se ainda existir nas novas opções.
+   */
+  function popularSelect(select, valores, placeholder) {
+    var atual = select.value;
+    select.innerHTML = "";
+    var opt0 = document.createElement("option");
+    opt0.value = ""; opt0.textContent = placeholder;
+    select.appendChild(opt0);
+    valores.forEach(function(v){
+      var opt = document.createElement("option");
+      opt.value = v; opt.textContent = v;
+      select.appendChild(opt);
+    });
+    select.value = atual;
+  }
+
+  /** Atualiza os selects de filtro e os totalizadores após carga */
+  function prepararFiltros(dados) {
+    var anos   = Array.from(new Set(dados.map(function(d){ return d.ano;   }).filter(Boolean))).sort().reverse();
+    var grupos = Array.from(new Set(dados.map(function(d){ return d.grupo; }).filter(Boolean))).sort();
+    var tipos  = Array.from(new Set(dados.map(function(d){ return d.tipo;  }).filter(Boolean))).sort();
+    popularSelect(filtroAno,   anos,   "Todos");
+    popularSelect(filtroGrupo, grupos, "Todos");
+    popularSelect(filtroTipo,  tipos,  "Todos");
+    elTotalAtos.textContent     = dados.length;
+    elTotalAnos.textContent     = anos.length;
+    elTotalGrupos.textContent   = grupos.length;
+    elTotalVisiveis.textContent = dados.length;
+  }
+
+  /**
+   * Renderiza a lista de atos na tabela.
+   * Usa DocumentFragment para inserção eficiente (1 reflow ao invés de N).
+   * Escapa HTML e atributos para evitar XSS.
+   */
+  function renderTabela(lista) {
+    tbody.innerHTML = "";
+    elTotalVisiveis.textContent = lista.length;
+
+    if (!lista.length) {
+      tableWrap.style.display    = "none";
+      semResultado.style.display = "block";
+      return;
+    }
+    semResultado.style.display = "none";
+    tableWrap.style.display    = "block";
+
+    var frag = document.createDocumentFragment();
+    lista.forEach(function(item) {
+      var tr = document.createElement("tr");
+      tr.innerHTML =
+        "<td>" + (item.data || "—") + "</td>" +
+        "<td>" + (item.ano  || "—") + "</td>" +
+        "<td>" + escHTML(item.grupo  || "—") + "</td>" +
+        "<td>" + escHTML(item.tipo   || "—") + "</td>" +
+        "<td>" + escHTML(item.numero || "—") + "</td>" +
+        "<td style='max-width:340px;word-break:break-word'>" + escHTML(item.objeto || "—") + "</td>" +
+        "<td><span class='" + badgeClass(item.status) + "'>" + item.status + "</span></td>" +
+        "<td><a class='btn-abrir' href='" + escAttr(item.link) + "' target='_blank' rel='noopener noreferrer'>↗ Abrir</a></td>";
+      frag.appendChild(tr);
+    });
+    tbody.appendChild(frag);
+  }
+
+  /* Funções de escape para evitar XSS na injeção de HTML dinâmico */
+  function escHTML(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function escAttr(s){ return String(s).replace(/"/g,"&quot;"); }
+
+  /* ════════════════════════════════════════════════════════════════
+     I. FILTROS
+     ════════════════════════════════════════════════════════════════ */
+
+  /** Aplica todos os filtros ativos e re-renderiza a tabela */
+  function aplicarFiltros() {
+    var ano    = normalizar(filtroAno.value);
+    var grupo  = normalizar(filtroGrupo.value);
+    var tipo   = normalizar(filtroTipo.value);
+    var numero = normalizar(filtroNumero.value);
+    var objeto = normalizar(filtroObjeto.value);
+    var status = normalizar(filtroStatus.value);
+
+    dadosFiltrados = dadosOriginais.filter(function(item) {
+      var okAno    = !ano    || normalizar(item.ano)   === ano;
+      var okGrupo  = !grupo  || normalizar(item.grupo) === grupo;
+      var okTipo   = !tipo   || normalizar(item.tipo)  === tipo;
+      var okNumero = !numero || normalizar(item.numero).includes(numero) || normalizar(item.objeto).includes(numero);
+      var okObjeto = !objeto || normalizar(item.objeto).includes(objeto);
+      var okStatus = !status || normalizar(item.status) === status;
+      return okAno && okGrupo && okTipo && okNumero && okObjeto && okStatus;
+    });
+
+    renderTabela(dadosFiltrados);
+
+    /* Exibe contagem apenas quando há filtro ativo */
+    var ativo = ano || grupo || tipo || numero || objeto || status;
+    if (ativo) {
+      resultFiltro.style.display = "block";
+      resultFiltro.textContent = dadosFiltrados.length + " ato(s) encontrado(s) com os filtros aplicados.";
+    } else {
+      resultFiltro.style.display = "none";
+    }
+  }
+
+  /** Limpa todos os filtros e restaura a lista completa */
+  function limparFiltros() {
+    filtroAno.value = ""; filtroGrupo.value = ""; filtroTipo.value = "";
+    filtroNumero.value = ""; filtroObjeto.value = ""; filtroStatus.value = "";
+    dadosFiltrados = dadosOriginais.slice();
+    resultFiltro.style.display = "none";
+    renderTabela(dadosFiltrados);
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     J. EXPORTAÇÃO — 6 FORMATOS PNTP (NOVO v4)
+     ────────────────────────────────────────────────────────────────
+     Todas as funções operam sobre dadosFiltrados (ou dadosOriginais
+     se nenhum filtro estiver ativo). Isso garante que o cidadão
+     sempre exporta exatamente o que está vendo na tela.
+
+     Ordem:  1. CSV   2. XLSX   3. JSON   4. ODS   5. XML   6. PDF
+     ════════════════════════════════════════════════════════════════ */
+
+  /**
+   * Utilitário: retorna os dados atualmente visíveis.
+   * dadosFiltrados é atualizado por aplicarFiltros() e limparFiltros().
+   */
+  function getDadosVisiveis() {
+    return dadosFiltrados.length ? dadosFiltrados : dadosOriginais;
+  }
+
+  /**
+   * Utilitário: dispara download de um Blob como arquivo.
+   * @param {string|Uint8Array} content  conteúdo do arquivo
+   * @param {string}            filename nome do arquivo com extensão
+   * @param {string}            mimeType tipo MIME
+   */
+  function downloadBlob(content, filename, mimeType) {
+    var blob = new Blob([content], { type: mimeType });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement("a");
+    a.href     = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  /**
+   * Utilitário: gera o nome base do arquivo com a data atual.
+   * Exemplo: "atos-oficiais_2026-04-15.csv"
+   */
+  function nomeArquivo(ext) {
+    var hoje = new Date().toISOString().slice(0, 10);
+    return "atos-oficiais-arroio-dos-ratos_" + hoje + "." + ext;
+  }
+
+  /**
+   * Cabeçalhos das colunas exportadas (sem a coluna "Abrir" que é link UI).
+   * Ajuste aqui se renomear colunas na tabela.
+   */
+  var CABECALHOS = ["Data", "Ano", "Grupo", "Tipo do Ato", "Número", "Objeto / Título", "Status", "Link"];
+
+  /**
+   * Converte um objeto de ato em array de valores na mesma
+   * ordem que CABECALHOS.
+   */
+  function atoParaLinha(item) {
+    return [
+      item.data   || "",
+      item.ano    || "",
+      item.grupo  || "",
+      item.tipo   || "",
+      item.numero || "",
+      item.objeto || "",
+      item.status || "",
+      item.link   || ""
+    ];
+  }
+
+  /* ── J1. CSV ──────────────────────────────────────────────────────
+     Separador: ponto-e-vírgula (padrão BR para Excel abrir direto).
+     Encoding: UTF-8 com BOM (\uFEFF) para suporte a acentos no Excel.
+     ────────────────────────────────────────────────────────────────── */
+  function exportarCSV() {
+    var lista = getDadosVisiveis();
+    if (!lista.length) { alert("Nenhum dado visível para exportar."); return; }
+
+    /* Envolve valores em aspas e escapa aspas internas */
+    function q(v) { return '"' + String(v || "").replace(/"/g, '""') + '"'; }
+
+    var linhas = [CABECALHOS.map(q).join(";")];
+    lista.forEach(function(item) {
+      linhas.push(atoParaLinha(item).map(q).join(";"));
+    });
+
+    downloadBlob("\uFEFF" + linhas.join("\r\n"), nomeArquivo("csv"), "text/csv;charset=utf-8;");
+  }
+
+  /* ── J2. XLSX ─────────────────────────────────────────────────────
+     Requer SheetJS (carregado no <head> desta página).
+     Gera planilha com cabeçalho em negrito e colunas auto-dimensionadas.
+     ────────────────────────────────────────────────────────────────── */
+  function exportarXLSX() {
+    if (typeof XLSX === "undefined") {
+      alert("A biblioteca SheetJS não foi carregada.\nVerifique se o <script> do SheetJS está no <head>.");
+      return;
+    }
+    var lista = getDadosVisiveis();
+    if (!lista.length) { alert("Nenhum dado visível para exportar."); return; }
+
+    /* Monta array de arrays: primeira linha = cabeçalhos */
+    var wsData = [CABECALHOS].concat(lista.map(atoParaLinha));
+
+    var ws = XLSX.utils.aoa_to_sheet(wsData);
+
+    /* Largura automática: maior texto em cada coluna */
+    ws["!cols"] = CABECALHOS.map(function(h, i) {
+      var maxLen = Math.max(
+        h.length,
+        Math.max.apply(null, lista.map(function(item) {
+          return String(atoParaLinha(item)[i] || "").length;
+        })),
+        10
+      );
+      return { wch: Math.min(maxLen, 80) }; /* limita a 80 chars de largura */
+    });
+
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Atos Oficiais");
+    XLSX.writeFile(wb, nomeArquivo("xlsx"));
+  }
+
+  /* ── J3. JSON ─────────────────────────────────────────────────────
+     Estrutura com metadados de fonte, data de exportação e total.
+     Útil para integração com sistemas e APIs de terceiros.
+     ────────────────────────────────────────────────────────────────── */
+  function exportarJSON() {
+    var lista = getDadosVisiveis();
+    if (!lista.length) { alert("Nenhum dado visível para exportar."); return; }
+
+    /* Converte cada ato em objeto com chaves nomeadas */
+    var dados = lista.map(function(item) {
+      return {
+        data          : item.data   || "",
+        ano           : item.ano    || "",
+        grupo         : item.grupo  || "",
+        tipo_ato      : item.tipo   || "",
+        numero        : item.numero || "",
+        objeto_titulo : item.objeto || "",
+        status        : item.status || "",
+        link          : item.link   || ""
+      };
+    });
+
+    var json = JSON.stringify({
+      fonte          : "Portal de Transparência — Prefeitura Municipal de Arroio dos Ratos",
+      exportado_em   : new Date().toISOString(),
+      total_registros: dados.length,
+      dados          : dados
+    }, null, 2); /* null, 2 = identação de 2 espaços para leitura humana */
+
+    downloadBlob(json, nomeArquivo("json"), "application/json;charset=utf-8;");
+  }
+
+  /* ── J4. ODS ──────────────────────────────────────────────────────
+     Formato aberto OpenDocument Spreadsheet (ISO/IEC 26300).
+     Compatível com LibreOffice, Google Sheets e Excel.
+     Requer SheetJS (mesmo que XLSX).
+     ────────────────────────────────────────────────────────────────── */
+  function exportarODS() {
+    if (typeof XLSX === "undefined") {
+      alert("A biblioteca SheetJS não foi carregada.\nVerifique se o <script> do SheetJS está no <head>.");
+      return;
+    }
+    var lista = getDadosVisiveis();
+    if (!lista.length) { alert("Nenhum dado visível para exportar."); return; }
+
+    var wsData = [CABECALHOS].concat(lista.map(atoParaLinha));
+    var ws = XLSX.utils.aoa_to_sheet(wsData);
+
+    /* SheetJS detecta a extensão .ods e gera o formato correto */
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Atos Oficiais");
+    XLSX.writeFile(wb, nomeArquivo("ods"));
+  }
+
+  /* ── J5. XML ──────────────────────────────────────────────────────
+     Marcação semântica com tags derivadas dos nomes das colunas.
+     Acentos são removidos dos nomes das tags para XML válido.
+     Caracteres especiais nos valores são escapados (& < > ").
+     ────────────────────────────────────────────────────────────────── */
+  function exportarXML() {
+    var lista = getDadosVisiveis();
+    if (!lista.length) { alert("Nenhum dado visível para exportar."); return; }
+
+    /* Escapa caracteres especiais XML nos valores */
+    function escXML(s) {
+      return String(s || "")
+        .replace(/&/g,  "&amp;")
+        .replace(/</g,  "&lt;")
+        .replace(/>/g,  "&gt;")
+        .replace(/"/g,  "&quot;")
+        .replace(/'/g,  "&apos;");
+    }
+
+    /* Converte cabeçalho em tag XML válida (sem acentos, sem espaços) */
+    function toTag(h) {
+      return h.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") /* remove acentos */
+        .replace(/\s*\/\s*/g, "_")                         /* " / " → "_"   */
+        .replace(/\s+/g, "_")                              /* espaços → "_" */
+        .replace(/[^a-z0-9_]/g, "");                       /* remove resto  */
+    }
+
+    var tags = CABECALHOS.map(toTag);
+
+    var xml  = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xml += '<atos_oficiais>\n';
+    xml += '  <fonte>' + escXML("Portal de Transparência — Prefeitura Municipal de Arroio dos Ratos") + '</fonte>\n';
+    xml += '  <exportado_em>' + new Date().toISOString() + '</exportado_em>\n';
+    xml += '  <total_registros>' + lista.length + '</total_registros>\n';
+    xml += '  <registros>\n';
+
+    lista.forEach(function(item) {
+      var linha = atoParaLinha(item);
+      xml += '    <ato>\n';
+      tags.forEach(function(tag, i) {
+        xml += '      <' + tag + '>' + escXML(linha[i]) + '</' + tag + '>\n';
+      });
+      xml += '    </ato>\n';
+    });
+
+    xml += '  </registros>\n';
+    xml += '</atos_oficiais>';
+
+    downloadBlob(xml, nomeArquivo("xml"), "application/xml;charset=utf-8;");
+  }
+
+  /* ── J6. PDF ──────────────────────────────────────────────────────
+     Usa window.print() que aciona o @media print do CSS.
+     O CSS de impressão oculta header, menu, filtros e barra de
+     exportação, gerando um PDF limpo com apenas a tabela de dados.
+     ────────────────────────────────────────────────────────────────── */
+  function exportarPDF() {
+    window.print();
+  }
+
+  /* Expõe as funções de exportação no escopo global
+     para que os onclick="exportarXXX()" do HTML funcionem.
+     (O IIFE isola o restante do código.) */
+  window.exportarCSV  = exportarCSV;
+  window.exportarXLSX = exportarXLSX;
+  window.exportarJSON = exportarJSON;
+  window.exportarODS  = exportarODS;
+  window.exportarXML  = exportarXML;
+  window.exportarPDF  = exportarPDF;
+
+  /* ════════════════════════════════════════════════════════════════
+     K. API WORDPRESS — INICIALIZAÇÃO E FETCH PAGINADO
+     ════════════════════════════════════════════════════════════════ */
+
+  /**
+   * Função principal: busca todos os posts nas categorias configuradas,
+   * trata paginação (até 20 páginas × 100 posts = até 2.000 registros),
+   * remove duplicatas por link e popula a tabela.
+   */
+  async function init() {
+    /* Mostra loading, oculta tabela e erros */
+    loading.style.display      = "flex";
+    erroEl.style.display       = "none";
+    tableWrap.style.display    = "none";
+    semResultado.style.display = "none";
+    if (barraExportacao) barraExportacao.style.display = "none";
+    if (notaExportacao)  notaExportacao.style.display  = "none";
+
+    try {
+      loadingDet.textContent = "Buscando categorias via API REST…";
+      var ids = await buscarIdsCategorias(CONFIG.slugsCategoria);
+
+      /* Monta URL base da query de posts */
+      var urlBase = API_BASE + "/posts?per_page=" + CONFIG.postsPorPagina
+        + "&_fields=id,date,title,link,categories&orderby=date&order=desc";
+
+      if (ids && ids.length) {
+        urlBase += "&categories=" + ids.join(",");
+      } else {
+        /* Nenhuma categoria encontrada: busca todos os posts (fallback) */
+        loadingDet.textContent = "Categorias não encontradas — buscando todos os posts…";
+      }
+
+      /* Página 1 — também obtemos os headers X-WP-Total e X-WP-TotalPages */
+      loadingDet.textContent = "Conectando à API…";
+      var resp1 = await fetch(urlBase + "&page=1", { credentials: "same-origin" });
+
+      if (!resp1.ok) {
+        var txt = await resp1.text().catch(function(){ return ""; });
+        throw new Error(
+          "A API REST do WordPress retornou erro " + resp1.status + ".\n\n" +
+          "URL: " + urlBase + "\n\n" +
+          "Verifique se:\n" +
+          "  1. O WordPress está na versão 4.7 ou superior.\n" +
+          "  2. A API REST não está desativada por plugin de segurança.\n" +
+          "  3. O script está no mesmo domínio (" + window.location.origin + ").\n\n" +
+          "Resposta: " + txt.substring(0, 300)
+        );
+      }
+
+      var totalPaginas = parseInt(resp1.headers.get("X-WP-TotalPages") || "1", 10);
+      var totalPosts   = parseInt(resp1.headers.get("X-WP-Total")      || "0", 10);
+      var posts        = await resp1.json();
+
+      loadingDet.textContent = totalPosts + " post(s) encontrado(s). Carregando " + totalPaginas + " página(s)…";
+
+      /* Busca páginas 2..N em paralelo (máx 20 páginas por segurança) */
+      var promessas = [];
+      for (var p = 2; p <= Math.min(totalPaginas, 20); p++) {
+        (function(pg){
+          promessas.push(
+            fetch(urlBase + "&page=" + pg, { credentials: "same-origin" })
+              .then(function(r){ return r.ok ? r.json() : []; })
+              .catch(function(){ return []; })
+          );
+        })(p);
+      }
+      var extras = await Promise.all(promessas);
+      extras.forEach(function(lista){ posts = posts.concat(lista); });
+
+      /* Remove duplicatas por URL (pode ocorrer se post está em 2 categorias) */
+      var vistos = {};
+      posts = posts.filter(function(p){
+        if (vistos[p.link]) return false;
+        vistos[p.link] = true; return true;
+      });
+
+      /* Transforma e ordena */
+      dadosOriginais = posts.map(postParaAto);
+      dadosOriginais.sort(function(a, b){ return b.dataSort.localeCompare(a.dataSort); });
+
+      if (!dadosOriginais.length) {
+        throw new Error(
+          "Nenhum post encontrado nas categorias configuradas.\n\n" +
+          "Slugs buscados: " + CONFIG.slugsCategoria.join(", ") + "\n" +
+          "IDs encontrados: " + (ids && ids.length ? ids.join(", ") : "nenhum — busca geral") + "\n\n" +
+          "Confira os slugs disponíveis em:\n" +
+          window.location.origin + "/wp-json/wp/v2/categories?per_page=100"
+        );
+      }
+
+      /* Inicializa filtros e renderiza tabela */
+      prepararFiltros(dadosOriginais);
+      dadosFiltrados = dadosOriginais.slice();
+      renderTabela(dadosOriginais);
+
+      /* Exibe barra de exportação e nota somente após carga bem-sucedida */
+      if (barraExportacao) barraExportacao.style.display = "flex";
+      if (notaExportacao)  notaExportacao.style.display  = "block";
+
+      loading.style.display = "none";
+
+    } catch (e) {
+      loading.style.display = "none";
+      erroEl.style.display  = "block";
+      erroEl.textContent    = "❌ Erro ao carregar atos oficiais:\n\n" + e.message;
+      console.error("[Atos Oficiais v4]", e);
+    }
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     L. EVENTOS
+     ────────────────────────────────────────────────────────────────
+     Todos os addEventListener centralizados aqui, ao final do IIFE.
+     Facilita localizar e alterar vínculos de eventos no futuro.
+     ════════════════════════════════════════════════════════════════ */
+
+  /* Botões de filtro */
+  btnFiltrar.addEventListener("click", aplicarFiltros);
+  btnLimpar.addEventListener("click", limparFiltros);
+
+  /* Enter nos campos de texto dispara filtro */
+  [filtroNumero, filtroObjeto].forEach(function(el){
+    el.addEventListener("keydown", function(e){ if (e.key === "Enter") aplicarFiltros(); });
+  });
+
+  /* Mudança nos selects dispara filtro automaticamente */
+  [filtroAno, filtroGrupo, filtroTipo, filtroStatus].forEach(function(el){
+    el.addEventListener("change", aplicarFiltros);
+  });
+
+  /* Link "Limpar filtros" na mensagem de sem resultado */
+  if (linkLimpar) {
+    linkLimpar.addEventListener("click", function(e){ e.preventDefault(); limparFiltros(); });
+  }
+
+  /* Inicia o carregamento dos dados */
+  init();
+
+})(); /* fim do IIFE */
+</script>

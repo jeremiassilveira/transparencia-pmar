@@ -1,0 +1,548 @@
+
+https://www.arroiodosratos.rs.gov.br/esic-painel-interno/
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Interno — e-SIC</title>
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-hover:#0b4d89;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --amarelo:#854d0e;
+  --amarelo-bg:#fef9c3;
+  --amarelo-borda:#fcd34d;
+  --vermelho:#991b1b;
+  --vermelho-bg:#fef2f2;
+  --vermelho-borda:#fca5a5;
+  --laranja:#9a3412;
+  --laranja-bg:#fff7ed;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#e5e9f0;
+  --cinza-100:#f8fafc;
+  --branco:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900);}
+
+#loginOverlay{
+  background:linear-gradient(135deg,#0b3d6e,#0f5ea8);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+}
+.login-box{
+  background:var(--branco);border-radius:20px;padding:40px 36px;
+  width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.25);text-align:center;
+}
+.login-box .logo{font-size:42px;margin-bottom:12px;}
+.login-box h2{font-size:20px;color:var(--azul-escuro);margin-bottom:4px;}
+.login-box p{font-size:13px;color:var(--cinza-500);margin-bottom:24px;}
+.login-box input{
+  width:100%;padding:11px 14px;border:1px solid var(--cinza-300);border-radius:8px;
+  font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;transition:border-color .2s;
+}
+.login-box input:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(15,94,168,.12);}
+.login-box .btn-login{
+  width:100%;padding:12px;background:var(--azul);color:#fff;border:none;border-radius:8px;
+  font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;
+}
+.login-box .btn-login:hover{background:var(--azul-hover);}
+.login-erro{font-size:12.5px;color:#dc2626;margin-top:8px;display:none;}
+.login-dica{font-size:11.5px;color:var(--cinza-500);margin-top:16px;}
+
+.topbar{
+  background:var(--azul-escuro);color:#fff;padding:0 28px;height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 2px 12px rgba(0,0,0,.18);
+}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.topbar-left h1{font-size:16px;font-weight:700;color:#fff;}
+.topbar-left small{font-size:11px;color:rgba(255,255,255,.65);display:block;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.topbar-user{font-size:13px;color:rgba(255,255,255,.85);}
+.btn-logout{
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;
+  border-radius:7px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;transition:.2s;
+}
+.btn-logout:hover{background:rgba(255,255,255,.22);}
+
+.conteudo{max-width:1280px;margin:0 auto;padding:24px 28px 60px;}
+
+.resumo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.resumo-card{
+  background:var(--branco);border:1px solid var(--cinza-200);border-radius:14px;
+  padding:20px;display:flex;align-items:center;gap:14px;
+  box-shadow:0 2px 10px rgba(15,23,42,.04);
+}
+.resumo-card .ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.resumo-card .dados strong{display:block;font-size:26px;font-weight:700;line-height:1.1;}
+.resumo-card .dados span{font-size:12px;color:var(--cinza-500);}
+.ic-total{background:#eff6ff;}
+.ic-aguardando{background:var(--amarelo-bg);}
+.ic-andamento{background:var(--azul-suave);}
+.ic-concluido{background:var(--verde-bg);}
+
+.filtros-card{
+  background:var(--branco);border:1px solid var(--cinza-200);border-radius:14px;
+  padding:18px 20px;margin-bottom:20px;box-shadow:0 2px 10px rgba(15,23,42,.04);
+}
+.filtros-card h3{font-size:14px;color:var(--cinza-700);margin-bottom:14px;font-weight:600;}
+.filtros-row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;}
+.fitem{display:flex;flex-direction:column;gap:5px;flex:1;min-width:140px;}
+.fitem label{font-size:12px;font-weight:600;color:var(--cinza-500);}
+.fitem input,.fitem select{
+  padding:8px 12px;border:1px solid var(--cinza-300);border-radius:7px;
+  font-size:13px;font-family:inherit;outline:none;background:var(--cinza-100);
+}
+.fitem input:focus,.fitem select:focus{border-color:var(--azul);background:var(--branco);}
+.btn-filtrar{
+  background:var(--azul);color:#fff;border:none;border-radius:7px;
+  padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
+  white-space:nowrap;align-self:flex-end;transition:background .2s;
+}
+.btn-filtrar:hover{background:var(--azul-hover);}
+.btn-limpar{
+  background:transparent;color:var(--cinza-500);border:1px solid var(--cinza-300);
+  border-radius:7px;padding:9px 14px;font-size:13px;cursor:pointer;font-family:inherit;
+  align-self:flex-end;transition:.2s;
+}
+.btn-limpar:hover{border-color:var(--cinza-500);color:var(--cinza-900);}
+
+.tabela-card{
+  background:var(--branco);border:1px solid var(--cinza-200);border-radius:14px;overflow:hidden;
+  box-shadow:0 2px 10px rgba(15,23,42,.04);
+}
+.tabela-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--cinza-200);flex-wrap:wrap;gap:10px;
+}
+.tabela-header h2{font-size:15px;color:var(--azul-escuro);font-weight:700;}
+.tabela-header small{font-size:12px;color:var(--cinza-500);}
+.btn-exportar{
+  background:var(--verde);color:#fff;border:none;border-radius:7px;
+  padding:8px 14px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;
+}
+.btn-exportar:hover{background:#145028;}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px;}
+thead{background:#f1f5f9;}
+thead th{
+  padding:11px 14px;text-align:left;font-size:12px;font-weight:700;color:var(--cinza-500);
+  text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--cinza-200);white-space:nowrap;
+}
+tbody tr{border-bottom:1px solid #f1f5f9;transition:background .3s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:#fafcff;}
+tbody td{padding:10px 14px;vertical-align:middle;}
+.td-protocolo{font-weight:700;color:var(--azul);font-size:12.5px;white-space:nowrap;}
+.td-nome{font-weight:600;}
+.td-data{color:var(--cinza-500);font-size:12.5px;white-space:nowrap;}
+.td-desc{max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--cinza-700);}
+
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:700;white-space:nowrap;}
+.badge-aguardando{background:var(--amarelo-bg);color:var(--amarelo);border:1px solid var(--amarelo-borda);}
+.badge-andamento{background:var(--azul-suave);color:var(--azul-escuro);border:1px solid var(--azul-claro);}
+.badge-concluido{background:var(--verde-bg);color:var(--verde);border:1px solid var(--verde-borda);}
+.badge-negado{background:var(--vermelho-bg);color:var(--vermelho);border:1px solid var(--vermelho-borda);}
+.badge-prazo{background:var(--laranja-bg);color:var(--laranja);border:1px solid #fdba74;}
+
+/* SELECT DE STATUS DIRETO NA TABELA */
+.select-status{
+  padding:5px 8px;border-radius:7px;font-size:12.5px;font-family:inherit;
+  border:1px solid var(--cinza-300);background:var(--cinza-100);color:var(--cinza-900);
+  cursor:pointer;outline:none;transition:border-color .2s, background .2s;max-width:170px;
+}
+.select-status:hover{border-color:var(--azul);background:var(--azul-suave);}
+.select-status:focus{border-color:var(--azul);box-shadow:0 0 0 2px rgba(15,94,168,.12);}
+
+.btn-ver{
+  background:var(--azul-suave);color:var(--azul);border:1px solid var(--azul-claro);
+  border-radius:7px;padding:6px 14px;font-size:12.5px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:.2s;white-space:nowrap;
+}
+.btn-ver:hover{background:var(--azul-claro);}
+.btn-ver.ativo{background:var(--azul);color:#fff;}
+
+.sem-dados{text-align:center;padding:48px 20px;color:var(--cinza-500);font-size:14px;}
+
+/* PAINEL DE DETALHE — sem position:fixed, aparece no fluxo normal */
+#painelDetalhe{display:none;margin-top:20px;}
+#painelDetalhe.aberto{display:block;}
+.detalhe-card{
+  background:var(--branco);border:2px solid var(--azul-claro);border-radius:16px;
+  box-shadow:0 4px 24px rgba(15,94,168,.12);overflow:hidden;
+}
+.detalhe-top{
+  background:linear-gradient(135deg,#0b3d6e,#0f5ea8);
+  color:#fff;padding:18px 24px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+.detalhe-top h2{font-size:17px;font-weight:700;color:#fff;}
+.btn-fechar{
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;
+  border-radius:7px;padding:7px 16px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:.2s;
+}
+.btn-fechar:hover{background:rgba(255,255,255,.28);}
+.detalhe-body{padding:24px;}
+.detalhe-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.ditem{background:#f8fafc;border:1px solid #edf2f7;border-radius:10px;padding:12px 14px;}
+.ditem strong{display:block;font-size:11px;color:var(--cinza-500);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px;}
+.ditem p{font-size:14px;color:var(--cinza-900);}
+.desc-box{
+  background:#f8fafc;border:1px solid #edf2f7;border-radius:10px;
+  padding:14px 16px;font-size:14px;line-height:1.7;color:var(--cinza-700);margin-bottom:20px;
+}
+.acao-bar{
+  background:var(--azul-suave);border:1px solid var(--azul-claro);border-radius:12px;
+  padding:16px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;
+}
+.acao-bar label{font-size:13px;font-weight:700;color:var(--azul-escuro);}
+.acao-bar select{
+  padding:9px 12px;border:1px solid var(--azul-claro);border-radius:7px;
+  font-size:13px;font-family:inherit;outline:none;background:var(--branco);flex:1;min-width:180px;
+}
+.acao-bar select:focus{border-color:var(--azul);}
+.btn-salvar{
+  background:var(--azul);color:#fff;border:none;border-radius:7px;
+  padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;
+}
+.btn-salvar:hover{background:var(--azul-hover);}
+.salvo-ok{
+  font-size:13px;color:var(--verde);font-weight:700;
+  background:var(--verde-bg);border:1px solid var(--verde-borda);
+  border-radius:7px;padding:8px 14px;display:none;
+}
+.salvo-ok.visivel{display:block;}
+
+@media(max-width:1000px){.resumo-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:640px){
+  .resumo-grid{grid-template-columns:1fr;}
+  .conteudo{padding:14px;}
+  .topbar{padding:0 14px;}
+  .detalhe-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginOverlay">
+  <div class="login-box">
+    <div class="logo">🔐</div>
+    <h2>Painel Interno — e-SIC</h2>
+    <p>Acesso restrito à equipe da Ouvidoria</p>
+    <input type="text" id="loginUser" placeholder="Usuário" value="admin">
+    <input type="password" id="loginSenha" placeholder="Senha">
+    <button class="btn-login" onclick="fazerLogin()">Entrar no Painel</button>
+    <div class="login-erro" id="loginErro">Usuário ou senha incorretos.</div>
+    <div class="login-dica">Usuário: <strong>admin</strong> — Senha: <strong>esic2026</strong></div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar" id="topbar" style="display:none;">
+  <div class="topbar-left">
+    <div>
+      <h1>📋 Painel Interno — e-SIC</h1>
+      <small>Prefeitura Municipal de Arroio dos Ratos</small>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span class="topbar-user" id="nomeUsuario"></span>
+    <button class="btn-logout" onclick="logout()">Sair</button>
+  </div>
+</div>
+
+<!-- CONTEUDO -->
+<div class="conteudo" id="painelConteudo" style="display:none;">
+
+  <div class="resumo-grid" id="resumoGrid"></div>
+
+  <div class="filtros-card">
+    <h3>🔍 Filtrar Solicitações</h3>
+    <div class="filtros-row">
+      <div class="fitem">
+        <label>Protocolo</label>
+        <input type="text" id="fProtocolo" placeholder="ESIC-2026-...">
+      </div>
+      <div class="fitem">
+        <label>Nome</label>
+        <input type="text" id="fNome" placeholder="Nome do solicitante">
+      </div>
+      <div class="fitem">
+        <label>Status</label>
+        <select id="fStatus">
+          <option value="">Todos</option>
+          <option>Aguardando análise</option>
+          <option>Em andamento</option>
+          <option>Concluída</option>
+          <option>Negada</option>
+          <option>Prazo a vencer</option>
+        </select>
+      </div>
+      <div class="fitem">
+        <label>Tipo</label>
+        <select id="fTipo">
+          <option value="">Todos</option>
+          <option>Acesso à Informação</option>
+          <option>Recurso</option>
+          <option>Reclamação</option>
+          <option>Pedido de Desclassificação</option>
+        </select>
+      </div>
+      <button class="btn-filtrar" onclick="renderTabela()">Filtrar</button>
+      <button class="btn-limpar" onclick="limparFiltros()">Limpar</button>
+    </div>
+  </div>
+
+  <div class="tabela-card">
+    <div class="tabela-header">
+      <div>
+        <h2>Solicitações recebidas</h2>
+        <small id="contadorTabela"></small>
+      </div>
+      <button class="btn-exportar" onclick="exportarCSV()">⬇ Exportar CSV</button>
+    </div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Protocolo</th>
+            <th>Data / Hora</th>
+            <th>Solicitante</th>
+            <th>Tipo</th>
+            <th>Descrição</th>
+            <th>Status</th>
+            <th>Ver detalhes</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyMain"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PAINEL DE DETALHE — aparece abaixo da tabela, sem modal -->
+  <div id="painelDetalhe">
+    <div class="detalhe-card">
+      <div class="detalhe-top">
+        <h2 id="detalheTitulo">Detalhes da Solicitação</h2>
+        <button class="btn-fechar" onclick="fecharDetalhe()">✕ Fechar detalhes</button>
+      </div>
+      <div class="detalhe-body">
+        <div class="detalhe-grid" id="detalheGrid"></div>
+        <strong style="font-size:11px;color:var(--cinza-500);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:8px;">Descrição completa da solicitação</strong>
+        <div class="desc-box" id="detalheDesc"></div>
+        <div class="acao-bar">
+          <label>✏️ Alterar status:</label>
+          <select id="selectStatus">
+            <option>Aguardando análise</option>
+            <option>Em andamento</option>
+            <option>Concluída</option>
+            <option>Negada</option>
+            <option>Prazo a vencer</option>
+          </select>
+          <button class="btn-salvar" onclick="salvarStatus()">💾 Salvar status</button>
+          <span class="salvo-ok" id="salvoOk">✅ Status atualizado com sucesso!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const DEMO=[
+  {protocolo:'ESIC-2026-00001',dataHora:'10/04/2026, 09:12',tipo:'Acesso à Informação',nome:'Carlos Eduardo Moreira',cpf:'098.765.432-10',email:'carlos@email.com',telefone:'(51) 98765-4321',nascimento:'1985-03-15',sexo:'Masculino',escolaridade:'Ensino Superior',resposta:'E-mail',descricao:'Solicito informações sobre os valores repassados via emendas parlamentares para o município no exercício de 2024 e 2025, incluindo objeto, executor e situação da execução.',status:'Aguardando análise'},
+  {protocolo:'ESIC-2026-00002',dataHora:'11/04/2026, 14:30',tipo:'Acesso à Informação',nome:'Ana Paula Ferreira',cpf:'123.456.789-00',email:'ana@gmail.com',telefone:'(51) 99111-2233',nascimento:'1990-07-22',sexo:'Feminino',escolaridade:'Pós-graduação',resposta:'E-mail',descricao:'Gostaria de obter cópia dos contratos firmados com a empresa XYZ Serviços Ltda. nos últimos 24 meses, com valores, objetos e vigências.',status:'Em andamento'},
+  {protocolo:'ESIC-2026-00003',dataHora:'13/04/2026, 08:45',tipo:'Recurso',nome:'Roberto Jansen',cpf:'321.654.987-11',email:'roberto@hotmail.com',telefone:'(51) 97654-3210',nascimento:'1978-11-05',sexo:'Masculino',escolaridade:'Ensino Médio',resposta:'Presencial',descricao:'Recurso contra a resposta ao protocolo ESIC-2025-09820. Entendo que as informações fornecidas estão incompletas e não atendem ao solicitado conforme a LAI.',status:'Aguardando análise'},
+  {protocolo:'ESIC-2026-00004',dataHora:'15/04/2026, 11:00',tipo:'Acesso à Informação',nome:'Mariana Lima dos Santos',cpf:'555.444.333-22',email:'mariana@email.com',telefone:'',nascimento:'',sexo:'Feminino',escolaridade:'Ensino Superior',resposta:'E-mail',descricao:'Solicito a relação completa de servidores efetivos e comissionados com respectivos cargos, remunerações e lotações referentes ao mês de março de 2026.',status:'Concluída'},
+  {protocolo:'ESIC-2026-00005',dataHora:'18/04/2026, 16:20',tipo:'Reclamação',nome:'João Pedro Alves',cpf:'777.888.999-33',email:'joao@yahoo.com',telefone:'(51) 96543-2109',nascimento:'1995-01-30',sexo:'Masculino',escolaridade:'Ensino Superior',resposta:'E-mail',descricao:'Não recebi resposta ao pedido protocolo ESIC-2026-00001 dentro do prazo legal de 20 dias. Solicito explicações.',status:'Prazo a vencer'},
+];
+
+const CRED={admin:'esic2026'};
+let sol=[];
+let idxAtual=null;
+
+function carregarDados(){
+  try{
+    const salvo=JSON.parse(localStorage.getItem('esic_solicitacoes')||'[]');
+    sol=[...salvo,...DEMO];
+  }catch(e){sol=[...DEMO];}
+}
+
+function fazerLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const s=document.getElementById('loginSenha').value;
+  if(CRED[u]&&CRED[u]===s){
+    document.getElementById('loginOverlay').style.display='none';
+    document.getElementById('topbar').style.display='flex';
+    document.getElementById('painelConteudo').style.display='block';
+    document.getElementById('nomeUsuario').textContent='Usuário: '+u;
+    carregarDados();
+    renderResumo();
+    renderTabela();
+  }else{
+    document.getElementById('loginErro').style.display='block';
+  }
+}
+document.getElementById('loginSenha').addEventListener('keydown',function(e){if(e.key==='Enter')fazerLogin();});
+
+function logout(){
+  document.getElementById('loginOverlay').style.display='flex';
+  document.getElementById('topbar').style.display='none';
+  document.getElementById('painelConteudo').style.display='none';
+  fecharDetalhe();
+}
+
+function badgeHTML(s){
+  const m={'Aguardando análise':'badge-aguardando','Em andamento':'badge-andamento','Concluída':'badge-concluido','Negada':'badge-negado','Prazo a vencer':'badge-prazo'};
+  return '<span class="badge '+(m[s]||'badge-aguardando')+'">'+s+'</span>';
+}
+
+function renderResumo(){
+  const total=sol.length;
+  const ag=sol.filter(s=>s.status==='Aguardando análise').length;
+  const an=sol.filter(s=>s.status==='Em andamento').length;
+  const co=sol.filter(s=>s.status==='Concluída').length;
+  document.getElementById('resumoGrid').innerHTML=
+    '<div class="resumo-card"><div class="ic ic-total">📋</div><div class="dados"><strong>'+total+'</strong><span>Total de solicitações</span></div></div>'+
+    '<div class="resumo-card"><div class="ic ic-aguardando">⏳</div><div class="dados"><strong>'+ag+'</strong><span>Aguardando análise</span></div></div>'+
+    '<div class="resumo-card"><div class="ic ic-andamento">🔄</div><div class="dados"><strong>'+an+'</strong><span>Em andamento</span></div></div>'+
+    '<div class="resumo-card"><div class="ic ic-concluido">✅</div><div class="dados"><strong>'+co+'</strong><span>Concluídas</span></div></div>';
+}
+
+function filtradas(){
+  const fp=document.getElementById('fProtocolo').value.toLowerCase();
+  const fn=document.getElementById('fNome').value.toLowerCase();
+  const fs=document.getElementById('fStatus').value;
+  const ft=document.getElementById('fTipo').value;
+  return sol.filter(function(s){
+    if(fp&&!s.protocolo.toLowerCase().includes(fp))return false;
+    if(fn&&!s.nome.toLowerCase().includes(fn))return false;
+    if(fs&&s.status!==fs)return false;
+    if(ft&&s.tipo!==ft)return false;
+    return true;
+  });
+}
+
+function renderTabela(){
+  var lista=filtradas();
+  document.getElementById('contadorTabela').textContent=lista.length+' registro(s) encontrado(s)';
+  var tbody=document.getElementById('tbodyMain');
+  if(!lista.length){
+    tbody.innerHTML='<tr><td colspan="7"><div class="sem-dados">Nenhuma solicitação encontrada com os filtros aplicados.</div></td></tr>';
+    return;
+  }
+  var opcoes=['Aguardando análise','Em andamento','Concluída','Negada','Prazo a vencer'];
+  var html='';
+  for(var i=0;i<lista.length;i++){
+    var s=lista[i];
+    var idx=sol.indexOf(s);
+    var opts='';
+    for(var j=0;j<opcoes.length;j++){
+      opts+='<option value="'+opcoes[j]+'"'+(opcoes[j]===s.status?' selected':'')+'>'+opcoes[j]+'</option>';
+    }
+    var ativo=(idxAtual===idx)?' ativo':'';
+    html+='<tr id="linha-'+idx+'">'
+      +'<td class="td-protocolo">'+s.protocolo+'</td>'
+      +'<td class="td-data">'+s.dataHora+'</td>'
+      +'<td class="td-nome">'+s.nome+'</td>'
+      +'<td>'+s.tipo+'</td>'
+      +'<td class="td-desc" title="'+s.descricao+'">'+s.descricao+'</td>'
+      +'<td><select class="select-status" onchange="alterarStatusDireto('+idx+',this.value)" title="Alterar status diretamente">'+opts+'</select></td>'
+      +'<td><button class="btn-ver'+ativo+'" onclick="abrirDetalhe('+idx+')">👁 Ver</button></td>'
+      +'</tr>';
+  }
+  tbody.innerHTML=html;
+}
+
+function alterarStatusDireto(idx,novoStatus){
+  sol[idx].status=novoStatus;
+  renderResumo();
+  if(idxAtual===idx){
+    document.getElementById('selectStatus').value=novoStatus;
+  }
+  var linha=document.getElementById('linha-'+idx);
+  if(linha){
+    linha.style.background='#f0fdf4';
+    setTimeout(function(){linha.style.background='';},1200);
+  }
+}
+
+function limparFiltros(){
+  document.getElementById('fProtocolo').value='';
+  document.getElementById('fNome').value='';
+  document.getElementById('fStatus').value='';
+  document.getElementById('fTipo').value='';
+  renderTabela();
+}
+
+function abrirDetalhe(idx){
+  idxAtual=idx;
+  var s=sol[idx];
+  document.getElementById('detalheTitulo').textContent='Detalhes — '+s.protocolo;
+  document.getElementById('detalheDesc').textContent=s.descricao;
+  document.getElementById('selectStatus').value=s.status;
+  document.getElementById('salvoOk').classList.remove('visivel');
+  document.getElementById('detalheGrid').innerHTML=
+    '<div class="ditem"><strong>Protocolo</strong><p>'+s.protocolo+'</p></div>'+
+    '<div class="ditem"><strong>Data / Hora</strong><p>'+s.dataHora+'</p></div>'+
+    '<div class="ditem"><strong>Tipo</strong><p>'+s.tipo+'</p></div>'+
+    '<div class="ditem"><strong>Nome completo</strong><p>'+s.nome+'</p></div>'+
+    '<div class="ditem"><strong>CPF</strong><p>'+s.cpf+'</p></div>'+
+    '<div class="ditem"><strong>E-mail</strong><p>'+(s.email||'—')+'</p></div>'+
+    '<div class="ditem"><strong>Telefone</strong><p>'+(s.telefone||'—')+'</p></div>'+
+    '<div class="ditem"><strong>Sexo</strong><p>'+(s.sexo||'—')+'</p></div>'+
+    '<div class="ditem"><strong>Escolaridade</strong><p>'+(s.escolaridade||'—')+'</p></div>'+
+    '<div class="ditem"><strong>Forma de resposta</strong><p>'+s.resposta+'</p></div>'+
+    '<div class="ditem"><strong>Nascimento</strong><p>'+(s.nascimento||'—')+'</p></div>'+
+    '<div class="ditem"><strong>Status atual</strong><p>'+badgeHTML(s.status)+'</p></div>';
+
+  var painel=document.getElementById('painelDetalhe');
+  painel.classList.add('aberto');
+  setTimeout(function(){painel.scrollIntoView({behavior:'smooth',block:'start'});},50);
+  renderTabela();
+}
+
+function fecharDetalhe(){
+  document.getElementById('painelDetalhe').classList.remove('aberto');
+  idxAtual=null;
+  renderTabela();
+}
+
+function salvarStatus(){
+  if(idxAtual===null)return;
+  var novo=document.getElementById('selectStatus').value;
+  sol[idxAtual].status=novo;
+  renderResumo();
+  renderTabela();
+  document.getElementById('salvoOk').classList.add('visivel');
+  setTimeout(function(){document.getElementById('salvoOk').classList.remove('visivel');},2500);
+}
+
+function exportarCSV(){
+  var lista=filtradas();
+  var h=['Protocolo','Data/Hora','Nome','CPF','E-mail','Telefone','Tipo','Resposta','Status','Descrição'];
+  var linhas=lista.map(function(s){
+    return [s.protocolo,s.dataHora,s.nome,s.cpf,s.email,s.telefone,s.tipo,s.resposta,s.status,'"'+s.descricao.replace(/"/g,'""')+'"'].join(';');
+  });
+  var csv=[h.join(';')].concat(linhas).join('\n');
+  var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='esic_solicitacoes.csv';a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acessibilidade – Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-hover:#0b4d89;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#e5e9f0;
+  --cinza-100:#f8fafc;
+  --branco:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900);min-height:100vh;}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,
+.elementor-widget-theme-post-title,.elementor-page-title,
+.wp-block-post-title,h1.entry-title,h1.page-title,
+.post-title,.site-main .page-header{display:none !important;}
+
+.wrap{max-width:900px;margin:0 auto;padding:28px 24px 60px;}
+
+.breadcrumb{font-size:13px;color:var(--cinza-500);margin-bottom:18px;padding:10px 14px;background:var(--branco);border:1px solid var(--cinza-200);border-radius:8px;display:inline-block;}
+.breadcrumb a{color:var(--azul);text-decoration:none;font-weight:600;}
+.breadcrumb a:hover{text-decoration:underline;}
+
+.hero{background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 60%,#1a7fd4 100%);color:#fff;padding:30px 32px;border-radius:16px;margin-bottom:24px;box-shadow:0 8px 32px rgba(11,61,110,.18);}
+.hero h1{margin:0 0 8px;font-size:28px;line-height:1.2;color:#fff;}
+.hero p{margin:0;font-size:14px;line-height:1.7;color:rgba(255,255,255,.90);max-width:700px;}
+
+.aviso-azul{background:var(--azul-suave);border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.6;color:var(--cinza-700);margin-bottom:24px;}
+.aviso-verde{background:var(--verde-bg);border:1px solid var(--verde-borda);border-left:4px solid var(--verde);border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.6;color:#14532d;margin-bottom:20px;}
+
+.card{background:var(--branco);border:1px solid var(--cinza-200);border-radius:16px;padding:28px 30px;box-shadow:0 2px 12px rgba(15,23,42,.05);margin-bottom:20px;}
+.card h2{font-size:17px;color:var(--azul-escuro);margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);font-weight:700;}
+.card p{font-size:14px;line-height:1.75;color:var(--cinza-700);margin-bottom:14px;}
+.card p:last-child{margin-bottom:0;}
+
+/* NÍVEIS WCAG */
+.wcag-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+.wcag-card{border-radius:12px;padding:18px 16px;text-align:center;}
+.wcag-a{background:#eff6ff;border:2px solid #93c5fd;}
+.wcag-aa{background:#f0fdf4;border:2px solid #86efac;}
+.wcag-aaa{background:#fef9c3;border:2px solid #fde047;}
+.wcag-card .nivel{font-size:22px;font-weight:800;margin-bottom:6px;}
+.wcag-a .nivel{color:#1d4ed8;}
+.wcag-aa .nivel{color:#166534;}
+.wcag-aaa .nivel{color:#854d0e;}
+.wcag-card p{font-size:12.5px;line-height:1.5;margin:0;}
+
+/* STATUS */
+.status-bar{display:flex;align-items:center;gap:12px;background:var(--azul-suave);border:1px solid var(--azul-claro);border-radius:12px;padding:16px 18px;margin-bottom:20px;}
+.status-dot{width:14px;height:14px;border-radius:50%;background:#f59e0b;flex-shrink:0;}
+.status-bar p{font-size:14px;color:var(--cinza-700);margin:0;line-height:1.5;}
+
+/* RECURSOS */
+.recursos-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.recurso-item{background:var(--azul-suave);border:1px solid var(--azul-claro);border-radius:12px;padding:16px;}
+.recurso-item strong{display:block;font-size:14px;color:var(--azul-escuro);margin-bottom:6px;}
+.recurso-item p{font-size:13px;color:var(--cinza-700);margin:0;line-height:1.5;}
+
+/* CONTATO */
+.contato-box{background:#f8fafc;border:1px solid #edf2f7;border-radius:12px;padding:18px 20px;}
+.contato-box p{font-size:14px;color:var(--cinza-700);margin-bottom:10px;line-height:1.6;}
+.contato-box p:last-child{margin-bottom:0;}
+.contato-box a{color:var(--azul);font-weight:700;text-decoration:none;}
+.contato-box a:hover{text-decoration:underline;}
+
+/* NAVEGAÇÃO ENTRE PÁGINAS */
+.nav-acess{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px;}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--azul-suave);border:1px solid var(--azul-claro);border-radius:12px;padding:16px 12px;text-decoration:none;color:var(--azul-escuro);font-weight:700;font-size:13px;text-align:center;transition:.2s;}
+.nav-btn:hover{background:var(--azul-claro);transform:translateY(-2px);}
+.nav-btn .emoji{font-size:24px;}
+
+.rodape-pag{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:12px;padding-top:14px;border-top:1px solid var(--cinza-200);}
+
+@media(max-width:640px){
+  .wrap{padding:16px 14px 40px;}
+  .hero{padding:22px 18px;}
+  .hero h1{font-size:22px;}
+  .card{padding:20px 18px;}
+  .wcag-grid{grid-template-columns:1fr;}
+  .recursos-grid{grid-template-columns:1fr;}
+  .nav-acess{grid-template-columns:1fr;}
+}
+@media print{
+  .nav-acess,.breadcrumb{display:none !important;}
+  .hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200);}
+  .hero h1{color:var(--azul-escuro) !important;}
+  .hero p{color:var(--cinza-700) !important;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="breadcrumb">
+    <a href="/">Início</a> &rsaquo;
+    <a href="/transparencia/">Transparência</a> &rsaquo;
+    <a href="/acessibilidade/">Acessibilidade</a> &rsaquo;
+    <span>Declaração de Acessibilidade</span>
+  </div>
+
+  <div class="hero">
+    <h1>♿ Acessibilidade</h1>
+    <p>A Prefeitura Municipal de Arroio dos Ratos tem o compromisso de garantir a acessibilidade digital para pessoas com necessidades especiais, aplicando os padrões internacionais de acessibilidade na web.</p>
+  </div>
+
+  <!-- STATUS -->
+  <div class="aviso-azul">
+    <strong>Declaração de Acessibilidade</strong> para <a href="https://www.arroiodosratos.rs.gov.br/" style="color:var(--azul);font-weight:700;">https://www.arroiodosratos.rs.gov.br/</a><br>
+    Esta declaração foi criada em <strong>24/04/2026</strong> e é revisada periodicamente para refletir melhorias nas práticas de acessibilidade.
+  </div>
+
+  <!-- CONFORMIDADE WCAG -->
+  <div class="card">
+    <h2>📋 Status de Conformidade — WCAG</h2>
+    <p>As Diretrizes de Acessibilidade para Conteúdo da Web (WCAG) definem os requisitos para que designers e desenvolvedores melhorem a acessibilidade para pessoas com necessidades especiais. Elas definem três níveis de conformidade:</p>
+
+    <div class="wcag-grid">
+      <div class="wcag-card wcag-a">
+        <div class="nivel">Nível A</div>
+        <p>Requisitos mínimos de acessibilidade. Base obrigatória para todos os sites públicos.</p>
+      </div>
+      <div class="wcag-card wcag-aa">
+        <div class="nivel">Nível AA</div>
+        <p>Padrão recomendado para portais governamentais. Cobre a maioria das necessidades especiais.</p>
+      </div>
+      <div class="wcag-card wcag-aaa">
+        <div class="nivel">Nível AAA</div>
+        <p>Conformidade máxima. Aplicada progressivamente conforme evoluções do portal.</p>
+      </div>
+    </div>
+
+    <div class="status-bar">
+      <div class="status-dot"></div>
+      <p>O site <strong>Prefeitura Municipal de Arroio dos Ratos</strong> está em processo contínuo de melhoria de acessibilidade, buscando alcançar progressivamente os níveis A e AA das diretrizes WCAG. Algumas páginas podem ainda não atender completamente aos padrões mais altos, devido a desafios na identificação da solução tecnológica mais adequada.</p>
+    </div>
+
+    <div class="aviso-verde">
+      É nossa obrigação moral coletiva permitir o uso contínuo, acessível e sem impedimentos do portal para todos os cidadãos, incluindo portadores de necessidades especiais.
+    </div>
+  </div>
+
+  <!-- RECURSOS DISPONÍVEIS -->
+  <div class="card">
+    <h2>🛠 Recursos de Acessibilidade Disponíveis</h2>
+    <p>O portal conta com os seguintes recursos para facilitar o acesso a pessoas com necessidades especiais:</p>
+    <div class="recursos-grid">
+      <div class="recurso-item">
+        <strong>🔡 Tamanho de texto</strong>
+        <p>Aumente ou diminua o tamanho dos textos do portal usando os botões A+ e A- ou as teclas de atalho.</p>
+      </div>
+      <div class="recurso-item">
+        <strong>🌑 Alto Contraste</strong>
+        <p>Modo de alto contraste disponível para usuários com baixa visão ou sensibilidade à luz.</p>
+      </div>
+      <div class="recurso-item">
+        <strong>⌨ Navegação por teclado</strong>
+        <p>Todas as funções do portal podem ser acessadas via teclado, sem necessidade de mouse.</p>
+      </div>
+      <div class="recurso-item">
+        <strong>🗺 Mapa do site</strong>
+        <p>Estrutura completa do portal disponível para facilitar a localização de conteúdos.</p>
+      </div>
+      <div class="recurso-item">
+        <strong>🔗 Atalhos de teclado</strong>
+        <p>Teclas de atalho padronizadas para Firefox, Chrome e Internet Explorer.</p>
+      </div>
+      <div class="recurso-item">
+        <strong>♿ Plugin Ally</strong>
+        <p>Plugin de acessibilidade e usabilidade na web integrado ao portal para suporte ampliado.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEEDBACK -->
+  <div class="card">
+    <h2>💬 Feedback sobre Acessibilidade</h2>
+    <p>Agradecemos seu feedback sobre a acessibilidade do portal. Caso encontre barreiras de acessibilidade em nosso site, entre em contato conosco:</p>
+    <div class="contato-box">
+      <p><strong>📧 E-mail:</strong> <a href="mailto:ouvidoria@arroiodosratos.rs.gov.br">ouvidoria@arroiodosratos.rs.gov.br</a></p>
+      <p><strong>⏱ Prazo de resposta:</strong> Tentamos responder aos feedbacks dentro de <strong>3 a 5 dias úteis</strong>.</p>
+      <p><strong>📍 Atendimento presencial:</strong> Largo do Mineiro, 135 – Centro — Segunda a sexta, das 8h às 14h.</p>
+    </div>
+  </div>
+
+  <!-- NAVEGAÇÃO ENTRE SEÇÕES -->
+  <div class="card">
+    <h2>🔗 Seções de Acessibilidade</h2>
+    <div class="nav-acess">
+      <a href="/acessibilidade/alto-contraste/" class="nav-btn"><span class="emoji">🌑</span>Alto Contraste</a>
+      <a href="/acessibilidade/atalhos-e-navegacao/" class="nav-btn"><span class="emoji">⌨</span>Atalhos e Navegação</a>
+      <a href="/acessibilidade/mapa-do-site/" class="nav-btn"><span class="emoji">🗺</span>Mapa do Site</a>
+    </div>
+  </div>
+
+  <div class="rodape-pag">
+    Prefeitura Municipal de Arroio dos Ratos &mdash; Acessibilidade &mdash; Declaração criada em 24/04/2026
+  </div>
+</div>
+</body>
+</html>

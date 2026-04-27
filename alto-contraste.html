@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alto Contraste – Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-hover:#0b4d89;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#e5e9f0;
+  --cinza-100:#f8fafc;
+  --branco:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900);min-height:100vh;}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,
+.elementor-widget-theme-post-title,.elementor-page-title,
+.wp-block-post-title,h1.entry-title,h1.page-title,
+.post-title,.site-main .page-header{display:none !important;}
+
+.wrap{max-width:900px;margin:0 auto;padding:28px 24px 60px;}
+.breadcrumb{font-size:13px;color:var(--cinza-500);margin-bottom:18px;padding:10px 14px;background:var(--branco);border:1px solid var(--cinza-200);border-radius:8px;display:inline-block;}
+.breadcrumb a{color:var(--azul);text-decoration:none;font-weight:600;}
+.breadcrumb a:hover{text-decoration:underline;}
+.hero{background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 60%,#1a7fd4 100%);color:#fff;padding:30px 32px;border-radius:16px;margin-bottom:24px;box-shadow:0 8px 32px rgba(11,61,110,.18);}
+.hero h1{margin:0 0 8px;font-size:28px;line-height:1.2;color:#fff;}
+.hero p{margin:0;font-size:14px;line-height:1.7;color:rgba(255,255,255,.90);max-width:700px;}
+.aviso-azul{background:var(--azul-suave);border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.6;color:var(--cinza-700);margin-bottom:24px;}
+.card{background:var(--branco);border:1px solid var(--cinza-200);border-radius:16px;padding:28px 30px;box-shadow:0 2px 12px rgba(15,23,42,.05);margin-bottom:20px;}
+.card h2{font-size:17px;color:var(--azul-escuro);margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);font-weight:700;}
+.card p{font-size:14px;line-height:1.75;color:var(--cinza-700);margin-bottom:14px;}
+.card p:last-child{margin-bottom:0;}
+
+/* PREVIEW CONTRASTE */
+.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+.preview-normal{background:var(--branco);border:2px solid var(--cinza-200);border-radius:12px;padding:20px;text-align:center;}
+.preview-contraste{background:#000;border:2px solid #fff;border-radius:12px;padding:20px;text-align:center;}
+.preview-normal .label{font-size:12px;color:var(--cinza-500);margin-bottom:8px;display:block;}
+.preview-contraste .label{font-size:12px;color:#ff0;margin-bottom:8px;display:block;}
+.preview-normal .texto{font-size:18px;font-weight:700;color:var(--cinza-900);}
+.preview-contraste .texto{font-size:18px;font-weight:700;color:#fff;}
+.preview-normal .link{color:var(--azul);font-size:14px;display:block;margin-top:6px;}
+.preview-contraste .link{color:#ff0;font-size:14px;display:block;margin-top:6px;}
+.preview-normal .btn-demo{background:var(--azul);color:#fff;border:none;border-radius:6px;padding:7px 14px;font-size:13px;margin-top:8px;cursor:pointer;font-family:inherit;}
+.preview-contraste .btn-demo{background:#ff0;color:#000;border:none;border-radius:6px;padding:7px 14px;font-size:13px;margin-top:8px;cursor:pointer;font-family:inherit;font-weight:700;}
+
+/* COMO ATIVAR */
+.metodos-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+.metodo-item{background:var(--azul-suave);border:1px solid var(--azul-claro);border-radius:12px;padding:16px;}
+.metodo-item strong{display:block;font-size:14px;color:var(--azul-escuro);margin-bottom:8px;}
+.metodo-item p{font-size:13px;color:var(--cinza-700);margin:0;line-height:1.5;}
+.kbd{display:inline-block;background:var(--cinza-900);color:#fff;border-radius:5px;padding:3px 8px;font-size:12px;font-family:monospace;margin:2px;}
+
+/* BENEFÍCIOS */
+.beneficios-lista{list-style:none;padding:0;display:grid;gap:10px;}
+.beneficios-lista li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--cinza-700);line-height:1.6;background:#f8fafc;border:1px solid #edf2f7;border-radius:10px;padding:12px 14px;}
+.beneficios-lista li .icone{font-size:18px;flex-shrink:0;}
+
+.nav-acess{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--azul-suave);border:1px solid var(--azul-claro);border-radius:12px;padding:16px 12px;text-decoration:none;color:var(--azul-escuro);font-weight:700;font-size:13px;text-align:center;transition:.2s;}
+.nav-btn:hover{background:var(--azul-claro);transform:translateY(-2px);}
+.nav-btn .emoji{font-size:24px;}
+.rodape-pag{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:12px;padding-top:14px;border-top:1px solid var(--cinza-200);}
+
+@media(max-width:640px){
+  .wrap{padding:16px 14px 40px;}
+  .hero{padding:22px 18px;}
+  .hero h1{font-size:22px;}
+  .card{padding:20px 18px;}
+  .preview-grid,.metodos-grid,.nav-acess{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="breadcrumb">
+    <a href="/">Início</a> &rsaquo;
+    <a href="/acessibilidade/">Acessibilidade</a> &rsaquo;
+    <span>Alto Contraste</span>
+  </div>
+
+  <div class="hero">
+    <h1>🌑 Alto Contraste</h1>
+    <p>O recurso de Alto Contraste aumenta a diferença entre as cores de texto e fundo do portal, facilitando a leitura para pessoas com baixa visão, daltonismo ou sensibilidade à luz.</p>
+  </div>
+
+  <div class="aviso-azul">
+    <strong>ℹ Como usar:</strong> O Alto Contraste pode ser ativado pelo botão disponível no cabeçalho do portal ou pela tecla de atalho <strong>Alt+4</strong> (Chrome) ou <strong>Alt+Shift+4</strong> (Firefox). A preferência é salva automaticamente para sua próxima visita.
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="card">
+    <h2>👁 Comparativo Visual</h2>
+    <p>Veja abaixo a diferença entre o modo padrão e o modo de Alto Contraste:</p>
+    <div class="preview-grid">
+      <div class="preview-normal">
+        <span class="label">Modo Padrão</span>
+        <div class="texto">Prefeitura Municipal</div>
+        <span class="link">www.arroiodosratos.rs.gov.br</span>
+        <br>
+        <button class="btn-demo">Exemplo de botão</button>
+      </div>
+      <div class="preview-contraste">
+        <span class="label">Modo Alto Contraste</span>
+        <div class="texto">Prefeitura Municipal</div>
+        <span class="link">www.arroiodosratos.rs.gov.br</span>
+        <br>
+        <button class="btn-demo">Exemplo de botão</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMO ATIVAR -->
+  <div class="card">
+    <h2>⚡ Como Ativar o Alto Contraste</h2>
+    <div class="metodos-grid">
+      <div class="metodo-item">
+        <strong>🖱 Pelo botão no portal</strong>
+        <p>Clique no botão <strong>"Alto Contraste"</strong> localizado no cabeçalho do site, ao lado dos botões de tamanho de texto.</p>
+      </div>
+      <div class="metodo-item">
+        <strong>⌨ Pela tecla de atalho</strong>
+        <p>
+          Chrome: <span class="kbd">Alt+4</span><br>
+          Firefox: <span class="kbd">Alt+Shift+4</span><br>
+          Internet Explorer: <span class="kbd">Alt+4</span> + <span class="kbd">Enter</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENEFÍCIOS -->
+  <div class="card">
+    <h2>✅ Quem se Beneficia deste Recurso</h2>
+    <ul class="beneficios-lista">
+      <li><span class="icone">👁</span>Pessoas com baixa visão ou acuidade visual reduzida, que precisam de maior contraste para distinguir textos e elementos visuais.</li>
+      <li><span class="icone">🎨</span>Pessoas com daltonismo, para quem as cores padrão do portal podem se confundir ou ser difíceis de distinguir.</li>
+      <li><span class="icone">💡</span>Pessoas com fotossensibilidade ou que utilizam o portal em ambientes com muita luz, onde a tela padrão pode causar desconforto.</li>
+      <li><span class="icone">🖥</span>Usuários que acessam o portal em dispositivos com telas de baixa qualidade ou com configurações de brilho reduzidas.</li>
+    </ul>
+  </div>
+
+  <!-- NAVEGAÇÃO -->
+  <div class="card">
+    <h2>🔗 Outras Seções de Acessibilidade</h2>
+    <div class="nav-acess">
+      <a href="/acessibilidade/" class="nav-btn"><span class="emoji">♿</span>Declaração de Acessibilidade</a>
+      <a href="/acessibilidade/atalhos-e-navegacao/" class="nav-btn"><span class="emoji">⌨</span>Atalhos e Navegação</a>
+      <a href="/acessibilidade/mapa-do-site/" class="nav-btn"><span class="emoji">🗺</span>Mapa do Site</a>
+    </div>
+  </div>
+
+  <div class="rodape-pag">
+    Prefeitura Municipal de Arroio dos Ratos &mdash; Alto Contraste &mdash; Abril de 2026
+  </div>
+</div>
+</body>
+</html>

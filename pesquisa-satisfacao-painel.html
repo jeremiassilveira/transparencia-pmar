@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Interno — Pesquisa de Satisfação</title>
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-hover:#0b4d89;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --amarelo:#854d0e;
+  --amarelo-bg:#fef9c3;
+  --amarelo-borda:#fcd34d;
+  --vermelho:#991b1b;
+  --vermelho-bg:#fef2f2;
+  --vermelho-borda:#fca5a5;
+  --laranja:#9a3412;
+  --laranja-bg:#fff7ed;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#e5e9f0;
+  --cinza-100:#f8fafc;
+  --branco:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900);}
+
+/* LOGIN */
+#loginOverlay{background:linear-gradient(135deg,#0b3d6e,#0f5ea8);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.login-box{background:var(--branco);border-radius:20px;padding:40px 36px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.25);text-align:center;}
+.login-box .logo{font-size:42px;margin-bottom:12px;}
+.login-box h2{font-size:20px;color:var(--azul-escuro);margin-bottom:4px;}
+.login-box p{font-size:13px;color:var(--cinza-500);margin-bottom:24px;}
+.login-box input{width:100%;padding:11px 14px;border:1px solid var(--cinza-300);border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;transition:border-color .2s;}
+.login-box input:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(15,94,168,.12);}
+.login-box .btn-login{width:100%;padding:12px;background:var(--azul);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;}
+.login-box .btn-login:hover{background:var(--azul-hover);}
+.login-erro{font-size:12.5px;color:#dc2626;margin-top:8px;display:none;}
+.login-dica{font-size:11.5px;color:var(--cinza-500);margin-top:16px;}
+
+/* TOPBAR */
+.topbar{background:var(--azul-escuro);color:#fff;padding:0 28px;height:58px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.18);}
+.topbar-left h1{font-size:16px;font-weight:700;color:#fff;}
+.topbar-left small{font-size:11px;color:rgba(255,255,255,.65);display:block;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.topbar-user{font-size:13px;color:rgba(255,255,255,.85);}
+.btn-logout{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:7px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;transition:.2s;}
+.btn-logout:hover{background:rgba(255,255,255,.22);}
+
+/* CONTEUDO */
+.conteudo{max-width:1280px;margin:0 auto;padding:24px 28px 60px;}
+
+/* RESUMO */
+.resumo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.resumo-card{background:var(--branco);border:1px solid var(--cinza-200);border-radius:14px;padding:20px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(15,23,42,.04);}
+.resumo-card .ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.resumo-card .dados strong{display:block;font-size:26px;font-weight:700;line-height:1.1;}
+.resumo-card .dados span{font-size:12px;color:var(--cinza-500);}
+.ic-total{background:#eff6ff;}
+.ic-otimo{background:var(--verde-bg);}
+.ic-bom{background:var(--azul-suave);}
+.ic-regular{background:var(--amarelo-bg);}
+.ic-ruim{background:var(--vermelho-bg);}
+
+/* GRÁFICO DE BARRAS SIMPLES */
+.graficos-card{background:var(--branco);border:1px solid var(--cinza-200);border-radius:14px;padding:24px 26px;margin-bottom:20px;box-shadow:0 2px 10px rgba(15,23,42,.04);}
+.graficos-card h3{font-size:15px;color:var(--azul-escuro);font-weight:700;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);}
+.grafico-item{margin-bottom:14px;}
+.grafico-item:last-child{margin-bottom:0;}
+.grafico-label{font-size:12.5px;color:var(--cinza-700);margin-bottom:5px;font-weight:600;}
+.barra-wrap{display:flex;align-items:center;gap:10px;}
+.barra-bg{flex:1;background:var(--cinza-100);border-radius:6px;height:18px;overflow:hidden;border:1px solid var(--cinza-200);}
+.barra-fill{height:100%;border-radius:6px;transition:width .6s ease;}
+.barra-otimo{background:#22c55e;}
+.barra-bom{background:#3b82f6;}
+.barra-regular{background:#f59e0b;}
+.barra-ruim{background:#ef4444;}
+.barra-pct{font-size:12px;color:var(--cinza-500);min-width:36px;text-align:right;font-weight:600;}
+
+/* FILTROS */
+.filtros-card{background:var(--branco);border:1px solid var(--cinza-200);border-radius:14px;padding:18px 20px;margin-bottom:20px;box-shadow:0 2px 10px rgba(15,23,42,.04);}
+.filtros-card h3{font-size:14px;color:var(--cinza-700);margin-bottom:14px;font-weight:600;}
+.filtros-row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;}
+.fitem{display:flex;flex-direction:column;gap:5px;flex:1;min-width:140px;}
+.fitem label{font-size:12px;font-weight:600;color:var(--cinza-500);}
+.fitem input,.fitem select{padding:8px 12px;border:1px solid var(--cinza-300);border-radius:7px;font-size:13px;font-family:inherit;outline:none;background:var(--cinza-100);}
+.fitem input:focus,.fitem select:focus{border-color:var(--azul);background:var(--branco);}
+.btn-filtrar{background:var(--azul);color:#fff;border:none;border-radius:7px;padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;align-self:flex-end;transition:background .2s;}
+.btn-filtrar:hover{background:var(--azul-hover);}
+.btn-limpar{background:transparent;color:var(--cinza-500);border:1px solid var(--cinza-300);border-radius:7px;padding:9px 14px;font-size:13px;cursor:pointer;font-family:inherit;align-self:flex-end;transition:.2s;}
+.btn-limpar:hover{border-color:var(--cinza-500);color:var(--cinza-900);}
+
+/* TABELA */
+.tabela-card{background:var(--branco);border:1px solid var(--cinza-200);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(15,23,42,.04);}
+.tabela-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--cinza-200);flex-wrap:wrap;gap:10px;}
+.tabela-header h2{font-size:15px;color:var(--azul-escuro);font-weight:700;}
+.tabela-header small{font-size:12px;color:var(--cinza-500);}
+.btn-exportar{background:var(--verde);color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;}
+.btn-exportar:hover{background:#145028;}
+
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead{background:#f1f5f9;}
+thead th{padding:11px 12px;text-align:left;font-size:11.5px;font-weight:700;color:var(--cinza-500);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--cinza-200);white-space:nowrap;}
+tbody tr{border-bottom:1px solid #f1f5f9;transition:background .15s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:#fafcff;}
+tbody td{padding:10px 12px;vertical-align:middle;}
+.td-id{font-weight:700;color:var(--azul);font-size:12px;white-space:nowrap;}
+.td-data{color:var(--cinza-500);font-size:12px;white-space:nowrap;}
+.td-coment{max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--cinza-700);}
+
+.badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;}
+.badge-otimo{background:var(--verde-bg);color:var(--verde);border:1px solid var(--verde-borda);}
+.badge-bom{background:var(--azul-suave);color:var(--azul-escuro);border:1px solid var(--azul-claro);}
+.badge-regular{background:var(--amarelo-bg);color:var(--amarelo);border:1px solid var(--amarelo-borda);}
+.badge-ruim{background:var(--vermelho-bg);color:var(--vermelho);border:1px solid var(--vermelho-borda);}
+
+.btn-ver{background:var(--azul-suave);color:var(--azul);border:1px solid var(--azul-claro);border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;white-space:nowrap;}
+.btn-ver:hover{background:var(--azul-claro);}
+.btn-ver.ativo{background:var(--azul);color:#fff;}
+.sem-dados{text-align:center;padding:48px 20px;color:var(--cinza-500);font-size:14px;}
+
+/* PAINEL DETALHE */
+#painelDetalhe{display:none;margin-top:20px;}
+#painelDetalhe.aberto{display:block;}
+.detalhe-card{background:var(--branco);border:2px solid var(--azul-claro);border-radius:16px;box-shadow:0 4px 24px rgba(15,94,168,.12);overflow:hidden;}
+.detalhe-top{background:linear-gradient(135deg,#0b3d6e,#0f5ea8);color:#fff;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.detalhe-top h2{font-size:17px;font-weight:700;color:#fff;}
+.btn-fechar{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:7px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;}
+.btn-fechar:hover{background:rgba(255,255,255,.28);}
+.detalhe-body{padding:24px;}
+.detalhe-perguntas{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;}
+.ditem{background:#f8fafc;border:1px solid #edf2f7;border-radius:10px;padding:12px 14px;}
+.ditem strong{display:block;font-size:11px;color:var(--cinza-500);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px;}
+.ditem p{font-size:14px;color:var(--cinza-900);}
+.ditem.span2{grid-column:span 2;}
+.coment-box{background:#f8fafc;border:1px solid #edf2f7;border-radius:10px;padding:14px 16px;font-size:14px;line-height:1.7;color:var(--cinza-700);}
+
+@media(max-width:1000px){.resumo-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:700px){
+  .resumo-grid{grid-template-columns:1fr 1fr;}
+  .conteudo{padding:14px;}
+  .topbar{padding:0 14px;}
+  .detalhe-perguntas{grid-template-columns:1fr;}
+  .ditem.span2{grid-column:span 1;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginOverlay">
+  <div class="login-box">
+    <div class="logo">📊</div>
+    <h2>Painel Interno — Pesquisa de Satisfação</h2>
+    <p>Acesso restrito à equipe da Coordenação de Informática</p>
+    <input type="text" id="loginUser" placeholder="Usuário" value="admin">
+    <input type="password" id="loginSenha" placeholder="Senha">
+    <button class="btn-login" onclick="fazerLogin()">Entrar no Painel</button>
+    <div class="login-erro" id="loginErro">Usuário ou senha incorretos.</div>
+    <div class="login-dica">Usuário: <strong>admin</strong> — Senha: <strong>pesquisa2026</strong></div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar" id="topbar" style="display:none;">
+  <div class="topbar-left">
+    <div>
+      <h1>📊 Painel Interno — Pesquisa de Satisfação</h1>
+      <small>Prefeitura Municipal de Arroio dos Ratos</small>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span class="topbar-user" id="nomeUsuario"></span>
+    <button class="btn-logout" onclick="logout()">Sair</button>
+  </div>
+</div>
+
+<!-- CONTEUDO -->
+<div class="conteudo" id="painelConteudo" style="display:none;">
+
+  <!-- CARDS RESUMO -->
+  <div class="resumo-grid" id="resumoGrid"></div>
+
+  <!-- GRÁFICO CONSOLIDADO POR PERGUNTA -->
+  <div class="graficos-card" id="graficosCard">
+    <h3>📈 Resultado consolidado por pergunta</h3>
+    <div id="graficosConteudo"></div>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="filtros-card">
+    <h3>🔍 Filtrar Respostas</h3>
+    <div class="filtros-row">
+      <div class="fitem">
+        <label>ID da Resposta</label>
+        <input type="text" id="fId" placeholder="PS-2026-...">
+      </div>
+      <div class="fitem">
+        <label>Avaliação Geral</label>
+        <select id="fGeral">
+          <option value="">Todas</option>
+          <option>Ótimo</option>
+          <option>Bom</option>
+          <option>Regular</option>
+          <option>Ruim</option>
+        </select>
+      </div>
+      <div class="fitem">
+        <label>Com comentário</label>
+        <select id="fComent">
+          <option value="">Todos</option>
+          <option value="sim">Com comentário</option>
+          <option value="nao">Sem comentário</option>
+        </select>
+      </div>
+      <button class="btn-filtrar" onclick="renderTabela()">Filtrar</button>
+      <button class="btn-limpar" onclick="limparFiltros()">Limpar</button>
+    </div>
+  </div>
+
+  <!-- TABELA -->
+  <div class="tabela-card">
+    <div class="tabela-header">
+      <div>
+        <h2>Respostas recebidas</h2>
+        <small id="contadorTabela"></small>
+      </div>
+      <button class="btn-exportar" onclick="exportarCSV()">⬇ Exportar CSV</button>
+    </div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Data / Hora</th>
+            <th>Atendimento</th>
+            <th>Espera</th>
+            <th>Cordialidade</th>
+            <th>Site</th>
+            <th>Transparência</th>
+            <th>Serv. Digitais</th>
+            <th>Vias</th>
+            <th>Saúde</th>
+            <th>Educação</th>
+            <th>Geral</th>
+            <th>Ver</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyMain"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PAINEL DETALHE -->
+  <div id="painelDetalhe">
+    <div class="detalhe-card">
+      <div class="detalhe-top">
+        <h2 id="detalheTitulo">Detalhes da Resposta</h2>
+        <button class="btn-fechar" onclick="fecharDetalhe()">✕ Fechar</button>
+      </div>
+      <div class="detalhe-body">
+        <div class="detalhe-perguntas" id="detalheGrid"></div>
+        <strong style="font-size:11px;color:var(--cinza-500);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:8px;">💬 Comentário / Sugestão</strong>
+        <div class="coment-box" id="detalheComent"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var LABELS={
+  p1:'Atendimento presencial',
+  p2:'Tempo de espera',
+  p3:'Cordialidade dos servidores',
+  p4:'Navegação no site',
+  p5:'Portal de Transparência',
+  p6:'Serviços digitais',
+  p7:'Conservação de vias',
+  p8:'Serviços de saúde',
+  p9:'Serviços de educação',
+  p10:'Avaliação geral'
+};
+
+var DEMO=[
+  {id:'PS-2026-00001',dataHora:'10/04/2026, 09:14',p1:'Ótimo',p2:'Bom',p3:'Ótimo',p4:'Bom',p5:'Ótimo',p6:'Bom',p7:'Regular',p8:'Bom',p9:'Ótimo',p10:'Bom',comentario:'Ótimo atendimento na Secretaria de Saúde, parabéns!'},
+  {id:'PS-2026-00002',dataHora:'11/04/2026, 14:22',p1:'Bom',p2:'Regular',p3:'Bom',p4:'Regular',p5:'Bom',p6:'Regular',p7:'Ruim',p8:'Regular',p9:'Bom',p10:'Regular',comentario:'As ruas do bairro precisam de atenção urgente.'},
+  {id:'PS-2026-00003',dataHora:'12/04/2026, 10:05',p1:'Ótimo',p2:'Ótimo',p3:'Ótimo',p4:'Ótimo',p5:'Ótimo',p6:'Ótimo',p7:'Bom',p8:'Ótimo',p9:'Ótimo',p10:'Ótimo',comentario:''},
+  {id:'PS-2026-00004',dataHora:'14/04/2026, 08:55',p1:'Regular',p2:'Ruim',p3:'Regular',p4:'Bom',p5:'Regular',p6:'Bom',p7:'Regular',p8:'Regular',p9:'Regular',p10:'Regular',comentario:'Tempo de espera no atendimento precisa melhorar muito.'},
+  {id:'PS-2026-00005',dataHora:'16/04/2026, 16:40',p1:'Bom',p2:'Bom',p3:'Bom',p4:'Ótimo',p5:'Bom',p6:'Ótimo',p7:'Bom',p8:'Bom',p9:'Bom',p10:'Bom',comentario:'Portal de transparência está muito bem organizado.'},
+];
+
+var CRED={admin:'pesquisa2026'};
+var respostas=[];
+var idxAtual=null;
+
+function carregarDados(){
+  try{
+    var salvo=JSON.parse(localStorage.getItem('pesquisa_respostas')||'[]');
+    respostas=salvo.concat(DEMO);
+  }catch(e){respostas=DEMO.slice();}
+}
+
+function fazerLogin(){
+  var u=document.getElementById('loginUser').value.trim();
+  var s=document.getElementById('loginSenha').value;
+  if(CRED[u]&&CRED[u]===s){
+    document.getElementById('loginOverlay').style.display='none';
+    document.getElementById('topbar').style.display='flex';
+    document.getElementById('painelConteudo').style.display='block';
+    document.getElementById('nomeUsuario').textContent='Usuário: '+u;
+    carregarDados();
+    renderResumo();
+    renderGraficos();
+    renderTabela();
+  }else{
+    document.getElementById('loginErro').style.display='block';
+  }
+}
+document.getElementById('loginSenha').addEventListener('keydown',function(e){if(e.key==='Enter')fazerLogin();});
+
+function logout(){
+  document.getElementById('loginOverlay').style.display='flex';
+  document.getElementById('topbar').style.display='none';
+  document.getElementById('painelConteudo').style.display='none';
+  fecharDetalhe();
+}
+
+function badgeHTML(v){
+  var m={
+    'Ótimo':'badge-otimo','Bom':'badge-bom',
+    'Regular':'badge-regular','Ruim':'badge-ruim'
+  };
+  return '<span class="badge '+(m[v]||'badge-regular')+'">'+v+'</span>';
+}
+
+function renderResumo(){
+  var total=respostas.length;
+  var otimo=respostas.filter(function(r){return r.p10==='Ótimo';}).length;
+  var bom=respostas.filter(function(r){return r.p10==='Bom';}).length;
+  var regular=respostas.filter(function(r){return r.p10==='Regular';}).length;
+  var ruim=respostas.filter(function(r){return r.p10==='Ruim';}).length;
+  document.getElementById('resumoGrid').innerHTML=
+    '<div class="resumo-card"><div class="ic ic-total">📋</div><div class="dados"><strong>'+total+'</strong><span>Total de respostas</span></div></div>'+
+    '<div class="resumo-card"><div class="ic ic-otimo">😄</div><div class="dados"><strong>'+otimo+'</strong><span>Avaliaram Ótimo</span></div></div>'+
+    '<div class="resumo-card"><div class="ic ic-bom">🙂</div><div class="dados"><strong>'+bom+'</strong><span>Avaliaram Bom</span></div></div>'+
+    '<div class="resumo-card"><div class="ic ic-regular">😐</div><div class="dados"><strong>'+regular+'</strong><span>Avaliaram Regular</span></div></div>'+
+    '<div class="resumo-card"><div class="ic ic-ruim">😞</div><div class="dados"><strong>'+ruim+'</strong><span>Avaliaram Ruim</span></div></div>';
+  document.getElementById('resumoGrid').style.gridTemplateColumns='repeat(5,1fr)';
+}
+
+function pct(val,total){
+  if(!total) return 0;
+  return Math.round((val/total)*100);
+}
+
+function renderGraficos(){
+  var total=respostas.length;
+  var perguntas=Object.keys(LABELS);
+  var html='';
+  for(var i=0;i<perguntas.length;i++){
+    var p=perguntas[i];
+    var ot=respostas.filter(function(r){return r[p]==='Ótimo';}).length;
+    var bo=respostas.filter(function(r){return r[p]==='Bom';}).length;
+    var re=respostas.filter(function(r){return r[p]==='Regular';}).length;
+    var ru=respostas.filter(function(r){return r[p]==='Ruim';}).length;
+    html+='<div class="grafico-item">';
+    html+='<div class="grafico-label">'+LABELS[p]+'</div>';
+    var linhas=[
+      {cls:'barra-otimo',lbl:'Ótimo 😄',val:ot},
+      {cls:'barra-bom',lbl:'Bom 🙂',val:bo},
+      {cls:'barra-regular',lbl:'Regular 😐',val:re},
+      {cls:'barra-ruim',lbl:'Ruim 😞',val:ru}
+    ];
+    for(var j=0;j<linhas.length;j++){
+      var l=linhas[j];
+      var p2=pct(l.val,total);
+      html+='<div class="barra-wrap" style="margin-bottom:4px;">';
+      html+='<div style="font-size:11.5px;color:var(--cinza-500);width:90px;flex-shrink:0;">'+l.lbl+'</div>';
+      html+='<div class="barra-bg"><div class="barra-fill '+l.cls+'" style="width:'+p2+'%"></div></div>';
+      html+='<div class="barra-pct">'+p2+'%</div>';
+      html+='</div>';
+    }
+    html+='</div>';
+    if(i<perguntas.length-1) html+='<div style="height:1px;background:var(--cinza-200);margin:12px 0;"></div>';
+  }
+  document.getElementById('graficosConteudo').innerHTML=html;
+}
+
+function filtradas(){
+  var fId=document.getElementById('fId').value.toLowerCase();
+  var fG=document.getElementById('fGeral').value;
+  var fC=document.getElementById('fComent').value;
+  return respostas.filter(function(r){
+    if(fId&&!r.id.toLowerCase().includes(fId))return false;
+    if(fG&&r.p10!==fG)return false;
+    if(fC==='sim'&&!r.comentario)return false;
+    if(fC==='nao'&&r.comentario)return false;
+    return true;
+  });
+}
+
+function renderTabela(){
+  var lista=filtradas();
+  document.getElementById('contadorTabela').textContent=lista.length+' registro(s) encontrado(s)';
+  var tbody=document.getElementById('tbodyMain');
+  if(!lista.length){
+    tbody.innerHTML='<tr><td colspan="13"><div class="sem-dados">Nenhuma resposta encontrada com os filtros aplicados.</div></td></tr>';
+    return;
+  }
+  var html='';
+  for(var i=0;i<lista.length;i++){
+    var r=lista[i];
+    var idx=respostas.indexOf(r);
+    var ativo=(idxAtual===idx)?' ativo':'';
+    html+='<tr id="linha-'+idx+'">'
+      +'<td class="td-id">'+r.id+'</td>'
+      +'<td class="td-data">'+r.dataHora+'</td>'
+      +'<td>'+badgeHTML(r.p1)+'</td>'
+      +'<td>'+badgeHTML(r.p2)+'</td>'
+      +'<td>'+badgeHTML(r.p3)+'</td>'
+      +'<td>'+badgeHTML(r.p4)+'</td>'
+      +'<td>'+badgeHTML(r.p5)+'</td>'
+      +'<td>'+badgeHTML(r.p6)+'</td>'
+      +'<td>'+badgeHTML(r.p7)+'</td>'
+      +'<td>'+badgeHTML(r.p8)+'</td>'
+      +'<td>'+badgeHTML(r.p9)+'</td>'
+      +'<td>'+badgeHTML(r.p10)+'</td>'
+      +'<td><button class="btn-ver'+ativo+'" onclick="abrirDetalhe('+idx+')">👁 Ver</button></td>'
+      +'</tr>';
+  }
+  tbody.innerHTML=html;
+}
+
+function limparFiltros(){
+  document.getElementById('fId').value='';
+  document.getElementById('fGeral').value='';
+  document.getElementById('fComent').value='';
+  renderTabela();
+}
+
+function abrirDetalhe(idx){
+  idxAtual=idx;
+  var r=respostas[idx];
+  document.getElementById('detalheTitulo').textContent='Resposta — '+r.id+' — '+r.dataHora;
+  var perguntas=Object.keys(LABELS);
+  var html='';
+  for(var i=0;i<perguntas.length;i++){
+    var p=perguntas[i];
+    html+='<div class="ditem"><strong>'+LABELS[p]+'</strong><p>'+badgeHTML(r[p])+'</p></div>';
+  }
+  document.getElementById('detalheGrid').innerHTML=html;
+  document.getElementById('detalheComent').textContent=r.comentario||'(nenhum comentário)';
+  var painel=document.getElementById('painelDetalhe');
+  painel.classList.add('aberto');
+  setTimeout(function(){painel.scrollIntoView({behavior:'smooth',block:'start'});},50);
+  renderTabela();
+}
+
+function fecharDetalhe(){
+  document.getElementById('painelDetalhe').classList.remove('aberto');
+  idxAtual=null;
+  renderTabela();
+}
+
+function exportarCSV(){
+  var lista=filtradas();
+  var h=['ID','Data/Hora','Atendimento','Espera','Cordialidade','Site','Transparência','Serv.Digitais','Vias','Saúde','Educação','Geral','Comentário'];
+  var linhas=lista.map(function(r){
+    return [r.id,r.dataHora,r.p1,r.p2,r.p3,r.p4,r.p5,r.p6,r.p7,r.p8,r.p9,r.p10,'"'+(r.comentario||'').replace(/"/g,'""')+'"'].join(';');
+  });
+  var csv=[h.join(';')].concat(linhas).join('\n');
+  var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='pesquisa_satisfacao.csv';a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>

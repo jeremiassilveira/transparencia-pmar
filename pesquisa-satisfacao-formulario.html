@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pesquisa de Satisfação – Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-hover:#0b4d89;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#e5e9f0;
+  --cinza-100:#f8fafc;
+  --branco:#ffffff;
+  --vermelho:#dc2626;
+  --vermelho-bg:#fef2f2;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900);min-height:100vh;}
+
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,
+.elementor-widget-theme-post-title,.elementor-page-title,
+.wp-block-post-title,h1.entry-title,h1.page-title,
+.post-title,.site-main .page-header{display:none !important;}
+
+.wrap{max-width:900px;margin:0 auto;padding:28px 24px 60px;}
+
+.breadcrumb{font-size:13px;color:var(--cinza-500);margin-bottom:18px;padding:10px 14px;background:var(--branco);border:1px solid var(--cinza-200);border-radius:8px;display:inline-block;}
+.breadcrumb a{color:var(--azul);text-decoration:none;font-weight:600;}
+.breadcrumb a:hover{text-decoration:underline;}
+
+.hero{background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 60%,#1a7fd4 100%);color:#fff;padding:30px 32px;border-radius:16px;margin-bottom:24px;box-shadow:0 8px 32px rgba(11,61,110,.18);}
+.hero h1{margin:0 0 8px;font-size:28px;line-height:1.2;color:#fff;}
+.hero p{margin:0;font-size:14px;line-height:1.7;color:rgba(255,255,255,.90);max-width:700px;}
+
+.aviso{background:#fffbeb;border:1px solid #fcd34d;border-left:4px solid #f59e0b;border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.6;color:#78350f;margin-bottom:24px;}
+
+.card{background:var(--branco);border:1px solid var(--cinza-200);border-radius:16px;padding:28px 30px;box-shadow:0 2px 12px rgba(15,23,42,.05);margin-bottom:20px;}
+.card h2{font-size:17px;color:var(--azul-escuro);margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);font-weight:700;}
+
+/* PERGUNTA */
+.pergunta{margin-bottom:28px;}
+.pergunta:last-child{margin-bottom:0;}
+.pergunta-label{font-size:14px;font-weight:600;color:var(--cinza-900);margin-bottom:12px;display:block;line-height:1.5;}
+.pergunta-label .num{display:inline-flex;align-items:center;justify-content:center;background:var(--azul);color:#fff;width:24px;height:24px;border-radius:50%;font-size:12px;font-weight:700;margin-right:8px;flex-shrink:0;}
+.pergunta-label .req{color:var(--vermelho);margin-left:3px;}
+
+/* OPCOES ÓTIMO/BOM/REGULAR/RUIM */
+.opcoes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.opcao-radio{position:relative;}
+.opcao-radio input[type=radio]{position:absolute;opacity:0;width:0;height:0;}
+.opcao-radio label{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;padding:14px 8px;border-radius:12px;border:2px solid var(--cinza-200);
+  background:var(--cinza-100);cursor:pointer;transition:all .2s;text-align:center;
+  font-size:13px;font-weight:600;color:var(--cinza-700);
+}
+.opcao-radio label .emoji{font-size:26px;line-height:1;}
+.opcao-radio input:checked + label{border-color:var(--azul);background:var(--azul-suave);color:var(--azul-escuro);}
+.opcao-radio label:hover{border-color:var(--azul);background:var(--azul-suave);}
+
+/* Cores por opção */
+.opcao-otimo input:checked + label{border-color:#166534;background:#dcfce7;color:#166534;}
+.opcao-otimo label:hover{border-color:#166534;background:#dcfce7;}
+.opcao-bom input:checked + label{border-color:#1d4ed8;background:#dbeafe;color:#1d4ed8;}
+.opcao-bom label:hover{border-color:#1d4ed8;background:#dbeafe;}
+.opcao-regular input:checked + label{border-color:#d97706;background:#fef9c3;color:#92400e;}
+.opcao-regular label:hover{border-color:#d97706;background:#fef9c3;}
+.opcao-ruim input:checked + label{border-color:#dc2626;background:#fef2f2;color:#991b1b;}
+.opcao-ruim label:hover{border-color:#dc2626;background:#fef2f2;}
+
+.msg-erro-pergunta{font-size:12px;color:var(--vermelho);display:none;margin-top:6px;}
+.msg-erro-pergunta.visivel{display:block;}
+
+/* CAMPO TEXTO */
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{font-size:13px;font-weight:600;color:var(--cinza-700);}
+.field textarea{width:100%;padding:10px 14px;border:1px solid var(--cinza-300);border-radius:8px;font-size:14px;font-family:inherit;color:var(--cinza-900);background:var(--branco);transition:border-color .2s,box-shadow .2s;outline:none;resize:vertical;min-height:90px;}
+.field textarea:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(15,94,168,.12);}
+
+/* DIVISOR */
+.divisor{height:1px;background:var(--cinza-200);margin:24px 0;}
+
+/* RODAPÉ FORM */
+.rodape-form{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:24px;padding-top:20px;border-top:1px solid var(--cinza-200);}
+.rodape-form p{font-size:12.5px;color:var(--cinza-500);line-height:1.5;}
+.btn-enviar{display:inline-flex;align-items:center;gap:10px;background:var(--azul);color:#fff;border:none;border-radius:10px;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s,transform .15s;font-family:inherit;}
+.btn-enviar:hover{background:var(--azul-hover);transform:translateY(-1px);}
+.btn-enviar:disabled{background:#9ca3af;cursor:not-allowed;transform:none;}
+
+/* SUCESSO */
+.sucesso-box{display:none;background:var(--verde-bg);border:1px solid var(--verde-borda);border-radius:16px;padding:40px 30px;text-align:center;}
+.sucesso-box.visivel{display:block;}
+.sucesso-box .icone{font-size:52px;margin-bottom:16px;}
+.sucesso-box h2{color:var(--verde);font-size:24px;margin-bottom:10px;}
+.sucesso-box p{color:var(--cinza-700);font-size:14px;line-height:1.7;margin-bottom:16px;}
+.btn-novo{display:inline-flex;align-items:center;gap:8px;background:var(--verde);color:#fff;border:none;border-radius:10px;padding:12px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;}
+.btn-novo:hover{background:#145028;}
+
+@media(max-width:640px){
+  .wrap{padding:16px 14px 40px;}
+  .hero{padding:22px 18px;}
+  .hero h1{font-size:22px;}
+  .card{padding:20px 18px;}
+  .opcoes-grid{grid-template-columns:repeat(2,1fr);}
+  .rodape-form{flex-direction:column;align-items:flex-start;}
+}
+
+@media print{body{display:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="breadcrumb">
+    <a href="/">Início</a> &rsaquo;
+    <a href="/transparencia/">Transparência</a> &rsaquo;
+    <a href="/servicos-digitais/">Serviços Digitais</a> &rsaquo;
+    <span>Pesquisa de Satisfação</span>
+  </div>
+
+  <div class="hero">
+    <h1>📊 Pesquisa de Satisfação</h1>
+    <p>Avalie os serviços da Prefeitura Municipal de Arroio dos Ratos. Sua opinião é fundamental para aprimorar o atendimento e a gestão pública. A pesquisa é totalmente anônima e leva menos de 3 minutos.</p>
+  </div>
+
+  <div class="aviso">
+    <strong>🔒 Privacidade garantida:</strong> Esta pesquisa é <strong>totalmente anônima</strong>. Nenhum dado pessoal identificável é coletado. As respostas são tratadas de forma agregada, em conformidade com a <strong>LGPD (Lei nº 13.709/2018)</strong> e a Lei nº 14.129/2021.
+  </div>
+
+  <div id="formulario">
+
+    <!-- BLOCO 1: ATENDIMENTO -->
+    <div class="card">
+      <h2>🏢 Atendimento ao Cidadão</h2>
+
+      <div class="pergunta" id="pg-1">
+        <span class="pergunta-label"><span class="num">1</span> Como você avalia o atendimento presencial nas repartições municipais? <span class="req">*</span></span>
+        <div class="opcoes-grid">
+          <div class="opcao-radio opcao-otimo"><input type="radio" name="p1" id="p1-otimo" value="Ótimo"><label for="p1-otimo"><span class="emoji">😄</span>Ótimo</label></div>
+          <div class="opcao-radio opcao-bom"><input type="radio" name="p1" id="p1-bom" value="Bom"><label for="p1-bom"><span class="emoji">🙂</span>Bom</label></div>
+          <div class="opcao-radio opcao-regular"><input type="radio" name="p1" id="p1-regular" value="Regular"><label for="p1-regular"><span class="emoji">😐</span>Regular</label></div>
+          <div class="opcao-radio opcao-ruim"><input type="radio" name="p1" id="p1-ruim" value="Ruim"><label for="p1-ruim"><span class="emoji">😞</span>Ruim</label></div>
+        </div>
+        <span class="msg-erro-pergunta" id="erro-p1">Por favor, selecione uma opção.</span>
+      </div>
+
+      <div class="divisor"></div>
+
+      <div class="pergunta" id="pg-2">
+        <span class="pergunta-label"><span class="num">2</span> Como você avalia o tempo de espera para ser atendido? <span class="req">*</span></span>
+        <div class="opcoes-grid">
+          <div class="opcao-radio opcao-otimo"><input type="radio" name="p2" id="p2-otimo" value="Ótimo"><label for="p2-otimo"><span class="emoji">😄</span>Ótimo</label></div>
+          <div class="opcao-radio opcao-bom"><input type="radio" name="p2" id="p2-bom" value="Bom"><label for="p2-bom"><span class="emoji">🙂</span>Bom</label></div>
+          <div class="opcao-radio opcao-regular"><input type="radio" name="p2" id="p2-regular" value="Regular"><label for="p2-regular"><span class="emoji">😐</span>Regular</label></div>
+          <div class="opcao-radio opcao-ruim"><input type="radio" name="p2" id="p2-ruim" value="Ruim"><label for="p2-ruim"><span class="emoji">😞</span>Ruim</label></div>
+        </div>
+        <span class="msg-erro-pergunta" id="erro-p2">Por favor, selecione uma opção.</span>
+      </div>
+
+      <div class="divisor"></div>
+
+      <div class="pergunta" id="pg-3">
+        <span class="pergunta-label"><span class="num">3</span> Como você avalia a cordialidade e educação dos servidores? <span class="req">*</span></span>
+        <div class="opcoes-grid">
+          <div class="opcao-radio opcao-otimo"><input type="radio" name="p3" id="p3-otimo" value="Ótimo"><label for="p3-otimo"><span class="emoji">😄</span>Ótimo</label></div>
+          <div class="opcao-radio opcao-bom"><input type="radio" name="p3" id="p3-bom" value="Bom"><label for="p3-bom"><span class="emoji">🙂</span>Bom</label></div>
+          <div class="opcao-radio opcao-regular"><input type="radio" name="p3" id="p3-regular" value="Regular"><label for="p3-regular"><span class="emoji">😐</span>Regular</label></div>
+          <div class="opcao-radio opcao-ruim"><input type="radio" name="p3" id="p3-ruim" value="Ruim"><label for="p3-ruim"><span class="emoji">😞</span>Ruim</label></div>
+        </div>
+        <span class="msg-erro-pergunta" id="erro-p3">Por favor, selecione uma opção.</span>
+      </div>
+    </div>
+
+    <!-- BLOCO 2: SERVIÇOS DIGITAIS -->
+    <div class="card">
+      <h2>💻 Portal e Serviços Digitais</h2>
+
+      <div class="pergunta" id="pg-4">
+        <span class="pergunta-label"><span class="num">4</span> Como você avalia a facilidade de navegação no site da Prefeitura? <span class="req">*</span></span>
+        <div class="opcoes-grid">
+          <div class="opcao-radio opcao-otimo"><input type="radio" name="p4" id="p4-otimo" value="Ótimo"><label for="p4-otimo"><span class="emoji">😄</span>Ótimo</label></div>
+          <div class="opcao-radio opcao-bom"><input type="radio" name="p4" id="p4-bom" value="Bom"><label for="p4-bom"><span class="emoji">🙂</span>Bom</label></div>
+          <div class="opcao-radio opcao-regular"><input type="radio" name="p4" id="p4-regular" value="Regular"><label for="p4-regular"><span class="emoji">😐</span>Regular</label></div>
+          <div class="opcao-radio opcao-ruim"><input type="radio" name="p4" id="p4-ruim" value="Ruim"><label for="p4-ruim"><span class="emoji">😞</span>Ruim</label></div>
+        </div>
+        <span class="msg-erro-pergunta" id="erro-p4">Por favor, selecione uma opção.</span>
+      </div>
+
+      <div class="divisor"></div>
+
+      <div class="pergunta" id="pg-5">
+        <span class="pergunta-label"><span class="num">5</span> Como você avalia o Portal de Transparência (emendas, execução orçamentária, licitações)? <span class="req">*</span></span>
+        <div class="opcoes-grid">
+          <div class="opcao-radio opcao-otimo"><input type="radio" name="p5" id="p5-otimo" value="Ótimo"><label for="p5-otimo"><span class="emoji">😄</span>Ótimo</label></div>
+          <div class="opcao-radio opcao-bom"><input type="radio" name="p5" id="p5-bom" value="Bom"><label for="p5-bom"><span class="emoji">🙂</span>Bom</label></div>
+          <div class="opcao-radio opcao-regular"><input type="radio" name="p5" id="p5-regular" value="Regular"><label for="p5-regular"><span class="emoji">😐</span>Regular</label></div>
+          <div class="opcao-radio opcao-ruim"><input type="radio" name="p5" id="p5-ruim" value="Ruim"><label for="p5-ruim"><span class="emoji">😞</span>Ruim</label></div>
+        </div>
+        <span class="msg-erro-pergunta" id="erro-p5">Por favor, selecione uma opção.</span>
+      </div>
+
+      <div class="divisor"></div>
+
+      <div class="pergunta" id="pg-6">
+        <span class="pergunta-label"><span class="num">6</span> Como você avalia a disponibilidade de serviços online (protocolos, solicitações digitais)? <span class="req">*</span></span>
+        <div class="opcoes-grid">
+          <div class="opcao-radio opcao-otimo"><input type="radio" name="p6" id="p6-otimo" value="Ótimo"><label for="p6-otimo"><span class="emoji">😄</span>Ótimo</label></div>
+          <div class="opcao-radio opcao-bom"><input type="radio" name="p6" id="p6-bom" value="Bom"><label for="p6-bom"><span class="emoji">🙂</span>Bom</label></div>
+          <div class="opcao-radio opcao-regular"><input type="radio" name="p6" id="p6-regular" value="Regular"><label for="p6-regular"><span class="emoji">😐</span>Regular</label></div>
+          <div class="opcao-radio opcao-ruim"><input type="radio" name="p6" id="p6-ruim" value="Ruim"><label for="p6-ruim"><span class="emoji">😞</span>Ruim</label></div>
+        </div>
+        <span class="msg-erro-pergunta" id="erro-p6">Por favor, selecione uma opção.</span>
+      </div>
+    </div>
+
+    <!-- BLOCO 3: SERVIÇOS PÚBLICOS -->
+    <div class="card">
+      <h2>🏙 Serviços Públicos Municipais</h2>
+
+      <div class="pergunta" id="pg-7">
+        <span class="pergunta-label"><span class="num">7</span> Como você avalia a conservação das vias públicas (ruas, calçadas, iluminação)? <span class="req">*</span></span>
+        <div class="opcoes-grid">
+          <div class="opcao-radio opcao-otimo"><input type="radio" name="p7" id="p7-otimo" value="Ótimo"><label for="p7-otimo"><span class="emoji">😄</span>Ótimo</label></div>
+          <div class="opcao-radio opcao-bom"><input type="radio" name="p7" id="p7-bom" value="Bom"><label for="p7-bom"><span class="emoji">🙂</span>Bom</label></div>
+          <div class="opcao-radio opcao-regular"><input type="radio" name="p7" id="p7-regular" value="Regular"><label for="p7-regular"><span class="emoji">😐</span>Regular</label></div>
+          <div class="opcao-radio opcao-ruim"><input type="radio" name="p7" id="p7-ruim" value="Ruim"><label for="p7-ruim"><span class="emoji">😞</span>Ruim</label></div>
+        </div>
+        <span class="msg-erro-pergunta" id="erro-p7">Por favor, selecione uma opção.</span>
+      </div>
+
+      <div class="divisor"></div>
+
+      <div class="pergunta" id="pg-8">
+        <span class="pergunta-label"><span class="num">8</span> Como você avalia os serviços de saúde municipais (UBS, atendimentos)? <span class="req">*</span></span>
+        <div class="opcoes-grid">
+          <div class="opcao-radio opcao-otimo"><input type="radio" name="p8" id="p8-otimo" value="Ótimo"><label for="p8-otimo"><span class="emoji">😄</span>Ótimo</label></div>
+          <div class="opcao-radio opcao-bom"><input type="radio" name="p8" id="p8-bom" value="Bom"><label for="p8-bom"><span class="emoji">🙂</span>Bom</label></div>
+          <div class="opcao-radio opcao-regular"><input type="radio" name="p8" id="p8-regular" value="Regular"><label for="p8-regular"><span class="emoji">😐</span>Regular</label></div>
+          <div class="opcao-radio opcao-ruim"><input type="radio" name="p8" id="p8-ruim" value="Ruim"><label for="p8-ruim"><span class="emoji">😞</span>Ruim</label></div>
+        </div>
+        <span class="msg-erro-pergunta" id="erro-p8">Por favor, selecione uma opção.</span>
+      </div>
+
+      <div class="divisor"></div>
+
+      <div class="pergunta" id="pg-9">
+        <span class="pergunta-label"><span class="num">9</span> Como você avalia os serviços de educação (escolas e creches municipais)? <span class="req">*</span></span>
+        <div class="opcoes-grid">
+          <div class="opcao-radio opcao-otimo"><input type="radio" name="p9" id="p9-otimo" value="Ótimo"><label for="p9-otimo"><span class="emoji">😄</span>Ótimo</label></div>
+          <div class="opcao-radio opcao-bom"><input type="radio" name="p9" id="p9-bom" value="Bom"><label for="p9-bom"><span class="emoji">🙂</span>Bom</label></div>
+          <div class="opcao-radio opcao-regular"><input type="radio" name="p9" id="p9-regular" value="Regular"><label for="p9-regular"><span class="emoji">😐</span>Regular</label></div>
+          <div class="opcao-radio opcao-ruim"><input type="radio" name="p9" id="p9-ruim" value="Ruim"><label for="p9-ruim"><span class="emoji">😞</span>Ruim</label></div>
+        </div>
+        <span class="msg-erro-pergunta" id="erro-p9">Por favor, selecione uma opção.</span>
+      </div>
+    </div>
+
+    <!-- BLOCO 4: AVALIAÇÃO GERAL + COMENTÁRIO -->
+    <div class="card">
+      <h2>⭐ Avaliação Geral</h2>
+
+      <div class="pergunta" id="pg-10">
+        <span class="pergunta-label"><span class="num">10</span> De forma geral, como você avalia a gestão municipal? <span class="req">*</span></span>
+        <div class="opcoes-grid">
+          <div class="opcao-radio opcao-otimo"><input type="radio" name="p10" id="p10-otimo" value="Ótimo"><label for="p10-otimo"><span class="emoji">😄</span>Ótimo</label></div>
+          <div class="opcao-radio opcao-bom"><input type="radio" name="p10" id="p10-bom" value="Bom"><label for="p10-bom"><span class="emoji">🙂</span>Bom</label></div>
+          <div class="opcao-radio opcao-regular"><input type="radio" name="p10" id="p10-regular" value="Regular"><label for="p10-regular"><span class="emoji">😐</span>Regular</label></div>
+          <div class="opcao-radio opcao-ruim"><input type="radio" name="p10" id="p10-ruim" value="Ruim"><label for="p10-ruim"><span class="emoji">😞</span>Ruim</label></div>
+        </div>
+        <span class="msg-erro-pergunta" id="erro-p10">Por favor, selecione uma opção.</span>
+      </div>
+
+      <div class="divisor"></div>
+
+      <div class="field">
+        <label for="comentario">💬 Sugestões, críticas ou elogios (opcional)</label>
+        <textarea id="comentario" placeholder="Escreva aqui sua mensagem. Sua contribuição é muito importante para melhorarmos os serviços municipais."></textarea>
+      </div>
+
+      <div class="rodape-form">
+        <p>Campos marcados com <strong style="color:var(--vermelho)">*</strong> são obrigatórios.<br>Esta pesquisa é totalmente anônima.</p>
+        <button class="btn-enviar" id="btnEnviar" onclick="enviarPesquisa()">📤 Enviar Pesquisa</button>
+      </div>
+    </div>
+
+  </div><!-- /formulario -->
+
+  <!-- SUCESSO -->
+  <div class="sucesso-box" id="sucessoBox">
+    <div class="icone">🎉</div>
+    <h2>Obrigado pela sua participação!</h2>
+    <p>Sua avaliação foi registrada com sucesso.<br>Suas respostas contribuem para a melhoria dos serviços municipais de Arroio dos Ratos.</p>
+    <button class="btn-novo" onclick="novaPesquisa()">+ Responder novamente</button>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+var perguntas=['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'];
+
+function validar(){
+  var ok=true;
+  for(var i=0;i<perguntas.length;i++){
+    var nome=perguntas[i];
+    var selecionado=document.querySelector('input[name="'+nome+'"]:checked');
+    var err=document.getElementById('erro-'+nome);
+    if(!selecionado){
+      err.classList.add('visivel');
+      if(ok) document.getElementById('pg-'+String(i+1)).scrollIntoView({behavior:'smooth',block:'center'});
+      ok=false;
+    } else {
+      err.classList.remove('visivel');
+    }
+  }
+  return ok;
+}
+
+function salvarStorage(dados){
+  try{
+    var lista=JSON.parse(localStorage.getItem('pesquisa_respostas')||'[]');
+    lista.unshift(dados);
+    localStorage.setItem('pesquisa_respostas',JSON.stringify(lista));
+  }catch(e){}
+}
+
+function enviarPesquisa(){
+  if(!validar()) return;
+  var btn=document.getElementById('btnEnviar');
+  btn.disabled=true;
+  btn.textContent='Enviando...';
+
+  var dados={
+    id: 'PS-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*90000)+10000),
+    dataHora: new Date().toLocaleString('pt-BR'),
+    p1:  document.querySelector('input[name="p1"]:checked').value,
+    p2:  document.querySelector('input[name="p2"]:checked').value,
+    p3:  document.querySelector('input[name="p3"]:checked').value,
+    p4:  document.querySelector('input[name="p4"]:checked').value,
+    p5:  document.querySelector('input[name="p5"]:checked').value,
+    p6:  document.querySelector('input[name="p6"]:checked').value,
+    p7:  document.querySelector('input[name="p7"]:checked').value,
+    p8:  document.querySelector('input[name="p8"]:checked').value,
+    p9:  document.querySelector('input[name="p9"]:checked').value,
+    p10: document.querySelector('input[name="p10"]:checked').value,
+    comentario: document.getElementById('comentario').value.trim()
+  };
+
+  salvarStorage(dados);
+
+  setTimeout(function(){
+    document.getElementById('formulario').style.display='none';
+    document.getElementById('sucessoBox').classList.add('visivel');
+    window.scrollTo({top:0,behavior:'smooth'});
+  },700);
+}
+
+function novaPesquisa(){
+  document.getElementById('sucessoBox').classList.remove('visivel');
+  document.getElementById('formulario').style.display='block';
+  document.getElementById('btnEnviar').disabled=false;
+  document.getElementById('btnEnviar').innerHTML='📤 Enviar Pesquisa';
+  document.querySelectorAll('input[type=radio]').forEach(function(r){r.checked=false;});
+  document.getElementById('comentario').value='';
+  document.querySelectorAll('.msg-erro-pergunta').forEach(function(e){e.classList.remove('visivel');});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

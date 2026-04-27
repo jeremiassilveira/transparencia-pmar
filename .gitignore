@@ -1,0 +1,9 @@
+# PDFs grandes
+*.pdf
+
+# Sistema
+Thumbs.db
+.DS_Store
+
+# Claude
+.claude/

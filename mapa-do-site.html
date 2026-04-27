@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa do Site – Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-hover:#0b4d89;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#e5e9f0;
+  --cinza-100:#f8fafc;
+  --branco:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900);min-height:100vh;}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,
+.elementor-widget-theme-post-title,.elementor-page-title,
+.wp-block-post-title,h1.entry-title,h1.page-title,
+.post-title,.site-main .page-header{display:none !important;}
+
+.wrap{max-width:1000px;margin:0 auto;padding:28px 24px 60px;}
+.breadcrumb{font-size:13px;color:var(--cinza-500);margin-bottom:18px;padding:10px 14px;background:var(--branco);border:1px solid var(--cinza-200);border-radius:8px;display:inline-block;}
+.breadcrumb a{color:var(--azul);text-decoration:none;font-weight:600;}
+.breadcrumb a:hover{text-decoration:underline;}
+.hero{background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 60%,#1a7fd4 100%);color:#fff;padding:30px 32px;border-radius:16px;margin-bottom:24px;box-shadow:0 8px 32px rgba(11,61,110,.18);}
+.hero h1{margin:0 0 8px;font-size:28px;line-height:1.2;color:#fff;}
+.hero p{margin:0;font-size:14px;line-height:1.7;color:rgba(255,255,255,.90);max-width:700px;}
+.aviso-azul{background:var(--azul-suave);border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.6;color:var(--cinza-700);margin-bottom:24px;}
+.card{background:var(--branco);border:1px solid var(--cinza-200);border-radius:16px;padding:28px 30px;box-shadow:0 2px 12px rgba(15,23,42,.05);margin-bottom:20px;}
+.card h2{font-size:17px;color:var(--azul-escuro);margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);font-weight:700;}
+
+/* MAPA GRID */
+.mapa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.mapa-secao{background:var(--cinza-100);border:1px solid var(--cinza-200);border-radius:14px;overflow:hidden;}
+.mapa-secao-titulo{background:linear-gradient(135deg,var(--azul-escuro),var(--azul));color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;}
+.mapa-secao-titulo .emoji{font-size:18px;}
+.mapa-secao-titulo strong{font-size:14px;font-weight:700;}
+.mapa-secao-lista{padding:14px 16px;list-style:none;}
+.mapa-secao-lista li{margin-bottom:6px;}
+.mapa-secao-lista li:last-child{margin-bottom:0;}
+.mapa-secao-lista a{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--azul);text-decoration:none;font-weight:500;padding:5px 8px;border-radius:7px;transition:.15s;}
+.mapa-secao-lista a:hover{background:var(--azul-claro);color:var(--azul-escuro);}
+.mapa-secao-lista a::before{content:"•";color:var(--azul-claro);font-size:16px;line-height:1;}
+.mapa-secao-lista .sub{padding-left:20px;margin-top:4px;list-style:none;}
+.mapa-secao-lista .sub li{margin-bottom:4px;}
+.mapa-secao-lista .sub a{font-size:12.5px;color:var(--cinza-700);font-weight:400;}
+.mapa-secao-lista .sub a::before{content:"–";color:var(--cinza-300);font-size:14px;}
+.mapa-secao-lista .sub a:hover{background:#edf2f7;color:var(--cinza-900);}
+
+.nav-acess{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--azul-suave);border:1px solid var(--azul-claro);border-radius:12px;padding:16px 12px;text-decoration:none;color:var(--azul-escuro);font-weight:700;font-size:13px;text-align:center;transition:.2s;}
+.nav-btn:hover{background:var(--azul-claro);transform:translateY(-2px);}
+.nav-btn .emoji{font-size:24px;}
+.rodape-pag{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:12px;padding-top:14px;border-top:1px solid var(--cinza-200);}
+
+@media(max-width:900px){.mapa-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){
+  .wrap{padding:16px 14px 40px;}
+  .hero{padding:22px 18px;}
+  .hero h1{font-size:22px;}
+  .card{padding:20px 16px;}
+  .mapa-grid{grid-template-columns:1fr;}
+  .nav-acess{grid-template-columns:1fr;}
+}
+@media print{
+  .nav-acess,.breadcrumb{display:none !important;}
+  .hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200);}
+  .hero h1{color:var(--azul-escuro) !important;}
+  .mapa-secao-titulo{background:#e5e9f0 !important;color:var(--cinza-900) !important;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="breadcrumb">
+    <a href="/">Início</a> &rsaquo;
+    <a href="/acessibilidade/">Acessibilidade</a> &rsaquo;
+    <span>Mapa do Site</span>
+  </div>
+
+  <div class="hero">
+    <h1>🗺 Mapa do Site</h1>
+    <p>Visualize a estrutura completa do portal da Prefeitura Municipal de Arroio dos Ratos. Use esta página para localizar rapidamente qualquer seção ou conteúdo disponível no site.</p>
+  </div>
+
+  <div class="aviso-azul">
+    <strong>ℹ Navegação facilitada:</strong> Clique em qualquer item abaixo para ir diretamente à página desejada. Esta página pode ser acessada pelo atalho de teclado <strong>Alt+m</strong> (Chrome) ou <strong>Alt+Shift+m</strong> (Firefox).
+  </div>
+
+  <div class="card">
+    <h2>📌 Estrutura do Portal</h2>
+    <div class="mapa-grid">
+
+      <!-- INÍCIO -->
+      <div class="mapa-secao">
+        <div class="mapa-secao-titulo"><span class="emoji">🏠</span><strong>Início</strong></div>
+        <ul class="mapa-secao-lista">
+          <li><a href="/">Página Inicial</a></li>
+          <li><a href="/noticias/">Notícias</a></li>
+          <li><a href="/agenda/">Agenda Municipal</a></li>
+          <li><a href="/galeria/">Galeria de Fotos</a></li>
+        </ul>
+      </div>
+
+      <!-- TRANSPARÊNCIA -->
+      <div class="mapa-secao">
+        <div class="mapa-secao-titulo"><span class="emoji">📊</span><strong>Transparência</strong></div>
+        <ul class="mapa-secao-lista">
+          <li><a href="/transparencia/emendas-federais/">Emendas Federais</a>
+            <ul class="sub">
+              <li><a href="/transparencia/emendas-federais/paulo-paim/">Paulo Paim</a></li>
+              <li><a href="/transparencia/emendas-federais/afonso-motta/">Afonso Motta</a></li>
+              <li><a href="/transparencia/emendas-federais/marcio-biolchi/">Márcio Biolchi</a></li>
+              <li><a href="/transparencia/emendas-federais/daiana-santos/">Daiana Santos</a></li>
+              <li><a href="/transparencia/emendas-federais/nereu-crispim/">Nereu Crispim</a></li>
+              <li><a href="/transparencia/emendas-federais/luis-carlos-heinze/">Luis Carlos Heinze</a></li>
+              <li><a href="/transparencia/emendas-federais/marcon/">Marcon</a></li>
+              <li><a href="/transparencia/emendas-federais/liziane-bayer/">Liziane Bayer</a></li>
+              <li><a href="/transparencia/emendas-federais/lasier-martins/">Lasier Martins</a></li>
+            </ul>
+          </li>
+          <li><a href="/transparencia/emendas-estaduais/">Emendas Estaduais</a></li>
+          <li><a href="/transparencia/emendas-impositivas/">Emendas Impositivas</a></li>
+          <li><a href="/transparencia/execucao-orcamentaria/">Execução Orçamentária e Financeira</a></li>
+          <li><a href="/transparencia/licitacoes/">Licitações e Contratos</a></li>
+        </ul>
+      </div>
+
+      <!-- ACESSO À INFORMAÇÃO -->
+      <div class="mapa-secao">
+        <div class="mapa-secao-titulo"><span class="emoji">📨</span><strong>Acesso à Informação</strong></div>
+        <ul class="mapa-secao-lista">
+          <li><a href="/transparencia/acesso-a-informacao/">SIC / e-SIC</a></li>
+          <li><a href="/transparencia/acesso-a-informacao/formulario/">Formulário e-SIC</a></li>
+          <li><a href="/transparencia/acesso-a-informacao/base-legal/">Base Legal (LAI)</a></li>
+          <li><a href="/transparencia/acesso-a-informacao/prazos/">Prazos e Recursos</a></li>
+          <li><a href="/transparencia/acesso-a-informacao/relatorios/">Relatórios do SIC</a></li>
+        </ul>
+      </div>
+
+      <!-- OUVIDORIA -->
+      <div class="mapa-secao">
+        <div class="mapa-secao-titulo"><span class="emoji">💬</span><strong>Ouvidoria</strong></div>
+        <ul class="mapa-secao-lista">
+          <li><a href="/ouvidoria/">Ouvidoria Municipal</a></li>
+          <li><a href="/ouvidoria/registrar/">Registrar Manifestação</a></li>
+          <li><a href="/ouvidoria/acompanhar/">Acompanhar Manifestação</a></li>
+          <li><a href="/ouvidoria/relatorios/">Relatórios da Ouvidoria</a></li>
+        </ul>
+      </div>
+
+      <!-- SERVIÇOS DIGITAIS -->
+      <div class="mapa-secao">
+        <div class="mapa-secao-titulo"><span class="emoji">💻</span><strong>Serviços Digitais</strong></div>
+        <ul class="mapa-secao-lista">
+          <li><a href="/servicos-digitais/">Serviços Digitais</a></li>
+          <li><a href="/servicos-digitais/protocolo-digital/">Protocolo Digital</a></li>
+          <li><a href="/servicos-digitais/pesquisa-de-satisfacao/">Pesquisa de Satisfação</a></li>
+          <li><a href="/encarregado-lgpd/">Encarregado LGPD (DPO)</a></li>
+        </ul>
+      </div>
+
+      <!-- ACESSIBILIDADE -->
+      <div class="mapa-secao">
+        <div class="mapa-secao-titulo"><span class="emoji">♿</span><strong>Acessibilidade</strong></div>
+        <ul class="mapa-secao-lista">
+          <li><a href="/acessibilidade/">Declaração de Acessibilidade</a></li>
+          <li><a href="/acessibilidade/alto-contraste/">Alto Contraste</a></li>
+          <li><a href="/acessibilidade/atalhos-e-navegacao/">Atalhos e Navegação</a></li>
+          <li><a href="/acessibilidade/mapa-do-site/">Mapa do Site</a></li>
+        </ul>
+      </div>
+
+      <!-- PREFEITURA -->
+      <div class="mapa-secao">
+        <div class="mapa-secao-titulo"><span class="emoji">🏛</span><strong>A Prefeitura</strong></div>
+        <ul class="mapa-secao-lista">
+          <li><a href="/a-prefeitura/">Sobre o Município</a></li>
+          <li><a href="/a-prefeitura/secretarias/">Secretarias</a></li>
+          <li><a href="/a-prefeitura/estrutura-organizacional/">Estrutura Organizacional</a></li>
+          <li><a href="/a-prefeitura/gestao/">Gestão Municipal</a></li>
+        </ul>
+      </div>
+
+      <!-- LEGISLAÇÃO -->
+      <div class="mapa-secao">
+        <div class="mapa-secao-titulo"><span class="emoji">⚖</span><strong>Legislação</strong></div>
+        <ul class="mapa-secao-lista">
+          <li><a href="/legislacao/">Legislação Municipal</a></li>
+          <li><a href="/legislacao/leis/">Leis</a></li>
+          <li><a href="/legislacao/decretos/">Decretos</a></li>
+          <li><a href="/legislacao/portarias/">Portarias</a></li>
+          <li><a href="/diario-oficial/">Diário Oficial</a></li>
+        </ul>
+      </div>
+
+      <!-- CONTATO -->
+      <div class="mapa-secao">
+        <div class="mapa-secao-titulo"><span class="emoji">📞</span><strong>Contato</strong></div>
+        <ul class="mapa-secao-lista">
+          <li><a href="/contato/">Fale Conosco</a></li>
+          <li><a href="/contato/telefones/">Telefones Úteis</a></li>
+          <li><a href="/contato/enderecos/">Endereços das Repartições</a></li>
+          <li><a href="/contato/perguntas-frequentes/">Perguntas Frequentes</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NAVEGAÇÃO -->
+  <div class="card">
+    <h2>🔗 Outras Seções de Acessibilidade</h2>
+    <div class="nav-acess">
+      <a href="/acessibilidade/" class="nav-btn"><span class="emoji">♿</span>Declaração de Acessibilidade</a>
+      <a href="/acessibilidade/alto-contraste/" class="nav-btn"><span class="emoji">🌑</span>Alto Contraste</a>
+      <a href="/acessibilidade/atalhos-e-navegacao/" class="nav-btn"><span class="emoji">⌨</span>Atalhos e Navegação</a>
+    </div>
+  </div>
+
+  <div class="rodape-pag">
+    Prefeitura Municipal de Arroio dos Ratos &mdash; Mapa do Site &mdash; Abril de 2026
+  </div>
+</div>
+</body>
+</html>

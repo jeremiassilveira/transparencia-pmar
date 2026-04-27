@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atalhos e Navegação – Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-hover:#0b4d89;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#e5e9f0;
+  --cinza-100:#f8fafc;
+  --branco:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900);min-height:100vh;}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,
+.elementor-widget-theme-post-title,.elementor-page-title,
+.wp-block-post-title,h1.entry-title,h1.page-title,
+.post-title,.site-main .page-header{display:none !important;}
+
+.wrap{max-width:1000px;margin:0 auto;padding:28px 24px 60px;}
+.breadcrumb{font-size:13px;color:var(--cinza-500);margin-bottom:18px;padding:10px 14px;background:var(--branco);border:1px solid var(--cinza-200);border-radius:8px;display:inline-block;}
+.breadcrumb a{color:var(--azul);text-decoration:none;font-weight:600;}
+.breadcrumb a:hover{text-decoration:underline;}
+.hero{background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 60%,#1a7fd4 100%);color:#fff;padding:30px 32px;border-radius:16px;margin-bottom:24px;box-shadow:0 8px 32px rgba(11,61,110,.18);}
+.hero h1{margin:0 0 8px;font-size:28px;line-height:1.2;color:#fff;}
+.hero p{margin:0;font-size:14px;line-height:1.7;color:rgba(255,255,255,.90);max-width:700px;}
+.aviso-azul{background:var(--azul-suave);border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.6;color:var(--cinza-700);margin-bottom:24px;}
+.card{background:var(--branco);border:1px solid var(--cinza-200);border-radius:16px;padding:28px 30px;box-shadow:0 2px 12px rgba(15,23,42,.05);margin-bottom:20px;}
+.card h2{font-size:17px;color:var(--azul-escuro);margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);font-weight:700;}
+.card p{font-size:14px;line-height:1.75;color:var(--cinza-700);margin-bottom:16px;}
+
+/* TECLA KBD */
+.kbd{display:inline-block;background:var(--cinza-900);color:#fff;border-radius:5px;padding:3px 9px;font-size:12px;font-family:monospace;font-weight:700;white-space:nowrap;margin:1px;}
+.kbd-azul{background:var(--azul);}
+
+/* TABELA DE ATALHOS */
+.tabela-atalhos{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:0;}
+.tabela-atalhos thead{background:#f1f5f9;}
+.tabela-atalhos thead th{padding:11px 14px;text-align:left;font-size:12px;font-weight:700;color:var(--cinza-500);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--azul-claro);white-space:nowrap;}
+.tabela-atalhos tbody tr{border-bottom:1px solid #f1f5f9;transition:background .15s;}
+.tabela-atalhos tbody tr:last-child{border-bottom:none;}
+.tabela-atalhos tbody tr:hover{background:#fafcff;}
+.tabela-atalhos tbody td{padding:11px 14px;vertical-align:middle;line-height:1.5;}
+.tabela-atalhos .td-acao{font-weight:600;color:var(--cinza-900);}
+.tabela-atalhos .td-browser{text-align:center;}
+
+/* TABELA TAB */
+.tabela-tab{width:100%;border-collapse:collapse;font-size:13.5px;}
+.tabela-tab thead{background:#f1f5f9;}
+.tabela-tab thead th{padding:11px 14px;text-align:left;font-size:12px;font-weight:700;color:var(--cinza-500);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--azul-claro);}
+.tabela-tab tbody tr{border-bottom:1px solid #f1f5f9;transition:background .15s;}
+.tabela-tab tbody tr:last-child{border-bottom:none;}
+.tabela-tab tbody tr:hover{background:#fafcff;}
+.tabela-tab tbody td{padding:11px 14px;vertical-align:middle;}
+.tabela-tab .td-seq{font-weight:700;color:var(--azul);width:80px;}
+
+/* BOTÕES ATALHOS RÁPIDOS */
+.atalhos-rapidos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:0;}
+.atalho-btn{background:var(--azul-suave);border:1px solid var(--azul-claro);border-radius:12px;padding:16px 14px;display:flex;align-items:center;gap:12px;}
+.atalho-btn .icone{font-size:22px;flex-shrink:0;}
+.atalho-btn .info strong{display:block;font-size:13px;color:var(--azul-escuro);margin-bottom:4px;}
+.atalho-btn .info span{font-size:12px;color:var(--cinza-500);}
+
+.nav-acess{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--azul-suave);border:1px solid var(--azul-claro);border-radius:12px;padding:16px 12px;text-decoration:none;color:var(--azul-escuro);font-weight:700;font-size:13px;text-align:center;transition:.2s;}
+.nav-btn:hover{background:var(--azul-claro);transform:translateY(-2px);}
+.nav-btn .emoji{font-size:24px;}
+.rodape-pag{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:12px;padding-top:14px;border-top:1px solid var(--cinza-200);}
+
+@media(max-width:700px){
+  .wrap{padding:16px 14px 40px;}
+  .hero{padding:22px 18px;}
+  .hero h1{font-size:22px;}
+  .card{padding:20px 16px;}
+  .atalhos-rapidos{grid-template-columns:1fr 1fr;}
+  .nav-acess{grid-template-columns:1fr;}
+  .tabela-atalhos,.tabela-tab{font-size:12px;}
+  .tabela-atalhos thead th,.tabela-tab thead th,
+  .tabela-atalhos tbody td,.tabela-tab tbody td{padding:9px 10px;}
+}
+@media print{
+  .nav-acess,.breadcrumb{display:none !important;}
+  .hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200);}
+  .hero h1{color:var(--azul-escuro) !important;}
+  .hero p{color:var(--cinza-700) !important;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="breadcrumb">
+    <a href="/">Início</a> &rsaquo;
+    <a href="/acessibilidade/">Acessibilidade</a> &rsaquo;
+    <span>Atalhos e Navegação</span>
+  </div>
+
+  <div class="hero">
+    <h1>⌨ Atalhos e Navegação</h1>
+    <p>Caso não seja possível o uso do mouse, o portal pode ser navegado integralmente pelo teclado. Confira abaixo os atalhos disponíveis para cada navegador e a ordem de acesso pela tecla TAB.</p>
+  </div>
+
+  <div class="aviso-azul">
+    <strong>ℹ Dica:</strong> Utilize a tecla <span class="kbd">TAB</span> para avançar entre os elementos da página e <span class="kbd">Shift</span> + <span class="kbd">TAB</span> para retroceder. Pressione <span class="kbd">Enter</span> ou <span class="kbd">Espaço</span> para ativar botões e links.
+  </div>
+
+  <!-- ATALHOS RÁPIDOS -->
+  <div class="card">
+    <h2>⚡ Atalhos Principais</h2>
+    <div class="atalhos-rapidos">
+      <div class="atalho-btn"><div class="icone">🔡</div><div class="info"><strong>A+ / A−</strong><span>Aumenta / diminui o tamanho dos textos</span></div></div>
+      <div class="atalho-btn"><div class="icone">🔄</div><div class="info"><strong>Padrão</strong><span>Redimensiona textos ao tamanho original</span></div></div>
+      <div class="atalho-btn"><div class="icone">🌑</div><div class="info"><strong>Alto Contraste</strong><span>Aumenta contraste entre texto e fundo</span></div></div>
+      <div class="atalho-btn"><div class="icone">📄</div><div class="info"><strong>Ir ao Conteúdo</strong><span>Pula direto para o conteúdo principal</span></div></div>
+      <div class="atalho-btn"><div class="icone">🔍</div><div class="info"><strong>Ir à Busca</strong><span>Foca no campo de busca do portal</span></div></div>
+      <div class="atalho-btn"><div class="icone">🗺</div><div class="info"><strong>Mapa do Site</strong><span>Acessa o mapa de navegação do portal</span></div></div>
+    </div>
+  </div>
+
+  <!-- TABELA DE TECLAS DE ATALHO -->
+  <div class="card">
+    <h2>🖥 Teclas de Atalho por Navegador</h2>
+    <p>A ordem definida para as teclas de atalho varia conforme o navegador utilizado:</p>
+    <div style="overflow-x:auto;">
+      <table class="tabela-atalhos">
+        <thead>
+          <tr>
+            <th>Tecla</th>
+            <th>Firefox</th>
+            <th>Chrome</th>
+            <th>Internet Explorer</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-browser"><span class="kbd">0</span></td><td class="td-browser"><span class="kbd">Alt+Shift+0</span></td><td class="td-browser"><span class="kbd">Alt+0</span></td><td class="td-browser"><span class="kbd">Alt+0</span></td><td class="td-acao">Menu</td></tr>
+          <tr><td class="td-browser"><span class="kbd">1</span></td><td class="td-browser"><span class="kbd">Alt+Shift+1</span></td><td class="td-browser"><span class="kbd">Alt+1</span></td><td class="td-browser"><span class="kbd">Alt+1</span></td><td class="td-acao">Ir para o Conteúdo</td></tr>
+          <tr><td class="td-browser"><span class="kbd">2</span></td><td class="td-browser"><span class="kbd">Alt+Shift+2</span></td><td class="td-browser"><span class="kbd">Alt+2</span></td><td class="td-browser"><span class="kbd">Alt+2</span> + <span class="kbd">Enter</span></td><td class="td-acao">Ir para a Busca</td></tr>
+          <tr><td class="td-browser"><span class="kbd">3</span></td><td class="td-browser"><span class="kbd">Alt+Shift+3</span></td><td class="td-browser"><span class="kbd">Alt+3</span></td><td class="td-browser"><span class="kbd">Alt+3</span> + <span class="kbd">Enter</span></td><td class="td-acao">Ir para o Rodapé</td></tr>
+          <tr><td class="td-browser"><span class="kbd">4</span></td><td class="td-browser"><span class="kbd">Alt+Shift+4</span></td><td class="td-browser"><span class="kbd">Alt+4</span></td><td class="td-browser"><span class="kbd">Alt+4</span> + <span class="kbd">Enter</span></td><td class="td-acao">Alto Contraste</td></tr>
+          <tr><td class="td-browser"><span class="kbd">5</span></td><td class="td-browser"><span class="kbd">Alt+Shift+5</span></td><td class="td-browser"><span class="kbd">Alt+5</span></td><td class="td-browser"><span class="kbd">Alt+5</span> + <span class="kbd">Enter</span></td><td class="td-acao">Textos ao tamanho original</td></tr>
+          <tr><td class="td-browser"><span class="kbd">6</span></td><td class="td-browser"><span class="kbd">Alt+Shift+6</span></td><td class="td-browser"><span class="kbd">Alt+6</span></td><td class="td-browser"><span class="kbd">Alt+6</span> + <span class="kbd">Enter</span></td><td class="td-acao">Aumenta o tamanho dos textos</td></tr>
+          <tr><td class="td-browser"><span class="kbd">7</span></td><td class="td-browser"><span class="kbd">Alt+Shift+7</span></td><td class="td-browser"><span class="kbd">Alt+7</span></td><td class="td-browser"><span class="kbd">Alt+7</span></td><td class="td-acao">Diminui o tamanho dos textos</td></tr>
+          <tr><td class="td-browser"><span class="kbd">8</span></td><td class="td-browser"><span class="kbd">Alt+Shift+8</span></td><td class="td-browser"><span class="kbd">Alt+8</span></td><td class="td-browser"><span class="kbd">Alt+8</span> + <span class="kbd">Enter</span></td><td class="td-acao">Perguntas frequentes</td></tr>
+          <tr><td class="td-browser"><span class="kbd">g</span></td><td class="td-browser"><span class="kbd">Alt+Shift+g</span></td><td class="td-browser"><span class="kbd">Alt+g</span></td><td class="td-browser"><span class="kbd">Alt+g</span> + <span class="kbd">Enter</span></td><td class="td-acao">Glossário</td></tr>
+          <tr><td class="td-browser"><span class="kbd">a</span></td><td class="td-browser"><span class="kbd">Alt+Shift+a</span></td><td class="td-browser"><span class="kbd">Alt+a</span></td><td class="td-browser"><span class="kbd">Alt+a</span> + <span class="kbd">Enter</span></td><td class="td-acao">Acessibilidade</td></tr>
+          <tr><td class="td-browser"><span class="kbd">f</span></td><td class="td-browser"><span class="kbd">Alt+Shift+f</span></td><td class="td-browser"><span class="kbd">Alt+f</span></td><td class="td-browser"><span class="kbd">Alt+f</span> + <span class="kbd">Enter</span></td><td class="td-acao">Fale Conosco</td></tr>
+          <tr><td class="td-browser"><span class="kbd">m</span></td><td class="td-browser"><span class="kbd">Alt+Shift+m</span></td><td class="td-browser"><span class="kbd">Alt+m</span></td><td class="td-browser"><span class="kbd">Alt+m</span> + <span class="kbd">Enter</span></td><td class="td-acao">Mapa do Site</td></tr>
+          <tr><td class="td-browser"><span class="kbd">w</span></td><td class="td-browser"><span class="kbd">Alt+Shift+w</span></td><td class="td-browser"><span class="kbd">Alt+w</span></td><td class="td-browser"><span class="kbd">Alt+w</span> + <span class="kbd">Enter</span></td><td class="td-acao">WebService</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ORDEM TAB -->
+  <div class="card">
+    <h2>↹ Ordem de Navegação pela Tecla TAB</h2>
+    <p>A sequência abaixo define a ordem em que os elementos recebem foco ao pressionar a tecla <span class="kbd">TAB</span>:</p>
+    <div style="overflow-x:auto;">
+      <table class="tabela-tab">
+        <thead>
+          <tr>
+            <th>Sequência</th>
+            <th>Posicionamento / Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">1</span></td><td>Ir para o conteúdo</td></tr>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">2</span></td><td>Ir para a busca</td></tr>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">3</span></td><td>Ir para o rodapé</td></tr>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">4</span></td><td>Alto Contraste</td></tr>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">5</span></td><td>Redimensiona os textos para o tamanho original</td></tr>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">6</span></td><td>Aumenta o tamanho dos textos do Portal</td></tr>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">7</span></td><td>Diminui o tamanho dos textos do Portal</td></tr>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">8</span></td><td>Perguntas frequentes</td></tr>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">g</span></td><td>Glossário</td></tr>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">a</span></td><td>Acessibilidade</td></tr>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">f</span></td><td>Fale Conosco</td></tr>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">m</span></td><td>Mapa do Site</td></tr>
+          <tr><td class="td-seq"><span class="kbd kbd-azul">w</span></td><td>WebService</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- NAVEGAÇÃO -->
+  <div class="card">
+    <h2>🔗 Outras Seções de Acessibilidade</h2>
+    <div class="nav-acess">
+      <a href="/acessibilidade/" class="nav-btn"><span class="emoji">♿</span>Declaração de Acessibilidade</a>
+      <a href="/acessibilidade/alto-contraste/" class="nav-btn"><span class="emoji">🌑</span>Alto Contraste</a>
+      <a href="/acessibilidade/mapa-do-site/" class="nav-btn"><span class="emoji">🗺</span>Mapa do Site</a>
+    </div>
+  </div>
+
+  <div class="rodape-pag">
+    Prefeitura Municipal de Arroio dos Ratos &mdash; Atalhos e Navegação &mdash; Abril de 2026
+  </div>
+</div>
+</body>
+</html>

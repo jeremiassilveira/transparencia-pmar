@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de Privacidade e Proteção de Dados – Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root {
+  --azul-escuro: #0b3d6e;
+  --azul-principal: #0f5ea8;
+  --azul-hover: #0b4d89;
+  --azul-claro: #dbeafe;
+  --azul-suave: #f0f6ff;
+  --verde: #166534;
+  --verde-bg: #dcfce7;
+  --verde-borda: #86efac;
+  --amarelo: #854d0e;
+  --amarelo-bg: #fef3c7;
+  --amarelo-borda: #fcd34d;
+  --cinza-900: #1f2937;
+  --cinza-700: #374151;
+  --cinza-500: #6b7280;
+  --cinza-200: #dbe3ee;
+  --cinza-100: #f8fafc;
+  --branco: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0;
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  color: var(--cinza-900);
+  background: var(--cinza-100);
+}
+
+.entry-title, .page-title, .ast-page-title,
+.elementor-widget-theme-post-title { display: none !important; }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 24px 28px; }
+
+.breadcrumb {
+  font-size: 13px; color: var(--cinza-500);
+  margin-bottom: 16px; padding: 10px 14px;
+  background: var(--branco); border: 1px solid var(--cinza-200);
+  border-radius: 8px; display: inline-block;
+}
+.breadcrumb a { color: var(--azul-principal); text-decoration: none; font-weight: 500; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+.hero {
+  background: linear-gradient(135deg, #0b3d6e 0%, #0f5ea8 60%, #1a7fd4 100%);
+  color: #fff; padding: 32px 36px; border-radius: 16px;
+  margin-bottom: 22px; box-shadow: 0 8px 28px rgba(11,61,110,.20);
+}
+.hero h1 { margin: 0 0 10px; font-size: 28px; line-height: 1.2; color: #fff; }
+.hero p { margin: 0; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.92); max-width: 920px; }
+
+.topo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px; margin-bottom: 22px;
+}
+.info-card {
+  background: var(--branco); border: 1px solid var(--cinza-200);
+  border-left: 4px solid var(--azul-principal);
+  border-radius: 12px; padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(15,23,42,.05);
+}
+.info-card strong {
+  display: block; font-size: 11px; text-transform: uppercase;
+  letter-spacing: .04em; color: var(--cinza-500); margin-bottom: 5px;
+}
+.info-card span { font-size: 16px; font-weight: 700; color: var(--azul-escuro); line-height: 1.3; }
+
+.card {
+  background: var(--branco); border: 1px solid var(--cinza-200);
+  border-radius: 16px; padding: 24px 26px; margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(15,23,42,.04);
+}
+.card > h2 {
+  margin: 0 0 18px; font-size: 20px; color: var(--azul-escuro);
+  padding-bottom: 12px; border-bottom: 2px solid var(--azul-claro);
+}
+
+.nota-box {
+  background: var(--azul-suave); border: 1px solid var(--azul-claro);
+  border-left: 4px solid var(--azul-principal);
+  border-radius: 12px; padding: 14px 18px;
+  font-size: 14px; line-height: 1.6; color: var(--cinza-700);
+}
+.alerta-box {
+  background: var(--amarelo-bg); border: 1px solid var(--amarelo-borda);
+  border-left: 4px solid var(--amarelo);
+  border-radius: 12px; padding: 14px 18px;
+  font-size: 14px; line-height: 1.6; color: #78350f;
+}
+.sucesso-box {
+  background: var(--verde-bg); border: 1px solid var(--verde-borda);
+  border-left: 4px solid var(--verde);
+  border-radius: 12px; padding: 14px 18px;
+  font-size: 14px; line-height: 1.6; color: #14532d;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 14px;
+}
+.subcard {
+  border: 1px solid var(--cinza-200); border-radius: 14px;
+  background: #fcfdff; padding: 16px 18px;
+}
+.subcard h3 { margin: 0 0 10px; color: var(--azul-escuro); font-size: 16px; }
+.subcard p { font-size: 14px; line-height: 1.7; color: var(--cinza-700); margin: 0; }
+
+.lista { margin: 0; padding-left: 18px; }
+.lista li { margin-bottom: 8px; font-size: 14px; line-height: 1.6; color: var(--cinza-700); }
+
+.links-grid { display: grid; gap: 10px; }
+.link-box {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border: 1px solid var(--cinza-200);
+  border-radius: 12px; background: var(--branco);
+}
+.link-box .icon { font-size: 18px; flex-shrink: 0; }
+.link-box a {
+  color: var(--azul-principal); text-decoration: none;
+  font-weight: 600; font-size: 14px; line-height: 1.4; flex: 1;
+}
+.link-box a:hover { text-decoration: underline; }
+.link-box .meta { color: var(--cinza-500); font-size: 12px; white-space: nowrap; }
+
+.botao {
+  display: inline-block; background: var(--azul-principal);
+  color: #fff; padding: 12px 20px; border-radius: 8px;
+  text-decoration: none; font-weight: 700; font-size: 14px; margin-top: 12px;
+}
+.botao:hover { background: var(--azul-hover); }
+
+.rodape {
+  font-size: 13px; color: var(--cinza-500);
+  text-align: center; margin-top: 18px; padding: 12px;
+}
+
+@media (max-width: 768px) {
+  .wrap { padding: 16px 14px; }
+  .hero { padding: 22px 18px; }
+  .hero h1 { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="breadcrumb">
+    <a href="/">Início</a> &raquo;
+    <a href="/transparencia/">Transparência</a> &raquo;
+    <a href="/lgpd-e-governo-digital/">LGPD e Governo Digital</a> &raquo;
+    <span>Política de Privacidade e Proteção de Dados</span>
+  </div>
+
+  <div class="hero">
+    <h1>Política de Privacidade e Proteção de Dados</h1>
+    <p>
+      Esta página apresenta, de forma objetiva, como o Município trata dados pessoais,
+      quais são os direitos do titular e quais canais podem ser utilizados para exercê-los,
+      em conformidade com a Lei Geral de Proteção de Dados Pessoais (LGPD).
+    </p>
+  </div>
+
+  <div class="topo-grid">
+    <div class="info-card">
+      <strong>Base legal</strong>
+      <span>Lei nº 13.709/2018 (LGPD)</span>
+    </div>
+    <div class="info-card">
+      <strong>Canal oficial</strong>
+      <span>Encarregado de Dados (DPO)</span>
+    </div>
+    <div class="info-card">
+      <strong>Responsável</strong>
+      <span>Coordenação de Informática</span>
+    </div>
+    <div class="info-card">
+      <strong>Atualização</strong>
+      <span>Abril de 2026</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Finalidade desta política</h2>
+    <div class="nota-box">
+      Esta Política de Privacidade e Proteção de Dados informa ao cidadão como seus dados pessoais
+      podem ser coletados, utilizados, armazenados, compartilhados e protegidos no âmbito da
+      Administração Pública Municipal de Arroio dos Ratos.
+    </div>
+    <p style="font-size:14px;color:var(--cinza-700);margin-top:16px;margin-bottom:0;">
+      O objetivo é garantir transparência sobre o tratamento de dados pessoais,
+      respeitando os princípios da necessidade, adequação, finalidade, segurança,
+      transparência e responsabilização previstos na LGPD.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Quais dados podem ser tratados</h2>
+    <div class="grid-2">
+      <div class="subcard">
+        <h3>Dados cadastrais e de identificação</h3>
+        <p>Nome, CPF, RG, data de nascimento, endereço, telefone, e-mail e outros dados de identificação necessários à prestação de serviços públicos.</p>
+      </div>
+      <div class="subcard">
+        <h3>Dados de contato</h3>
+        <p>Informações utilizadas para comunicação institucional com o cidadão, como telefone, e-mail, endereço e protocolos de atendimento.</p>
+      </div>
+      <div class="subcard">
+        <h3>Dados sensíveis, quando necessários</h3>
+        <p>Dados de saúde, informações sociais ou outras categorias protegidas, somente quando indispensáveis à execução de políticas públicas ou obrigações legais.</p>
+      </div>
+      <div class="subcard">
+        <h3>Dados de navegação</h3>
+        <p>Informações relacionadas ao uso do portal, como cookies, páginas acessadas e preferências técnicas de navegação, conforme descrito na Política de Cookies.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Para que os dados são utilizados</h2>
+    <ul class="lista">
+      <li>Prestação de serviços públicos ao cidadão;</li>
+      <li>Cumprimento de obrigação legal ou regulatória;</li>
+      <li>Execução de políticas públicas previstas em leis e regulamentos;</li>
+      <li>Atendimento de solicitações administrativas, protocolos, ouvidoria e acesso à informação;</li>
+      <li>Comunicação institucional e melhoria dos serviços públicos digitais;</li>
+      <li>Segurança da informação, prevenção a incidentes e continuidade administrativa.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Bases legais do tratamento</h2>
+    <p style="font-size:14px;color:var(--cinza-700);margin-top:0;">
+      O tratamento de dados pessoais pelo Município pode ocorrer com fundamento nas seguintes
+      bases legais previstas na LGPD:
+    </p>
+    <ul class="lista">
+      <li>Cumprimento de obrigação legal ou regulatória (art. 7º, II);</li>
+      <li>Execução de políticas públicas (art. 7º, III);</li>
+      <li>Execução de contratos ou procedimentos preliminares (art. 7º, V);</li>
+      <li>Proteção da vida e da incolumidade física (art. 7º, VII);</li>
+      <li>Exercício regular de direitos (art. 7º, VI);</li>
+      <li>Consentimento do titular, quando aplicável (art. 7º, I).</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Direitos do titular de dados</h2>
+    <div class="grid-2">
+      <div class="subcard">
+        <h3>Direitos previstos na LGPD</h3>
+        <ul class="lista">
+          <li>Confirmação da existência de tratamento;</li>
+          <li>Acesso aos dados pessoais;</li>
+          <li>Correção de dados incompletos ou desatualizados;</li>
+          <li>Anonimização, bloqueio ou eliminação, quando cabível;</li>
+          <li>Informação sobre compartilhamento de dados;</li>
+          <li>Revogação do consentimento, quando aplicável.</li>
+        </ul>
+      </div>
+      <div class="subcard">
+        <h3>Como exercer esses direitos</h3>
+        <p>
+          O titular poderá encaminhar solicitação ao Encarregado de Proteção de Dados pelos
+          canais oficiais indicados nesta página e na página do Encarregado LGPD.
+        </p>
+        <a href="/encarregado-lgpd/" class="botao">Acessar página do Encarregado LGPD</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Compartilhamento e segurança</h2>
+    <div class="grid-2">
+      <div class="subcard">
+        <h3>Compartilhamento</h3>
+        <p>
+          Os dados pessoais poderão ser compartilhados somente quando necessário para execução
+          de políticas públicas, cumprimento de obrigação legal ou com outros órgãos e entidades,
+          nos limites da legislação vigente.
+        </p>
+      </div>
+      <div class="subcard">
+        <h3>Segurança da informação</h3>
+        <p>
+          O Município adota medidas administrativas e técnicas para reduzir riscos de acesso não
+          autorizado, vazamento, perda, alteração ou tratamento inadequado de dados pessoais,
+          conforme Política de Segurança da Informação.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Cookies e navegação</h2>
+    <p style="font-size:14px;color:var(--cinza-700);margin-top:0;">
+      O portal poderá utilizar cookies e recursos técnicos semelhantes para garantir funcionamento
+      adequado, segurança, estatísticas de navegação e melhoria da experiência do usuário.
+    </p>
+    <div class="alerta-box">
+      Para informações detalhadas sobre quais cookies são utilizados, sua finalidade e como
+      gerenciá-los, consulte nossa Política de Cookies.
+    </div>
+    <a href="/politica-de-cookies/" class="botao">Ver Política de Cookies</a>
+  </div>
+
+  <div class="card">
+    <h2>Documentos e normas relacionadas</h2>
+    <div class="links-grid">
+      <div class="link-box">
+        <span class="icon">📘</span>
+        <a href="https://www.arroiodosratos.rs.gov.br/wp-content/uploads/2020/07/PSI_Revisto_Prefeitura_Arroio_dos_Ratos.pdf" target="_blank" rel="noopener">
+          Política de Segurança da Informação (PSI)
+        </a>
+        <span class="meta">PDF</span>
+      </div>
+      <div class="link-box">
+        <span class="icon">🗂️</span>
+        <a href="https://www.arroiodosratos.rs.gov.br/wp-content/uploads/2020/07/Politica_Classificacao_Informacao_Arroio_dos_Ratos.pdf" target="_blank" rel="noopener">
+          Política de Classificação da Informação
+        </a>
+        <span class="meta">PDF</span>
+      </div>
+      <div class="link-box">
+        <span class="icon">🛡️</span>
+        <a href="https://www.arroiodosratos.rs.gov.br/wp-content/uploads/2020/07/Plano_de_Acao_LGPD-1.pdf" target="_blank" rel="noopener">
+          Plano de Ação LGPD
+        </a>
+        <span class="meta">PDF</span>
+      </div>
+      <div class="link-box">
+        <span class="icon">⚠️</span>
+        <a href="https://www.arroiodosratos.rs.gov.br/wp-content/uploads/2020/07/plano_resposta_incidentes_lgpd.pdf" target="_blank" rel="noopener">
+          Plano de Resposta a Incidentes
+        </a>
+        <span class="meta">PDF</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Canal de contato</h2>
+    <div class="sucesso-box">
+      Para dúvidas, solicitações ou exercício de direitos relacionados à proteção de dados pessoais,
+      utilize o canal oficial do Encarregado de Proteção de Dados.
+    </div>
+    <p style="font-size:14px;color:var(--cinza-700);margin-top:16px;">
+      <strong>Encarregado:</strong> Jeremias Silva da Silveira<br>
+      <strong>Setor:</strong> Coordenação de Informática<br>
+      <strong>E-mail:</strong> dpo@arroiodosratos.rs.gov.br<br>
+      <strong>Telefone:</strong> (51) 3656-2553 — Ramal 1002<br>
+      <strong>Endereço:</strong> Rua Professor Horácio Prates, nº 180 — Centro<br>
+      <strong>Atendimento:</strong> Segunda a sexta-feira, das 08h às 14h
+    </p>
+    <a href="/encarregado-lgpd/" class="botao">Ir para o Encarregado LGPD</a>
+  </div>
+
+  <div class="card">
+    <h2>Informações complementares</h2>
+    <p style="font-size:14px;color:var(--cinza-700);margin-top:0;">
+      Setor responsável pela atualização desta página: <strong>Coordenação de Informática</strong>.<br>
+      Última atualização: <strong>Abril de 2026</strong>.
+    </p>
+  </div>
+
+  <div class="rodape">
+    Prefeitura Municipal de Arroio dos Ratos — Coordenação de Informática — Política de Privacidade e Proteção de Dados — Abril de 2026
+  </div>
+
+</div>
+</body>
+</html>

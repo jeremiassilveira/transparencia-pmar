@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servico de Informacao ao Cidadao - SIC/e-SIC</title>
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-hover:#0b4d89;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --amarelo:#854d0e;
+  --amarelo-bg:#fef9c3;
+  --amarelo-borda:#fde68a;
+  --vermelho:#991b1b;
+  --vermelho-bg:#fee2e2;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#dbe3ee;
+  --cinza-100:#f8fafc;
+  --branco:#ffffff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:'Segoe UI',Arial,Helvetica,sans-serif;
+  background:var(--cinza-100);
+  color:var(--cinza-900);
+}
+
+.entry-title,
+.page-title,
+.ast-page-title,
+.ast-page-title-wrap,
+.elementor-widget-theme-post-title,
+.elementor-page-title,
+.wp-block-post-title,
+h1.entry-title,
+h1.page-title,
+.post-title,
+.site-main .page-header{
+  display:none !important;
+}
+
+.acesso-wrap{
+  max-width:1280px;
+  margin:0 auto;
+  padding:24px 28px 44px;
+}
+
+.acesso-breadcrumb{
+  display:inline-block;
+  margin-bottom:16px;
+  padding:10px 14px;
+  border:1px solid var(--cinza-200);
+  border-radius:8px;
+  background:var(--branco);
+  color:var(--cinza-500);
+  font-size:13px;
+}
+
+.acesso-breadcrumb a{
+  color:var(--azul);
+  font-weight:700;
+  text-decoration:none;
+}
+
+.acesso-breadcrumb a:hover,
+.acesso-breadcrumb a:focus{
+  text-decoration:underline;
+}
+
+.acesso-hero{
+  margin-bottom:20px;
+  padding:34px 36px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 62%,#1a7fd4 100%);
+  color:#fff;
+  box-shadow:0 8px 32px rgba(11,61,110,.20);
+}
+
+.acesso-hero h1{
+  margin:0 0 10px;
+  color:#fff;
+  font-size:32px;
+  line-height:1.2;
+}
+
+.acesso-hero p{
+  max-width:900px;
+  margin:0;
+  color:rgba(255,255,255,.93);
+  font-size:15px;
+  line-height:1.7;
+}
+
+.acesso-acoes{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:22px;
+}
+
+.acesso-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:11px 18px;
+  border:1px solid rgba(255,255,255,.26);
+  border-radius:10px;
+  font-size:14px;
+  font-weight:800;
+  line-height:1.2;
+  text-decoration:none;
+  transition:background .2s ease,transform .2s ease,border-color .2s ease;
+}
+
+.acesso-btn--primary{
+  background:#fff;
+  color:var(--azul-escuro);
+}
+
+.acesso-btn--primary:hover,
+.acesso-btn--primary:focus{
+  background:#f8fbff;
+  transform:translateY(-1px);
+}
+
+.acesso-btn--secondary{
+  background:rgba(255,255,255,.12);
+  color:#fff;
+}
+
+.acesso-btn--secondary:hover,
+.acesso-btn--secondary:focus{
+  background:rgba(255,255,255,.20);
+  transform:translateY(-1px);
+}
+
+.acesso-grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:20px;
+}
+
+.acesso-card{
+  grid-column:span 12;
+  padding:24px 26px;
+  border:1px solid var(--cinza-200);
+  border-radius:16px;
+  background:var(--branco);
+  box-shadow:0 4px 16px rgba(15,23,42,.04);
+}
+
+.acesso-card--6{
+  grid-column:span 6;
+}
+
+.acesso-card--4{
+  grid-column:span 4;
+}
+
+.acesso-card h2{
+  margin:0 0 14px;
+  padding-bottom:12px;
+  border-bottom:2px solid var(--azul-claro);
+  color:var(--azul-escuro);
+  font-size:20px;
+  line-height:1.25;
+}
+
+.acesso-card p{
+  margin:0 0 12px;
+  color:var(--cinza-700);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.acesso-card p:last-child{
+  margin-bottom:0;
+}
+
+.acesso-grid-info{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px 20px;
+}
+
+.acesso-item{
+  padding:14px 16px;
+  border:1px solid #edf2f7;
+  border-radius:12px;
+  background:#fbfdff;
+}
+
+.acesso-item strong{
+  display:block;
+  margin-bottom:6px;
+  color:var(--cinza-700);
+  font-size:13px;
+}
+
+.acesso-item p{
+  margin:0;
+  color:var(--cinza-900);
+  font-size:14px;
+  line-height:1.6;
+}
+
+.acesso-item a,
+.acesso-card p a{
+  color:var(--azul);
+  font-weight:700;
+  text-decoration:none;
+}
+
+.acesso-item a:hover,
+.acesso-item a:focus,
+.acesso-card p a:hover,
+.acesso-card p a:focus{
+  text-decoration:underline;
+}
+
+.acesso-lista{
+  margin:0;
+  padding-left:20px;
+}
+
+.acesso-lista li{
+  margin-bottom:8px;
+  color:var(--cinza-700);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.acesso-links{
+  display:grid;
+  gap:10px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.acesso-links--mt{
+  margin-top:12px;
+}
+
+.acesso-links li a{
+  display:block;
+  padding:12px 14px;
+  border:1px solid var(--azul-claro);
+  border-radius:10px;
+  background:var(--azul-suave);
+  color:var(--azul);
+  font-size:14px;
+  font-weight:800;
+  line-height:1.35;
+  text-decoration:none;
+  transition:background .2s ease,transform .2s ease,border-color .2s ease;
+}
+
+.acesso-links li a:hover,
+.acesso-links li a:focus{
+  background:#e8f1ff;
+  border-color:#bfdbfe;
+  transform:translateX(2px);
+}
+
+.acesso-aviso,
+.acesso-ok,
+.acesso-alerta{
+  padding:14px 16px;
+  border-radius:12px;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.acesso-aviso{
+  border:1px solid var(--amarelo-borda);
+  background:var(--amarelo-bg);
+  color:var(--amarelo);
+}
+
+.acesso-ok{
+  border:1px solid var(--verde-borda);
+  background:var(--verde-bg);
+  color:var(--verde);
+}
+
+.acesso-alerta{
+  border:1px solid #fecaca;
+  background:var(--vermelho-bg);
+  color:var(--vermelho);
+}
+
+.faq-item{
+  margin-bottom:12px;
+  padding:14px 16px;
+  border:1px solid #edf2f7;
+  border-radius:12px;
+  background:#fbfdff;
+}
+
+.faq-item:last-child{
+  margin-bottom:0;
+}
+
+.faq-item strong{
+  display:block;
+  margin-bottom:8px;
+  color:var(--cinza-900);
+  font-size:14px;
+}
+
+.faq-item p{
+  margin:0;
+}
+
+.sic-update{
+  grid-column:span 12;
+  margin:0;
+  padding:12px 16px;
+  border:1px solid var(--cinza-200);
+  border-radius:8px;
+  background:#fff;
+  color:var(--cinza-500);
+  font-size:13px;
+  line-height:1.5;
+  text-align:center;
+}
+
+@media (max-width:900px){
+  .acesso-wrap{
+    padding:16px;
+  }
+
+  .acesso-hero{
+    padding:24px 20px;
+  }
+
+  .acesso-hero h1{
+    font-size:26px;
+  }
+
+  .acesso-card,
+  .acesso-card--6,
+  .acesso-card--4,
+  .sic-update{
+    grid-column:span 12;
+  }
+
+  .acesso-grid-info{
+    grid-template-columns:1fr;
+  }
+
+  .acesso-acoes{
+    flex-direction:column;
+  }
+
+  .acesso-btn{
+    width:100%;
+  }
+}
+</style>
+</head>
+<body>
+<main class="acesso-wrap">
+
+  <nav class="acesso-breadcrumb" aria-label="Caminho de navegacao">
+    <a href="https://www.arroiodosratos.rs.gov.br/">Inicio</a> &raquo;
+    <a href="https://www.arroiodosratos.rs.gov.br/consultardados/">Transparencia</a> &raquo;
+    <span>Acesso a Informacao</span>
+  </nav>
+
+  <section class="acesso-hero" aria-labelledby="titulo-sic">
+    <h1 id="titulo-sic">Servico de Informacao ao Cidadao - SIC/e-SIC</h1>
+    <p>
+      Canal oficial para solicitar informacoes publicas ao Municipio de Arroio dos Ratos,
+      acompanhar pedidos, apresentar recursos e consultar relatorios exigidos pela Lei de
+      Acesso a Informacao.
+    </p>
+
+    <div class="acesso-acoes" aria-label="Acoes principais do SIC">
+      <a href="https://www.arroiodosratos.rs.gov.br/formulario-e-sic/" class="acesso-btn acesso-btn--primary">Fazer pedido no e-SIC</a>
+      <a href="https://www.arroiodosratos.rs.gov.br/protocolo-digital/" class="acesso-btn acesso-btn--secondary">Acompanhar pedido</a>
+      <a href="https://www.arroiodosratos.rs.gov.br/relatorios-do-sic/" class="acesso-btn acesso-btn--secondary">Relatorios do SIC</a>
+    </div>
+  </section>
+
+  <div class="acesso-grid">
+
+    <section class="acesso-card" aria-labelledby="base-legal">
+      <h2 id="base-legal">Base legal e regulamentacao</h2>
+      <p>
+        O acesso a informacao publica e assegurado pela Lei Federal n. 12.527/2011,
+        Lei de Acesso a Informacao, observados os principios da publicidade, transparencia,
+        controle social e protecao de dados pessoais.
+      </p>
+      <p>
+        No ambito municipal, o atendimento deve observar a regulamentacao local da LAI
+        e os atos administrativos publicados pelo Municipio.
+      </p>
+
+      <ul class="acesso-links">
+        <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm" target="_blank" rel="noopener">Lei Federal n. 12.527/2011 - Lei de Acesso a Informacao</a></li>
+        <li><a href="https://leis.org/lirvs" target="_blank" rel="noopener">Legislacao municipal - Leis.org</a></li>
+        <li><a href="https://www.arroiodosratos.rs.gov.br/politica-de-privacidade-e-protecao-de-dados/">Politica de Privacidade e Protecao de Dados</a></li>
+      </ul>
+    </section>
+
+    <section class="acesso-card acesso-card--6" aria-labelledby="identificacao-sic">
+      <h2 id="identificacao-sic">Identificacao do SIC</h2>
+      <div class="acesso-grid-info">
+        <div class="acesso-item">
+          <strong>Unidade responsavel</strong>
+          <p>Ouvidoria Geral do Municipio</p>
+        </div>
+        <div class="acesso-item">
+          <strong>Responsavel pelo SIC</strong>
+          <p>Mirian Costa Silva</p>
+        </div>
+        <div class="acesso-item">
+          <strong>E-mail institucional</strong>
+          <p><a href="mailto:sic@arroiodosratos.rs.gov.br">sic@arroiodosratos.rs.gov.br</a></p>
+        </div>
+        <div class="acesso-item">
+          <strong>Telefone</strong>
+          <p>(51) 3656-2553</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="acesso-card acesso-card--6" aria-labelledby="atendimento-presencial">
+      <h2 id="atendimento-presencial">Atendimento presencial do SIC</h2>
+      <div class="acesso-grid-info">
+        <div class="acesso-item">
+          <strong>Endereco</strong>
+          <p>Largo do Mineiro, 135 - Centro, Arroio dos Ratos/RS</p>
+        </div>
+        <div class="acesso-item">
+          <strong>Horario de atendimento</strong>
+          <p>Segunda a sexta-feira, das 8h as 14h</p>
+        </div>
+        <div class="acesso-item">
+          <strong>Canal presencial</strong>
+          <p>Atendimento no SIC fisico da Prefeitura Municipal</p>
+        </div>
+        <div class="acesso-item">
+          <strong>Protocolo</strong>
+          <p>Solicite e guarde o numero de protocolo para acompanhamento.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="acesso-card acesso-card--6" aria-labelledby="como-pedir">
+      <h2 id="como-pedir">Como fazer um pedido de informacao</h2>
+      <ol class="acesso-lista">
+        <li>Acesse o sistema eletronico disponibilizado pelo Municipio.</li>
+        <li>Informe os dados minimos necessarios para retorno e acompanhamento.</li>
+        <li>Descreva de forma objetiva a informacao desejada.</li>
+        <li>Informe, sempre que possivel, periodo, assunto, orgao e tipo de documento.</li>
+        <li>Guarde o numero do protocolo gerado pelo atendimento.</li>
+        <li>Acompanhe a tramitacao ate a resposta final.</li>
+      </ol>
+    </section>
+
+    <section class="acesso-card acesso-card--6" aria-labelledby="prazos-recursos">
+      <h2 id="prazos-recursos">Prazos e recursos</h2>
+      <ul class="acesso-lista">
+        <li>O prazo inicial de resposta e de ate 20 dias.</li>
+        <li>O prazo pode ser prorrogado por mais 10 dias, mediante justificativa expressa.</li>
+        <li>Nao e necessario justificar o motivo do pedido de informacao.</li>
+        <li>Em caso de negativa, omissao ou resposta insatisfatoria, o cidadao pode apresentar recurso em ate 10 dias.</li>
+        <li>O recurso pode ser apresentado pelo mesmo canal do pedido ou pelo atendimento presencial do SIC.</li>
+      </ul>
+    </section>
+
+    <section class="acesso-card acesso-card--6" aria-labelledby="instancias-recursais">
+      <h2 id="instancias-recursais">Instancias recursais</h2>
+      <div class="acesso-grid-info">
+        <div class="acesso-item">
+          <strong>1. instancia</strong>
+          <p>Autoridade superior a responsavel pela resposta.</p>
+        </div>
+        <div class="acesso-item">
+          <strong>2. instancia</strong>
+          <p>Autoridade maxima do orgao ou entidade.</p>
+        </div>
+        <div class="acesso-item">
+          <strong>Prazo para recurso</strong>
+          <p>Ate 10 dias apos a ciencia da resposta.</p>
+        </div>
+        <div class="acesso-item">
+          <strong>Forma de apresentacao</strong>
+          <p>Pelo e-SIC ou pelo atendimento presencial.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="acesso-card acesso-card--6" aria-labelledby="orientacao">
+      <h2 id="orientacao">Orientacao ao cidadao</h2>
+      <div class="acesso-aviso">
+        <strong>Importante:</strong> o SIC e destinado a pedidos de acesso a informacao publica.
+        Para reclamacoes, denuncias, elogios e sugestoes, utilize a Ouvidoria. Para abertura
+        de processos e solicitacoes administrativas, utilize o Protocolo Digital.
+      </div>
+      <ul class="acesso-links acesso-links--mt">
+        <li><a href="https://www.arroiodosratos.rs.gov.br/ouvidoria/">Acessar Ouvidoria</a></li>
+        <li><a href="https://www.arroiodosratos.rs.gov.br/protocolo-digital/">Acessar Protocolo Digital</a></li>
+      </ul>
+    </section>
+
+    <section class="acesso-card acesso-card--6" aria-labelledby="relatorios">
+      <h2 id="relatorios">Relatorios e estatisticas do SIC</h2>
+      <p>
+        Consulte os relatorios estatisticos sobre pedidos recebidos, atendidos,
+        indeferidos, prazos de resposta e recursos apresentados.
+      </p>
+      <ul class="acesso-links">
+        <li><a href="https://www.arroiodosratos.rs.gov.br/relatorios-do-sic/">Relatorios do SIC</a></li>
+        <li><a href="https://www.arroiodosratos.rs.gov.br/estatisticas-esic/">Perguntas frequentes e orientacoes do e-SIC</a></li>
+        <li><a href="https://www.arroiodosratos.rs.gov.br/acesso-a-informacao/">Pagina oficial de Acesso a Informacao</a></li>
+      </ul>
+    </section>
+
+    <section class="acesso-card acesso-card--6" aria-labelledby="classificadas">
+      <h2 id="classificadas">Informacoes classificadas e desclassificadas</h2>
+      <div class="acesso-ok">
+        Ate a ultima atualizacao desta pagina, o Municipio informa nao possuir informacoes
+        classificadas ou desclassificadas publicadas nos termos da Lei de Acesso a Informacao.
+      </div>
+      <ul class="acesso-links acesso-links--mt">
+        <li><a href="https://www.arroiodosratos.rs.gov.br/acesso-a-informacao/">Consultar pagina oficial de Acesso a Informacao</a></li>
+      </ul>
+    </section>
+
+    <section class="acesso-card acesso-card--6" aria-labelledby="autoridade">
+      <h2 id="autoridade">Autoridade de monitoramento da LAI</h2>
+      <p>
+        Autoridade responsavel pelo acompanhamento da aplicacao da Lei de Acesso a Informacao
+        no ambito municipal.
+      </p>
+      <div class="acesso-item">
+        <strong>Responsavel</strong>
+        <p>Ouvidoria Municipal</p>
+      </div>
+      <div class="acesso-alerta" style="margin-top:12px;">
+        Caso exista ato formal de designacao da autoridade de monitoramento, publique o link
+        nesta secao para fortalecer a evidencia PNTP.
+      </div>
+    </section>
+
+    <section class="acesso-card acesso-card--6" aria-labelledby="lgpd">
+      <h2 id="lgpd">Protecao de dados pessoais</h2>
+      <p>
+        Os pedidos de informacao devem observar a protecao de dados pessoais, nos termos da
+        Lei Geral de Protecao de Dados Pessoais. Informacoes pessoais podem ter acesso restrito
+        quando necessario a preservacao da intimidade, vida privada, honra e imagem.
+      </p>
+      <ul class="acesso-links">
+        <li><a href="https://www.arroiodosratos.rs.gov.br/responsavel-pelo-tratamento-de-dados/">Responsavel pelo tratamento de dados</a></li>
+        <li><a href="https://www.arroiodosratos.rs.gov.br/politica-de-privacidade-e-protecao-de-dados/">Politica de Privacidade e Protecao de Dados</a></li>
+        <li><a href="https://www.arroiodosratos.rs.gov.br/wp-content/uploads/2020/07/plano_resposta_incidentes_lgpd.pdf" target="_blank" rel="noopener">Plano de Resposta a Incidentes - LGPD</a></li>
+      </ul>
+    </section>
+
+    <section class="acesso-card" aria-labelledby="faq">
+      <h2 id="faq">Perguntas frequentes</h2>
+
+      <div class="faq-item">
+        <strong>Preciso justificar meu pedido?</strong>
+        <p>Nao. O pedido de acesso a informacao independe de justificativa.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Preciso me identificar?</strong>
+        <p>Sim. Sao necessarios dados minimos para retorno e acompanhamento do pedido.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>O pedido pode ser negado?</strong>
+        <p>Sim, apenas nas hipoteses legais, como informacoes pessoais protegidas ou informacoes sigilosas.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Ha cobranca?</strong>
+        <p>O acesso e gratuito, salvo eventual custo de reproducao de documentos, quando aplicavel.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Posso acompanhar o andamento do pedido?</strong>
+        <p>Sim. O acompanhamento pode ser feito pelo sistema eletronico e pelo numero de protocolo.</p>
+      </div>
+    </section>
+
+    <p class="sic-update">
+      Ultima atualizacao: Abril de 2026 | Responsavel: Ouvidoria Municipal |
+      Manutencao: Coordenacao de Informatica
+    </p>
+
+  </div>
+</main>
+</body>
+</html>
