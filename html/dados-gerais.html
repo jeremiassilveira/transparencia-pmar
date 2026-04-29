@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dados Gerais - Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-hover:#0b4d89;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --amarelo:#854d0e;
+  --amarelo-bg:#fef9c3;
+  --amarelo-borda:#fde68a;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#dbe3ee;
+  --cinza-100:#f8fafc;
+  --branco:#ffffff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900)}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,
+.elementor-widget-theme-post-title,.elementor-page-title,
+.wp-block-post-title,h1.entry-title,h1.page-title,
+.post-title,.site-main .page-header{display:none !important}
+
+.dados-wrap{max-width:1180px;margin:0 auto;padding:24px 28px 48px}
+.breadcrumb{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;padding:10px 14px;border:1px solid var(--cinza-200);border-radius:8px;background:var(--branco);color:var(--cinza-500);font-size:13px}
+.breadcrumb a{color:var(--azul);font-weight:700;text-decoration:none}
+.breadcrumb a:hover,.breadcrumb a:focus{text-decoration:underline}
+
+.hero{margin-bottom:20px;padding:34px 36px;border-radius:16px;background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 62%,#1a7fd4 100%);color:#fff;box-shadow:0 8px 32px rgba(11,61,110,.20)}
+.tag{display:inline-block;margin-bottom:10px;padding:5px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+.hero h1{margin:0 0 10px;color:#fff;font-size:32px;line-height:1.2}
+.hero p{max-width:900px;margin:0;color:rgba(255,255,255,.93);font-size:15px;line-height:1.7}
+.hero-acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 18px;border-radius:10px;font-size:14px;font-weight:800;line-height:1.2;text-decoration:none;transition:background .2s ease,border-color .2s ease,transform .2s ease}
+.btn-primario{border:1px solid #fff;background:#fff;color:var(--azul-escuro)}
+.btn-secundario{border:1px solid rgba(255,255,255,.30);background:rgba(255,255,255,.12);color:#fff}
+.btn:hover,.btn:focus{transform:translateY(-1px)}
+.btn-primario:hover,.btn-primario:focus{background:#f8fbff}
+.btn-secundario:hover,.btn-secundario:focus{background:rgba(255,255,255,.20)}
+
+.card{margin-bottom:20px;padding:24px 26px;border:1px solid var(--cinza-200);border-radius:16px;background:var(--branco);box-shadow:0 4px 16px rgba(15,23,42,.04)}
+.card h2{margin:0 0 16px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);color:var(--azul-escuro);font-size:20px;line-height:1.25}
+.card h3{margin:0 0 8px;color:var(--azul-escuro);font-size:16px;line-height:1.3}
+.card p{margin:0 0 12px;color:var(--cinza-700);font-size:14px;line-height:1.75}
+.card p:last-child{margin-bottom:0}
+
+.indicadores{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.indicador{padding:18px;border:1px solid var(--cinza-200);border-left:4px solid var(--azul);border-radius:14px;background:#fbfdff}
+.indicador strong{display:block;margin-bottom:6px;color:var(--cinza-500);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.indicador .valor{display:block;color:var(--azul-escuro);font-size:22px;font-weight:900;line-height:1.15}
+.indicador .fonte{display:block;margin-top:8px;color:var(--cinza-500);font-size:12px;line-height:1.35}
+
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.info-box{padding:16px 18px;border:1px solid var(--cinza-200);border-radius:12px;background:#fbfdff}
+.info-box strong{display:block;margin-bottom:5px;color:var(--cinza-500);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.info-box span,.info-box p{margin:0;color:var(--cinza-900);font-size:14px;line-height:1.6}
+
+.tabela-wrap{overflow-x:auto;border:1px solid var(--cinza-200);border-radius:12px}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
+th{padding:12px 14px;background:var(--azul-escuro);color:#fff;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+td{padding:12px 14px;border-bottom:1px solid var(--cinza-200);color:var(--cinza-700);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:#f8fafc}
+
+.links-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.link-card{display:block;padding:14px 16px;border:1px solid var(--azul-claro);border-radius:12px;background:var(--azul-suave);color:var(--azul);font-size:14px;font-weight:800;line-height:1.45;text-decoration:none}
+.link-card:hover,.link-card:focus{background:#e8f1ff;text-decoration:underline}
+.aviso{padding:14px 16px;border:1px solid var(--amarelo-borda);border-left:4px solid var(--amarelo);border-radius:12px;background:var(--amarelo-bg);color:#78350f;font-size:14px;line-height:1.7}
+.rodape{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:18px;padding:12px}
+.rodape a,.card a{color:var(--azul);font-weight:800;text-decoration:none}
+.rodape a:hover,.card a:hover,.rodape a:focus,.card a:focus{text-decoration:underline}
+
+@media(max-width:980px){
+  .indicadores{grid-template-columns:repeat(2,1fr)}
+  .grid-2,.grid-3,.links-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .dados-wrap{padding:16px 14px 36px}
+  .hero{padding:22px 18px}
+  .hero h1{font-size:24px}
+  .hero-acoes{display:block}
+  .btn{width:100%;margin-bottom:8px}
+  .card{padding:20px 18px}
+  .indicadores,.grid-2,.grid-3,.links-grid{grid-template-columns:1fr}
+}
+@media print{
+  .breadcrumb,.hero-acoes{display:none !important}
+  .dados-wrap{max-width:none;padding:0}
+  .hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200)}
+  .hero h1{color:var(--azul-escuro) !important}
+  .hero p{color:var(--cinza-700) !important}
+  .card,.indicador{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<main class="dados-wrap">
+
+  <nav class="breadcrumb" aria-label="Caminho da página">
+    <a href="/">Início</a>
+    <span aria-hidden="true">&raquo;</span>
+    <a href="/sobre-o-municipio/">Município</a>
+    <span aria-hidden="true">&raquo;</span>
+    <span>Dados Gerais</span>
+  </nav>
+
+  <header class="hero">
+    <span class="tag">Informações institucionais</span>
+    <h1>Dados Gerais do Município</h1>
+    <p>
+      Informações atualizadas sobre Arroio dos Ratos, com indicadores oficiais
+      de população, território, desenvolvimento e economia, além de links para
+      história, turismo e fontes públicas de consulta.
+    </p>
+    <div class="hero-acoes" aria-label="Ações principais">
+      <a href="https://www.ibge.gov.br/cidades-e-estados/rs/arroio-dos-ratos.html" target="_blank" rel="noopener" class="btn btn-primario">Consultar no IBGE</a>
+      <a href="/historia/" class="btn btn-secundario">História do Município</a>
+      <a href="/pontos-turisticos/" class="btn btn-secundario">Pontos Turísticos</a>
+      <a href="/governo-estrutura-adm-e-competencias/" class="btn btn-secundario">Estrutura Administrativa</a>
+    </div>
+  </header>
+
+  <section class="indicadores" aria-label="Principais indicadores do município">
+    <div class="indicador">
+      <strong>População estimada</strong>
+      <span class="valor">14.934</span>
+      <span class="fonte">pessoas [IBGE, 2025]</span>
+    </div>
+    <div class="indicador">
+      <strong>População no censo</strong>
+      <span class="valor">14.601</span>
+      <span class="fonte">pessoas [Censo 2022]</span>
+    </div>
+    <div class="indicador">
+      <strong>Área territorial</strong>
+      <span class="valor">425,791 km²</span>
+      <span class="fonte">[IBGE, 2024]</span>
+    </div>
+    <div class="indicador">
+      <strong>Densidade demográfica</strong>
+      <span class="valor">34,29</span>
+      <span class="fonte">hab/km² [Censo 2022]</span>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="identificacao">
+    <h2 id="identificacao">Identificação do município</h2>
+    <div class="grid-3">
+      <div class="info-box">
+        <strong>Município</strong>
+        <span>Arroio dos Ratos - RS</span>
+      </div>
+      <div class="info-box">
+        <strong>Código IBGE</strong>
+        <span>4301107</span>
+      </div>
+      <div class="info-box">
+        <strong>Gentílico</strong>
+        <span>ratense</span>
+      </div>
+      <div class="info-box">
+        <strong>Administração municipal</strong>
+        <span><a href="/gestao-atual/">Consultar Gestão Atual</a></span>
+      </div>
+      <div class="info-box">
+        <strong>Instalação / emancipação</strong>
+        <span>1964, conforme histórico municipal</span>
+      </div>
+      <div class="info-box">
+        <strong>Região</strong>
+        <span>Região Metropolitana de Porto Alegre</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="indicadores-oficiais">
+    <h2 id="indicadores-oficiais">Indicadores oficiais</h2>
+    <div class="tabela-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Valor</th>
+            <th>Ano</th>
+            <th>Fonte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Área territorial</td>
+            <td>425,791 km²</td>
+            <td>2024</td>
+            <td>IBGE Cidades e Estados</td>
+          </tr>
+          <tr>
+            <td>População no último censo</td>
+            <td>14.601 pessoas</td>
+            <td>2022</td>
+            <td>IBGE - Censo Demográfico</td>
+          </tr>
+          <tr>
+            <td>População estimada</td>
+            <td>14.934 pessoas</td>
+            <td>2025</td>
+            <td>IBGE Cidades e Estados</td>
+          </tr>
+          <tr>
+            <td>Densidade demográfica</td>
+            <td>34,29 hab/km²</td>
+            <td>2022</td>
+            <td>IBGE - Censo Demográfico</td>
+          </tr>
+          <tr>
+            <td>Escolarização de 6 a 14 anos</td>
+            <td>99,18%</td>
+            <td>2022</td>
+            <td>IBGE Cidades e Estados</td>
+          </tr>
+          <tr>
+            <td>IDHM - Índice de Desenvolvimento Humano Municipal</td>
+            <td>0,698</td>
+            <td>2010</td>
+            <td>PNUD / Atlas do Desenvolvimento Humano, via IBGE</td>
+          </tr>
+          <tr>
+            <td>Mortalidade infantil</td>
+            <td>21,74 óbitos por mil nascidos vivos</td>
+            <td>2023</td>
+            <td>DATASUS, via IBGE</td>
+          </tr>
+          <tr>
+            <td>PIB per capita</td>
+            <td>R$ 27.736,77</td>
+            <td>2023</td>
+            <td>IBGE Cidades e Estados</td>
+          </tr>
+          <tr>
+            <td>Total de receitas brutas realizadas</td>
+            <td>R$ 85.807.765,56</td>
+            <td>2024</td>
+            <td>SICONFI, via IBGE</td>
+          </tr>
+          <tr>
+            <td>Total de despesas brutas empenhadas</td>
+            <td>R$ 90.655.977,16</td>
+            <td>2024</td>
+            <td>SICONFI, via IBGE</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="localizacao">
+    <h2 id="localizacao">Localização e acesso</h2>
+    <div class="grid-2">
+      <div>
+        <p>
+          Arroio dos Ratos está situado na Região Metropolitana de Porto Alegre,
+          no Estado do Rio Grande do Sul. O acesso ao município ocorre
+          principalmente pelas rodovias BR-116 e BR-290.
+        </p>
+        <p>
+          A cidade está localizada a aproximadamente 55 km de Porto Alegre,
+          conforme informação histórica do portal municipal.
+        </p>
+      </div>
+      <div class="info-box">
+        <strong>Endereço da sede administrativa</strong>
+        <p>
+          Largo do Mineiro, 135 - Centro<br>
+          Arroio dos Ratos/RS<br>
+          Telefone: (51) 3656-2553<br>
+          Atendimento: segunda a sexta-feira, das 8h às 14h
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="historico">
+    <h2 id="historico">Resumo histórico</h2>
+    <p>
+      A história de Arroio dos Ratos está ligada à exploração do carvão mineral,
+      descoberta em 1853 pelo engenheiro inglês James Johnson. O município integrou
+      um ciclo econômico relevante para a indústria carbonífera brasileira e para
+      a história da primeira usina termelétrica do país.
+    </p>
+    <p>
+      Após a desativação das minas, o município buscou novas alternativas de
+      desenvolvimento e conquistou emancipação política de São Jerônimo em
+      28 de dezembro de 1964, conforme histórico publicado pelo portal municipal.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="turismo">
+    <h2 id="turismo">Pontos turísticos e cultura</h2>
+    <p>
+      Arroio dos Ratos possui atrativos ligados à história da mineração, à memória
+      da indústria carbonífera, à cultura local e aos espaços religiosos e de lazer
+      do município.
+    </p>
+    <div class="grid-3">
+      <div class="info-box">
+        <strong>Museu Estadual do Carvão</strong>
+        <span>Espaço de preservação da história da mineração e da primeira usina termelétrica do país.</span>
+      </div>
+      <div class="info-box">
+        <strong>Igreja Matriz Santa Bárbara</strong>
+        <span>Referência religiosa e histórica ligada à padroeira dos mineiros.</span>
+      </div>
+      <div class="info-box">
+        <strong>Monumento O Mineiro</strong>
+        <span>Marco urbano em homenagem aos trabalhadores da mineração.</span>
+      </div>
+      <div class="info-box">
+        <strong>Balneário Passo da Barca</strong>
+        <span>Área de lazer citada nos dados turísticos do município.</span>
+      </div>
+      <div class="info-box">
+        <strong>Hotel Doce Esquina</strong>
+        <span>Ponto de hospedagem localizado próximo ao pórtico de acesso do município.</span>
+      </div>
+      <div class="info-box">
+        <strong>Consulta completa</strong>
+        <span><a href="/pontos-turisticos/">Acessar página de Pontos Turísticos</a></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="fontes">
+    <h2 id="fontes">Fontes e consultas relacionadas</h2>
+    <div class="links-grid">
+      <a href="https://www.ibge.gov.br/cidades-e-estados/rs/arroio-dos-ratos.html" target="_blank" rel="noopener" class="link-card">IBGE - Cidades e Estados</a>
+      <a href="/historia/" class="link-card">História do Município</a>
+      <a href="/pontos-turisticos/" class="link-card">Pontos Turísticos</a>
+      <a href="/hospedagem/" class="link-card">Hospedagem</a>
+      <a href="/localizacao/" class="link-card">Localização</a>
+      <a href="/secretarias/" class="link-card">Secretarias Municipais</a>
+      <a href="/gestao-atual/" class="link-card">Gestão Atual</a>
+      <a href="/governo-estrutura-adm-e-competencias/" class="link-card">Estrutura Administrativa e Competências</a>
+      <a href="/consultardados/" class="link-card">Consultar Dados</a>
+      <a href="/transparencia-publica/" class="link-card">Transparência Pública</a>
+      <a href="/mapa-do-site/" class="link-card">Mapa do Site</a>
+      <a href="/telefones-e-ramais/" class="link-card">Telefones e Ramais</a>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="observacoes">
+    <h2 id="observacoes">Observações de atualização</h2>
+    <div class="aviso">
+      Esta página substitui dados antigos do Censo 2000 por indicadores oficiais mais recentes.
+      As informações de governo, prefeito, secretários e responsáveis devem ser mantidas na página
+      de Gestão Atual, pois mudam conforme nomeações e mandatos. Recomenda-se manter apenas uma
+      página principal de dados gerais e redirecionar conteúdos duplicados.
+    </div>
+  </section>
+
+  <div class="rodape">
+    Última atualização desta página: <strong>abril de 2026</strong> |
+    Responsável sugerido: Coordenação de Informática |
+    Fontes principais:
+    <a href="https://www.ibge.gov.br/cidades-e-estados/rs/arroio-dos-ratos.html" target="_blank" rel="noopener">IBGE Cidades</a>
+    e <a href="/historia/">Portal Municipal</a>.
+  </div>
+
+</main>
+</body>
+</html>

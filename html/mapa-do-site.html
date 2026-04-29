@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa do Site - Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-hover:#0b4d89;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#e5e9f0;
+  --cinza-100:#f8fafc;
+  --branco:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900);min-height:100vh}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,
+.elementor-widget-theme-post-title,.elementor-page-title,
+.wp-block-post-title,h1.entry-title,h1.page-title,
+.post-title,.site-main .page-header{display:none !important}
+
+.wrap{max-width:1100px;margin:0 auto;padding:28px 24px 60px}
+.breadcrumb{font-size:13px;color:var(--cinza-500);margin-bottom:18px;padding:10px 14px;background:var(--branco);border:1px solid var(--cinza-200);border-radius:8px;display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center}
+.breadcrumb a{color:var(--azul);text-decoration:none;font-weight:600}
+.breadcrumb a:hover,.breadcrumb a:focus{text-decoration:underline}
+.hero{background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 60%,#1a7fd4 100%);color:#fff;padding:30px 32px;border-radius:16px;margin-bottom:24px;box-shadow:0 8px 32px rgba(11,61,110,.18)}
+.hero h1{margin:0 0 8px;font-size:28px;line-height:1.2;color:#fff}
+.hero p{margin:0;font-size:14px;line-height:1.7;color:rgba(255,255,255,.90);max-width:780px}
+.aviso-azul{background:var(--azul-suave);border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:10px;padding:13px 16px;font-size:13.5px;line-height:1.6;color:var(--cinza-700);margin-bottom:24px}
+.mapa-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.mapa-card{background:var(--branco);border:1px solid var(--cinza-200);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(15,23,42,.04);display:flex;flex-direction:column}
+.mapa-card-titulo{background:linear-gradient(135deg,#0b3d6e,#0f5ea8);color:#fff;padding:13px 16px;display:flex;align-items:center;gap:9px}
+.mapa-card-titulo .emoji{font-size:17px;flex-shrink:0}
+.mapa-card-titulo strong{font-size:13.5px;font-weight:700;line-height:1.3}
+.mapa-lista{list-style:none;padding:12px 14px;flex:1}
+.mapa-lista li{margin-bottom:2px}
+.mapa-lista a{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--azul);text-decoration:none;font-weight:500;padding:5px 8px;border-radius:7px;line-height:1.45;transition:background .15s,color .15s}
+.mapa-lista a::before{content:"•";color:var(--azul-claro);font-size:16px;line-height:1;flex-shrink:0}
+.mapa-lista a:hover,.mapa-lista a:focus{background:var(--azul-claro);color:var(--azul-escuro);outline:none}
+.mapa-atualizacao{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:20px;padding-top:14px;border-top:1px solid var(--cinza-200)}
+.nav-acess{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--azul-suave);border:1px solid var(--azul-claro);border-radius:12px;padding:14px 12px;text-decoration:none;color:var(--azul-escuro);font-weight:700;font-size:13px;text-align:center;transition:.2s}
+.nav-btn:hover,.nav-btn:focus{background:var(--azul-claro);transform:translateY(-2px);outline:none}
+.nav-btn .emoji{font-size:22px}
+@media(max-width:1000px){.mapa-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:720px){.mapa-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){
+  .wrap{padding:16px 14px 40px}
+  .hero{padding:22px 18px}
+  .hero h1{font-size:22px}
+  .mapa-grid{grid-template-columns:1fr}
+  .nav-acess{grid-template-columns:1fr}
+}
+@media print{
+  .nav-acess,.breadcrumb{display:none !important}
+  .hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200);padding:16px}
+  .hero h1{color:var(--azul-escuro) !important}
+  .hero p{color:var(--cinza-700) !important}
+  .mapa-card-titulo{background:#e5e9f0 !important;color:var(--cinza-900) !important}
+  .mapa-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="breadcrumb">
+    <a href="/">Inicio</a>
+    <span aria-hidden="true">&raquo;</span>
+    <a href="/transparencia-publica/">Transparencia Publica</a>
+    <span aria-hidden="true">&raquo;</span>
+    <a href="/consultardados/">Consultar Dados</a>
+    <span aria-hidden="true">&raquo;</span>
+    <span>Mapa do Site</span>
+  </div>
+
+  <div class="hero">
+    <h1>Mapa do Site</h1>
+    <p>Navegue pelas principais areas do Portal da Prefeitura Municipal de Arroio dos Ratos. Esta pagina reune links institucionais, servicos ao cidadao, transparencia publica e demais conteudos do site.</p>
+  </div>
+
+  <div class="aviso-azul">
+    <strong>Navegacao facilitada:</strong> clique em qualquer item abaixo para ir diretamente a pagina desejada. Os links foram ajustados conforme paginas localizadas no portal oficial em abril de 2026.
+  </div>
+
+  <div class="mapa-grid">
+
+    <div class="mapa-card">
+      <div class="mapa-card-titulo"><span class="emoji" aria-hidden="true">🏛</span><strong>Institucional</strong></div>
+      <ul class="mapa-lista">
+        <li><a href="/">Pagina Inicial</a></li>
+        <li><a href="/sobre-o-municipio/">Sobre o Municipio</a></li>
+        <li><a href="/historia/">Historia</a></li>
+        <li><a href="/dados-gerais/">Dados Gerais</a></li>
+        <li><a href="/demografia/">Demografia</a></li>
+        <li><a href="/idh/">IDH</a></li>
+        <li><a href="/localizacao/">Localizacao</a></li>
+        <li><a href="/secretarias/">Secretarias</a></li>
+        <li><a href="/governo-principal/">Gestao Atual</a></li>
+        <li><a href="/governo-estrutura-adm-e-competencias/">Estrutura Administrativa e Competencias</a></li>
+        <li><a href="/telefones-e-ramais/">Telefones e Ramais</a></li>
+        <li><a href="/contato-e-enderecos/">Contatos e Enderecos</a></li>
+      </ul>
+    </div>
+
+    <div class="mapa-card">
+      <div class="mapa-card-titulo"><span class="emoji" aria-hidden="true">📊</span><strong>Transparencia e Acesso a Informacao</strong></div>
+      <ul class="mapa-lista">
+        <li><a href="/transparencia-publica/">Transparencia Publica</a></li>
+        <li><a href="/consultardados/">Consultar Dados</a></li>
+        <li><a href="/consultar-dados-2/">Consultas Detalhadas</a></li>
+        <li><a href="/transparencia-contas-publicas/">Contas Publicas</a></li>
+        <li><a href="/category/editais-e-licitacoes/licitacoes/">Licitacoes</a></li>
+        <li><a href="/category/editais/">Editais</a></li>
+        <li><a href="/atos-oficiais/">Atos Oficiais</a></li>
+        <li><a href="/portarias/">Portarias</a></li>
+        <li><a href="/decretos/">Decretos</a></li>
+        <li><a href="/fiscais-de-contrato/">Fiscais de Contrato</a></li>
+        <li><a href="/perguntas-frequentes/">Perguntas Frequentes</a></li>
+        <li><a href="/governo-digital/">Governo Digital</a></li>
+        <li><a href="https://radardatransparencia.atricon.org.br/" target="_blank" rel="noopener">Radar da Transparencia Publica</a></li>
+      </ul>
+    </div>
+
+    <div class="mapa-card">
+      <div class="mapa-card-titulo"><span class="emoji" aria-hidden="true">📋</span><strong>Planejamento e Prestacao de Contas</strong></div>
+      <ul class="mapa-lista">
+        <li><a href="/transparencia-contas-publicas/">LRF, RGF e RREO</a></li>
+        <li><a href="/prestacao-de-contas/">Prestacao de Contas</a></li>
+        <li><a href="/plano-de-contratacao-anual/">Plano de Contratacao Anual</a></li>
+        <li><a href="/anexos-lei-diretrizes-orcamentarias-2023/">Anexos da LDO 2023</a></li>
+        <li><a href="/anexos-lei-orcamentaria-anual-2021/">Anexos da LOA 2021</a></li>
+        <li><a href="/anexos-lei-orcamentaria-anual-2022/">Anexos da LOA 2022</a></li>
+        <li><a href="/anexos-lei-orcamentaria-anual-2023/">Anexos da LOA 2023</a></li>
+        <li><a href="/anexos-lei-orcamentaria-anual-2024/">Anexos da LOA 2024</a></li>
+      </ul>
+    </div>
+
+    <div class="mapa-card">
+      <div class="mapa-card-titulo"><span class="emoji" aria-hidden="true">🔎</span><strong>Consultas Especificas</strong></div>
+      <ul class="mapa-lista">
+        <li><a href="/emendas-parlamentares-federal/">Emendas Parlamentares Federais</a></li>
+        <li><a href="/emendas-parlamentares-estaduais/">Emendas Parlamentares Estaduais</a></li>
+        <li><a href="/emendas-impositivas/">Emendas Impositivas</a></li>
+        <li><a href="/renuncia-da-receita-projetos-culturais-esportivos/">Renuncia da Receita - Projetos</a></li>
+        <li><a href="/renuncia-da-receita-beneficiarios/">Renuncia da Receita - Beneficiarios</a></li>
+        <li><a href="/desoneracoes-da-receita-valores-previstos-e-concedidos/">Desoneracoes - Valores</a></li>
+        <li><a href="/desoneracoes-da-receita-acesso-e-procedimentos/">Desoneracoes - Acesso e Procedimentos</a></li>
+        <li><a href="/acompanhamento-de-obras/">Acompanhamento de Obras</a></li>
+        <li><a href="/obras-paralisadas/">Obras Paralisadas</a></li>
+        <li><a href="/lista-de-terceirizados/">Lista de Terceirizados</a></li>
+        <li><a href="/licitantes-e-ou-contratados-com-sancoes-administrativas/">Licitantes com Sancoes</a></li>
+      </ul>
+    </div>
+
+    <div class="mapa-card">
+      <div class="mapa-card-titulo"><span class="emoji" aria-hidden="true">🏥</span><strong>Saude, Educacao e Assistencia</strong></div>
+      <ul class="mapa-lista">
+        <li><a href="/saude/">Saude</a></li>
+        <li><a href="/consultardados/">Plano, Atendimento, Medicamentos e Lista de Espera</a></li>
+        <li><a href="/educacao-e-cultura/">Educacao e Cultura</a></li>
+        <li><a href="/levantamento-da-demanda-ano-2025/">Levantamento da Demanda - 2025</a></li>
+        <li><a href="/levantamento-da-demanda-por-vagas-em-creche-lei-no-14-851-2024/">Demanda por Vagas em Creche</a></li>
+        <li><a href="/lista-de-espera-por-vagas/">Lista de Espera por Vagas</a></li>
+        <li><a href="/assistencia-social/">Assistencia Social</a></li>
+        <li><a href="/conselhos-municipais/">Conselhos Municipais</a></li>
+        <li><a href="/cacs-fundeb/">CACS FUNDEB</a></li>
+        <li><a href="/cmear/">CMEAR</a></li>
+      </ul>
+    </div>
+
+    <div class="mapa-card">
+      <div class="mapa-card-titulo"><span class="emoji" aria-hidden="true">💬</span><strong>Ouvidoria, SIC e LGPD</strong></div>
+      <ul class="mapa-lista">
+        <li><a href="/ouvidoria/">Ouvidoria</a></li>
+        <li><a href="/fale-conosco/">Fale Conosco</a></li>
+        <li><a href="/acesso-a-informacao">Acesso a Informacao / e-SIC</a></li>
+        <li><a href="/estatisticas-esic/">Perguntas e Respostas do e-SIC</a></li>
+        <li><a href="/protocolo-digital/">Protocolo Digital</a></li>
+        <li><a href="/endereco/">Protocolo Presencial / SIC Fisico</a></li>
+        <li><a href="/relatorios-da-ouvidoria/">Relatorios da Ouvidoria</a></li>
+        <li><a href="/pesquisa-de-satisfacao/">Pesquisa de Satisfacao</a></li>
+        <li><a href="/resultado-da-pesquisa-de-satisfacao/">Resultado da Pesquisa de Satisfacao</a></li>
+        <li><a href="/politica-de-privacidade-e-protecao-de-dados/">Politica de Privacidade e Protecao de Dados</a></li>
+        <li><a href="/responsavel-pelo-tratamento-de-dados/">Responsavel pelo Tratamento de Dados</a></li>
+        <li><a href="/politica-de-cookies/">Politica de Cookies</a></li>
+      </ul>
+    </div>
+
+    <div class="mapa-card">
+      <div class="mapa-card-titulo"><span class="emoji" aria-hidden="true">🤝</span><strong>Servicos ao Cidadao</strong></div>
+      <ul class="mapa-lista">
+        <li><a href="/noticias/">Noticias</a></li>
+        <li><a href="/eventos/">Eventos</a></li>
+        <li><a href="/concursos/">Concursos</a></li>
+        <li><a href="/processo-seletivo/">Processo Seletivo</a></li>
+        <li><a href="/concursos-e-selecoes-publicas/">Concursos e Selecoes Publicas</a></li>
+        <li><a href="/cidadao-web/">Cidadao Web</a></li>
+        <li><a href="/protocolo-digital/">Protocolo Digital</a></li>
+        <li><a href="/portal-do-servidor/">Portal do Servidor</a></li>
+        <li><a href="/sala-do-empreendedor/">Sala do Empreendedor</a></li>
+        <li><a href="https://nfse-arroiodosratos.multi24h.com.br/" target="_blank" rel="noopener">Nota Eletronica (NFS-e)</a></li>
+        <li><a href="https://arroiodosratos.multi24h.com.br/" target="_blank" rel="noopener">Portal de Servicos Multi24h</a></li>
+      </ul>
+    </div>
+
+    <div class="mapa-card">
+      <div class="mapa-card-titulo"><span class="emoji" aria-hidden="true">⚖</span><strong>Legislacao e Publicacoes</strong></div>
+      <ul class="mapa-lista">
+        <li><a href="/legislacao-municipal/">Legislacao Municipal</a></li>
+        <li><a href="/legislacao-federal/">Legislacao Federal</a></li>
+        <li><a href="https://leismunicipais.com.br/prefeitura/rs/arroio-dos-ratos" target="_blank" rel="noopener">Leis Municipais</a></li>
+        <li><a href="/decretos/">Decretos</a></li>
+        <li><a href="/portarias/">Portarias</a></li>
+        <li><a href="/atos-oficiais/">Atos Oficiais</a></li>
+        <li><a href="/atos-normativos-2026/">Atos Normativos - 2026</a></li>
+        <li><a href="/atos-normativos-2025/">Atos Normativos - 2025</a></li>
+        <li><a href="/atos-normativos-2024/">Atos Normativos - 2024</a></li>
+        <li><a href="/atos-normativos-2023/">Atos Normativos - 2023</a></li>
+        <li><a href="/category/editais/">Editais</a></li>
+        <li><a href="/transparencia-editais-e-licitacoes/">Transparencia - Editais e Licitacoes</a></li>
+      </ul>
+    </div>
+
+    <div class="mapa-card">
+      <div class="mapa-card-titulo"><span class="emoji" aria-hidden="true">♿</span><strong>Acessibilidade e Navegacao</strong></div>
+      <ul class="mapa-lista">
+        <li><a href="/mapa-do-site/">Mapa do Site</a></li>
+        <li><a href="/links-uteis/">Links Uteis</a></li>
+        <li><a href="/telefones-uteis/">Telefones Uteis</a></li>
+        <li><a href="/politica-de-cookies/">Politica de Cookies</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="nav-acess">
+    <a href="/mapa-do-site/" class="nav-btn"><span class="emoji" aria-hidden="true">🗺</span>Mapa do Site</a>
+    <a href="/links-uteis/" class="nav-btn"><span class="emoji" aria-hidden="true">🔗</span>Links Uteis</a>
+    <a href="/telefones-e-ramais/" class="nav-btn"><span class="emoji" aria-hidden="true">☎</span>Telefones e Ramais</a>
+  </div>
+
+  <div class="mapa-atualizacao">
+    Ultima atualizacao desta pagina: <strong>abril de 2026</strong> - Prefeitura Municipal de Arroio dos Ratos
+  </div>
+
+</div>
+</body>
+</html>

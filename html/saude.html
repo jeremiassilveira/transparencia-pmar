@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saúde - Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{--azul-escuro:#0b3d6e;--azul:#0f5ea8;--azul-hover:#0b4d89;--azul-claro:#dbeafe;--azul-suave:#f0f6ff;--verde:#166534;--verde-bg:#dcfce7;--vermelho:#991b1b;--vermelho-bg:#fee2e2;--amarelo:#854d0e;--amarelo-bg:#fef9c3;--cinza-900:#1f2937;--cinza-700:#374151;--cinza-500:#6b7280;--cinza-300:#d1d5db;--cinza-200:#dbe3ee;--cinza-100:#f8fafc;--branco:#fff}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900)}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,.elementor-widget-theme-post-title,.elementor-page-title,.wp-block-post-title,h1.entry-title,h1.page-title,.post-title,.site-main .page-header{display:none !important}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 28px 48px}
+.breadcrumb{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;padding:10px 14px;border:1px solid var(--cinza-200);border-radius:8px;background:var(--branco);color:var(--cinza-500);font-size:13px}
+.breadcrumb a{color:var(--azul);font-weight:700;text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+.hero{margin-bottom:20px;padding:34px 36px;border-radius:16px;background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 58%,#12805c 100%);color:#fff;box-shadow:0 8px 32px rgba(11,61,110,.20)}
+.tag{display:inline-block;margin-bottom:10px;padding:5px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800;text-transform:uppercase}
+.hero h1{margin:0 0 10px;color:#fff;font-size:32px;line-height:1.2}.hero p{max-width:920px;margin:0;color:rgba(255,255,255,.93);font-size:15px;line-height:1.7}
+.acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:800;text-decoration:none;border:1px solid rgba(255,255,255,.30);background:rgba(255,255,255,.12);color:#fff}.btn.primary{background:#fff;color:var(--azul-escuro);border-color:#fff}
+.card{margin-bottom:20px;padding:24px 26px;border:1px solid var(--cinza-200);border-radius:16px;background:var(--branco);box-shadow:0 4px 16px rgba(15,23,42,.04)}
+.card h2{margin:0 0 16px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);color:var(--azul-escuro);font-size:20px}.card p{margin:0 0 12px;color:var(--cinza-700);font-size:14px;line-height:1.7}
+.controle{display:grid;grid-template-columns:1fr 220px 220px;gap:12px;align-items:end}.campo label{display:block;margin-bottom:6px;color:var(--cinza-700);font-size:13px;font-weight:800}.campo input,.campo select{width:100%;min-height:42px;padding:10px 12px;border:1px solid var(--cinza-300);border-radius:10px;font:inherit;font-size:14px}
+.atalhos{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.atalho{display:block;min-height:92px;padding:16px;border:1px solid var(--cinza-200);border-radius:12px;background:#fff;text-decoration:none;color:var(--cinza-700)}.atalho strong{display:block;margin-bottom:6px;color:var(--azul-escuro);font-size:15px}.atalho span{font-size:13px;line-height:1.45}.atalho:hover{border-color:var(--azul-claro);background:var(--azul-suave);text-decoration:none}
+.export-bar-pntp{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px;padding:12px 14px;border:1px solid var(--cinza-200);border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(15,23,42,.04)}
+.export-label{margin-right:4px;color:var(--cinza-700);font-size:13px;font-weight:800}
+.btn-export-fmt{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:7px 11px;border:1px solid var(--cinza-200);border-radius:8px;background:#f8fafc;color:var(--cinza-700);font-size:12px;font-weight:800;cursor:pointer}
+.btn-export-fmt:hover,.btn-export-fmt:focus{border-color:var(--azul-claro);background:var(--azul-suave);color:var(--azul-escuro)}
+.fmt-dot{width:9px;height:9px;border-radius:999px;display:inline-block}.dot-csv{background:#16a34a}.dot-xlsx{background:#15803d}.dot-json{background:#2563eb}.dot-ods{background:#65a30d}.dot-xml{background:#9333ea}.dot-pdf{background:#dc2626}
+.tabela-wrap{overflow-x:auto;border:1px solid var(--cinza-200);border-radius:12px}table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}th{padding:12px 14px;background:var(--azul-escuro);color:#fff;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em}td{padding:12px 14px;border-bottom:1px solid var(--cinza-200);color:var(--cinza-700);vertical-align:top}tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:#f8fafc}
+.badge{display:inline-block;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:800}.publicado{background:var(--verde-bg);color:var(--verde)}.referencia{background:var(--azul-suave);color:var(--azul-escuro)}.atualizar{background:var(--amarelo-bg);color:var(--amarelo)}.indisponivel{background:var(--vermelho-bg);color:var(--vermelho)}
+a{color:var(--azul);font-weight:800;text-decoration:none}a:hover{text-decoration:underline}.nota{padding:14px 16px;border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:12px;background:var(--azul-suave);color:var(--cinza-700);font-size:14px;line-height:1.7}.rodape{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:18px;padding:12px}
+@media(max-width:900px){.controle{grid-template-columns:1fr}.atalhos{grid-template-columns:1fr 1fr}}
+@media(max-width:800px){.wrap{padding:16px 14px}.hero{padding:22px 18px}.hero h1{font-size:24px}.acoes{display:block}.btn{width:100%;margin-bottom:8px}.export-bar-pntp{align-items:stretch}.btn-export-fmt{flex:1 1 92px;justify-content:center}}
+@media(max-width:560px){.atalhos{grid-template-columns:1fr}}
+@media print{.breadcrumb,.acoes,.controle,.export-bar-pntp,.atalhos{display:none !important}.hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200)}.hero h1{color:var(--azul-escuro) !important}.hero p{color:var(--cinza-700) !important}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<main class="wrap">
+  <nav class="breadcrumb" aria-label="Caminho da página">
+    <a href="/">Início</a><span aria-hidden="true">&rsaquo;</span>
+    <a href="/transparencia-publica/">Transparência</a><span aria-hidden="true">&rsaquo;</span>
+    <a href="/consultardados/">Consultar Dados</a><span aria-hidden="true">&rsaquo;</span>
+    <span>Saúde</span>
+  </nav>
+
+  <header class="hero">
+    <span class="tag">Transparência - Saúde</span>
+    <h1>Saúde</h1>
+    <p>Área destinada à publicação dos instrumentos de planejamento, relatórios de gestão e documentos da Secretaria Municipal de Saúde, com acesso aos arquivos da pasta Saúde.</p>
+    <div class="acoes">
+      <a href="#documentos-saude" class="btn primary">Ver documentos</a>
+      <a href="medicamentos.html" class="btn">Medicamentos</a>
+      <a href="lista-de-espera-saude.html" class="btn">Lista de Espera</a>
+      <a href="/horario-de-atendimento/" class="btn">Unidades e horários</a>
+    </div>
+  </header>
+
+  <section class="card">
+    <h2>Acesso rápido</h2>
+    <div class="atalhos">
+      <a class="atalho" href="../saude/plano%20final%20(2).pdf">
+        <strong>Plano Municipal de Saúde</strong>
+        <span>Instrumento de planejamento das ações e serviços de saúde.</span>
+      </a>
+      <a class="atalho" href="../saude/pas_2026_20260428092920.pdf">
+        <strong>Programação Anual de Saúde</strong>
+        <span>Programação das ações previstas para o exercício de 2026.</span>
+      </a>
+      <a class="atalho" href="../saude/rag_%20(1).pdf">
+        <strong>Relatório Anual de Gestão</strong>
+        <span>Prestação de contas e acompanhamento da gestão em saúde.</span>
+      </a>
+      <a class="atalho" href="medicamentos.html">
+        <strong>Medicamentos</strong>
+        <span>Relação e orientações de acesso aos medicamentos da rede municipal.</span>
+      </a>
+      <a class="atalho" href="lista-de-espera-saude.html">
+        <strong>Lista de Espera</strong>
+        <span>Consulta pública de filas, critérios e atualização dos dados.</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Buscar e filtrar</h2>
+    <div class="controle">
+      <div class="campo">
+        <label for="busca">Buscar por documento, descrição ou responsável</label>
+        <input id="busca" type="search" placeholder="Ex.: plano, programação anual, relatório">
+      </div>
+      <div class="campo">
+        <label for="tipo">Tipo</label>
+        <select id="tipo">
+          <option value="">Todos</option>
+          <option>Planejamento</option>
+          <option>Prestação de contas</option>
+          <option>Serviço</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="situacao">Situação</label>
+        <select id="situacao">
+          <option value="">Todas</option>
+          <option>Publicado</option>
+          <option>A atualizar</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="documentos-saude">
+    <h2>Documentos da Saúde</h2>
+
+    <div id="barra-exportacao" class="export-bar-pntp" style="display:none;">
+      <span class="export-label">Exportar dados visíveis:</span>
+      <button class="btn-export-fmt" onclick="exportarCSV()" title="Exportar em CSV"><span class="fmt-dot dot-csv"></span> CSV</button>
+      <button class="btn-export-fmt" onclick="exportarXLSX()" title="Exportar em XLSX"><span class="fmt-dot dot-xlsx"></span> XLSX</button>
+      <button class="btn-export-fmt" onclick="exportarJSON()" title="Exportar em JSON"><span class="fmt-dot dot-json"></span> JSON</button>
+      <button class="btn-export-fmt" onclick="exportarODS()" title="Exportar em ODS"><span class="fmt-dot dot-ods"></span> ODS</button>
+      <button class="btn-export-fmt" onclick="exportarXML()" title="Exportar em XML"><span class="fmt-dot dot-xml"></span> XML</button>
+      <button class="btn-export-fmt" onclick="exportarPDF()" title="Exportar / imprimir como PDF"><span class="fmt-dot dot-pdf"></span> PDF</button>
+    </div>
+
+    <div class="tabela-wrap">
+      <table id="tabela">
+        <thead>
+          <tr>
+            <th>Documento</th>
+            <th>Tipo</th>
+            <th>Descrição</th>
+            <th>Exercício</th>
+            <th>Responsável</th>
+            <th>Situação</th>
+            <th>Acesso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-tipo="Planejamento" data-situacao="Publicado">
+            <td>Plano Municipal de Saúde</td>
+            <td>Planejamento</td>
+            <td>Documento de planejamento das políticas, diretrizes, objetivos e ações da saúde municipal.</td>
+            <td>Vigência conforme documento publicado</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td><a href="../saude/plano%20final%20(2).pdf">Abrir PDF</a></td>
+          </tr>
+          <tr data-tipo="Planejamento" data-situacao="Publicado">
+            <td>Programação Anual de Saúde</td>
+            <td>Planejamento</td>
+            <td>Programação das ações, metas e iniciativas previstas para execução no exercício.</td>
+            <td>2026</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td><a href="../saude/pas_2026_20260428092920.pdf">Abrir PDF</a></td>
+          </tr>
+          <tr data-tipo="Prestação de contas" data-situacao="Publicado">
+            <td>Relatório Anual de Gestão</td>
+            <td>Prestação de contas</td>
+            <td>Relatório de acompanhamento da gestão, resultados alcançados e execução das ações de saúde.</td>
+            <td>Conforme documento publicado</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td><a href="../saude/rag_%20(1).pdf">Abrir PDF</a></td>
+          </tr>
+          <tr data-tipo="Serviço" data-situacao="A atualizar">
+            <td>Medicamentos</td>
+            <td>Serviço</td>
+            <td>Relação de medicamentos, orientações de acesso e informações sobre disponibilidade.</td>
+            <td>2026</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td><span class="badge atualizar">A atualizar</span></td>
+            <td><a href="medicamentos.html">Acessar página</a></td>
+          </tr>
+          <tr data-tipo="Serviço" data-situacao="A atualizar">
+            <td>Lista de Espera da Saúde</td>
+            <td>Serviço</td>
+            <td>Consulta de listas de espera, critérios de ordenação e data de atualização.</td>
+            <td>2026</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td><span class="badge atualizar">A atualizar</span></td>
+            <td><a href="lista-de-espera-saude.html">Acessar página</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Evidência PNTP</h2>
+    <div class="nota">
+      Página organizada para reunir documentos da área da saúde em seção própria, com busca, filtros, acesso aos arquivos publicados e exportação dos registros em formatos abertos. Após publicação no WordPress, substitua os links locais pelos endereços finais dos PDFs enviados à biblioteca de mídia ou diretório oficial.
+    </div>
+  </section>
+
+  <div class="rodape">Última atualização: abril de 2026 | Responsável pela informação: Secretaria Municipal de Saúde e Coordenação de Informática.</div>
+</main>
+<script>
+(function(){
+  var busca=document.getElementById("busca");
+  var tipo=document.getElementById("tipo");
+  var situacao=document.getElementById("situacao");
+  var linhas=[].slice.call(document.querySelectorAll("#tabela tbody tr"));
+  var colunas=[].slice.call(document.querySelectorAll("#tabela thead th")).map(function(th){return th.innerText.trim();});
+
+  function filtrar(){
+    var termo=(busca.value||"").toLowerCase();
+    var tipoValor=tipo.value;
+    var situacaoValor=situacao.value;
+    linhas.forEach(function(linha){
+      var texto=linha.textContent.toLowerCase();
+      var okTexto=!termo||texto.indexOf(termo)>-1;
+      var okTipo=!tipoValor||linha.getAttribute("data-tipo")===tipoValor;
+      var okSituacao=!situacaoValor||linha.getAttribute("data-situacao")===situacaoValor;
+      linha.style.display=okTexto&&okTipo&&okSituacao?"":"none";
+    });
+  }
+
+  function linhasVisiveis(){
+    return linhas.filter(function(linha){return linha.style.display!=="none";});
+  }
+
+  function textoCelula(cell){
+    return cell.innerText.replace(/\s+\n/g,"\n").replace(/\n\s+/g,"\n").trim();
+  }
+
+  function planilha(){
+    return [colunas].concat(linhasVisiveis().map(function(linha){
+      return [].slice.call(linha.children).map(function(cell){return textoCelula(cell).replace(/\n/g," | ");});
+    }));
+  }
+
+  function dadosVisiveis(){
+    return linhasVisiveis().map(function(linha){
+      var obj={};
+      [].slice.call(linha.children).forEach(function(cell,i){
+        obj[colunas[i]]=textoCelula(cell).replace(/\n/g," | ");
+      });
+      return obj;
+    });
+  }
+
+  function baixar(nome,tipoMime,conteudo){
+    var blob=new Blob([conteudo],{type:tipoMime});
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download=nome;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function exportarCSV(){
+    var linhasCsv=planilha().map(function(row){
+      return row.map(function(v){return '"' + String(v).replace(/"/g,'""') + '"';}).join(";");
+    }).join("\n");
+    baixar("saude-documentos.csv","text/csv;charset=utf-8","\ufeff"+linhasCsv);
+  }
+
+  function exportarXLSX(){
+    if(!window.XLSX){alert("Biblioteca XLSX não carregada.");return;}
+    var ws=XLSX.utils.aoa_to_sheet(planilha());
+    var wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,"Saude");
+    XLSX.writeFile(wb,"saude-documentos.xlsx");
+  }
+
+  function exportarJSON(){
+    var payload={
+      fonte:"Portal da Transparência - Prefeitura Municipal de Arroio dos Ratos",
+      pagina:"Saúde",
+      geradoEm:new Date().toISOString(),
+      totalRegistros:dadosVisiveis().length,
+      dados:dadosVisiveis()
+    };
+    baixar("saude-documentos.json","application/json;charset=utf-8",JSON.stringify(payload,null,2));
+  }
+
+  function exportarODS(){
+    if(!window.XLSX){alert("Biblioteca XLSX não carregada.");return;}
+    var ws=XLSX.utils.aoa_to_sheet(planilha());
+    var wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,"Saude");
+    XLSX.writeFile(wb,"saude-documentos.ods");
+  }
+
+  function escXML(valor){
+    return String(valor).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;");
+  }
+
+  function tag(nome){
+    return nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"");
+  }
+
+  function exportarXML(){
+    var xml='<?xml version="1.0" encoding="UTF-8"?>\n<documentos_saude geradoEm="'+escXML(new Date().toISOString())+'">\n';
+    dadosVisiveis().forEach(function(item){
+      xml+="  <documento>\n";
+      colunas.forEach(function(col){
+        xml+="    <"+tag(col)+">"+escXML(item[col]||"")+"</"+tag(col)+">\n";
+      });
+      xml+="  </documento>\n";
+    });
+    xml+="</documentos_saude>\n";
+    baixar("saude-documentos.xml","application/xml;charset=utf-8",xml);
+  }
+
+  function exportarPDF(){
+    window.print();
+  }
+
+  busca.addEventListener("input",filtrar);
+  tipo.addEventListener("change",filtrar);
+  situacao.addEventListener("change",filtrar);
+  document.getElementById("barra-exportacao").style.display="flex";
+
+  window.exportarCSV=exportarCSV;
+  window.exportarXLSX=exportarXLSX;
+  window.exportarJSON=exportarJSON;
+  window.exportarODS=exportarODS;
+  window.exportarXML=exportarXML;
+  window.exportarPDF=exportarPDF;
+})();
+</script>
+</body>
+</html>

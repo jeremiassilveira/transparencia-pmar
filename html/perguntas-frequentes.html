@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Perguntas Frequentes - Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-hover:#0b4d89;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --amarelo:#854d0e;
+  --amarelo-bg:#fef9c3;
+  --amarelo-borda:#fde68a;
+  --vermelho:#991b1b;
+  --vermelho-bg:#fee2e2;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#dbe3ee;
+  --cinza-100:#f8fafc;
+  --branco:#fff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900)}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,
+.elementor-widget-theme-post-title,.elementor-page-title,
+.wp-block-post-title,h1.entry-title,h1.page-title,
+.post-title,.site-main .page-header{display:none !important}
+
+.faq-wrap{max-width:1180px;margin:0 auto;padding:24px 28px 48px}
+.faq-breadcrumb{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;padding:10px 14px;border:1px solid var(--cinza-200);border-radius:8px;background:var(--branco);color:var(--cinza-500);font-size:13px}
+.faq-breadcrumb a{color:var(--azul);font-weight:700;text-decoration:none}
+.faq-breadcrumb a:hover,.faq-breadcrumb a:focus{text-decoration:underline}
+
+.faq-hero{margin-bottom:20px;padding:34px 36px;border-radius:16px;background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 62%,#1a7fd4 100%);color:#fff;box-shadow:0 8px 32px rgba(11,61,110,.20)}
+.faq-tag{display:inline-block;margin-bottom:10px;padding:5px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+.faq-hero h1{margin:0 0 10px;color:#fff;font-size:32px;line-height:1.2}
+.faq-hero p{max-width:920px;margin:0;color:rgba(255,255,255,.93);font-size:15px;line-height:1.7}
+.faq-hero-acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.faq-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 18px;border-radius:10px;font-size:14px;font-weight:800;line-height:1.2;text-decoration:none;transition:background .2s ease,border-color .2s ease,transform .2s ease}
+.faq-btn-primario{border:1px solid #fff;background:#fff;color:var(--azul-escuro)}
+.faq-btn-secundario{border:1px solid rgba(255,255,255,.30);background:rgba(255,255,255,.12);color:#fff}
+.faq-btn:hover,.faq-btn:focus{transform:translateY(-1px)}
+.faq-btn-primario:hover,.faq-btn-primario:focus{background:#f8fbff}
+.faq-btn-secundario:hover,.faq-btn-secundario:focus{background:rgba(255,255,255,.20)}
+
+.faq-card{margin-bottom:20px;padding:24px 26px;border:1px solid var(--cinza-200);border-radius:16px;background:var(--branco);box-shadow:0 4px 16px rgba(15,23,42,.04)}
+.faq-card-topo{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:18px}
+.faq-card h2,.faq-card-topo h2{margin:0;color:var(--azul-escuro);font-size:20px;line-height:1.25}
+.faq-card-topo p,.faq-card p{margin:6px 0 0;color:var(--cinza-700);font-size:14px;line-height:1.7}
+
+.faq-controles{display:grid;grid-template-columns:minmax(260px,1fr) minmax(220px,320px);gap:14px;margin-bottom:14px}
+.faq-campo label{display:block;margin-bottom:6px;color:var(--cinza-700);font-size:13px;font-weight:800}
+.faq-campo input,.faq-campo select{width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--cinza-300);border-radius:10px;background:#fff;color:var(--cinza-900);font:inherit;font-size:14px}
+.faq-campo input:focus,.faq-campo select:focus,.faq-chip:focus,.faq-btn-acao:focus,summary:focus{outline:3px solid rgba(15,94,168,.24);outline-offset:2px;border-color:var(--azul)}
+
+.faq-chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.faq-chip{min-height:34px;padding:7px 12px;border:1px solid var(--azul-claro);border-radius:999px;background:var(--azul-suave);color:var(--azul-escuro);font-size:13px;font-weight:800;cursor:pointer}
+.faq-chip.ativo{border-color:var(--azul);background:var(--azul);color:#fff}
+.faq-barra-acoes{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.faq-btn-acao{min-height:38px;padding:8px 12px;border:1px solid var(--cinza-200);border-radius:8px;background:#fff;color:var(--cinza-700);font-size:13px;font-weight:800;cursor:pointer}
+.faq-btn-acao:hover,.faq-btn-acao:focus{border-color:var(--azul-claro);background:var(--azul-suave);color:var(--azul-escuro)}
+.faq-status{margin-top:14px;padding:12px 14px;border:1px solid var(--azul-claro);border-radius:10px;background:var(--azul-suave)}
+.faq-status p{margin:0;color:var(--cinza-700);font-size:13.5px}
+
+.faq-evidencia{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.faq-evidencia-item{padding:14px 16px;border:1px solid var(--cinza-200);border-left:4px solid var(--verde);border-radius:12px;background:#fbfdff}
+.faq-evidencia-item strong{display:block;margin-bottom:6px;color:var(--cinza-700);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.faq-evidencia-item p{margin:0;color:var(--cinza-900);font-size:14px;line-height:1.55}
+
+.faq-sem-resultado{border-left:4px solid var(--amarelo);background:var(--amarelo-bg)}
+.faq-sem-resultado h2{color:var(--amarelo)}
+.faq-categoria-bloco{margin-bottom:22px}
+.faq-categoria-titulo{margin:0 0 12px;padding:20px 22px;border:1px solid var(--cinza-200);border-radius:16px;background:var(--branco)}
+.faq-categoria-titulo h2{margin:0 0 6px;color:var(--azul-escuro);font-size:20px;line-height:1.25}
+.faq-categoria-titulo p{margin:0;color:var(--cinza-700);font-size:14px;line-height:1.6}
+.faq-meta{margin-top:8px !important;color:var(--cinza-500) !important;font-size:12.5px !important}
+
+.faq-item{margin-bottom:10px;border:1px solid var(--cinza-200);border-radius:12px;background:#fff;overflow:hidden}
+.faq-item[hidden],.faq-categoria-bloco[hidden]{display:none !important}
+.faq-item summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:54px;padding:15px 18px;color:var(--cinza-900);font-size:15px;font-weight:800;cursor:pointer;list-style:none}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--azul-suave);color:var(--azul);font-size:20px;font-weight:800;flex:0 0 auto}
+.faq-item[open] summary{border-bottom:1px solid var(--cinza-200);background:#fbfdff;color:var(--azul-escuro)}
+.faq-item[open] summary::after{content:"-"}
+.faq-resposta{padding:16px 18px 18px;color:var(--cinza-700);font-size:14px;line-height:1.75}
+.faq-resposta p{margin:0 0 12px}
+.faq-resposta p:last-child{margin-bottom:0}
+.faq-resposta ul{margin:0 0 12px;padding-left:20px}
+.faq-resposta li{margin-bottom:6px}
+.faq-link-util{display:inline-flex;margin-top:2px;color:var(--azul);font-weight:800;text-decoration:none}
+.faq-link-util:hover,.faq-link-util:focus{text-decoration:underline}
+.faq-nota{margin-top:12px;padding:12px 14px;border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:10px;background:var(--azul-suave);color:var(--cinza-700);font-size:13.5px;line-height:1.6}
+
+.faq-rodape-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.faq-rodape-grid div{padding:14px 16px;border:1px solid #edf2f7;border-radius:12px;background:#fbfdff}
+.faq-rodape-grid strong{display:block;margin-bottom:6px;color:var(--cinza-700);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.faq-rodape-grid p{margin:0;color:var(--cinza-900);font-size:14px;line-height:1.6}
+.faq-rodape-grid a{color:var(--azul);font-weight:800;text-decoration:none}
+.faq-rodape-grid a:hover,.faq-rodape-grid a:focus{text-decoration:underline}
+
+@media(max-width:900px){
+  .faq-wrap{padding:18px 16px 42px}
+  .faq-hero{padding:26px 22px}
+  .faq-hero h1{font-size:26px}
+  .faq-controles{grid-template-columns:1fr}
+  .faq-evidencia,.faq-rodape-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .faq-wrap{padding:16px 14px 36px}
+  .faq-hero{padding:22px 18px}
+  .faq-hero h1{font-size:24px}
+  .faq-hero-acoes,.faq-card-topo{display:block}
+  .faq-btn{width:100%;margin-bottom:8px}
+  .faq-card,.faq-categoria-titulo{padding:18px 16px}
+  .faq-evidencia,.faq-rodape-grid{grid-template-columns:1fr}
+}
+@media print{
+  .faq-breadcrumb,.faq-card-controles,.faq-hero-acoes{display:none !important}
+  .faq-wrap{max-width:none;padding:0}
+  .faq-hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200)}
+  .faq-hero h1{color:var(--azul-escuro) !important}
+  .faq-hero p{color:var(--cinza-700) !important}
+  .faq-item{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<main class="faq-wrap">
+
+  <nav class="faq-breadcrumb" aria-label="Caminho da pagina">
+    <a href="/">Inicio</a>
+    <span aria-hidden="true">&raquo;</span>
+    <a href="/transparencia/">Transparencia</a>
+    <span aria-hidden="true">&raquo;</span>
+    <span>Perguntas Frequentes</span>
+  </nav>
+
+  <header class="faq-hero">
+    <span class="faq-tag">Atendimento ao cidadao</span>
+    <h1>Perguntas Frequentes</h1>
+    <p>
+      Consulte respostas objetivas sobre acesso a informacao, transparencia publica,
+      licitacoes, contratos, servidores, saude, educacao, tributos, ouvidoria,
+      protecao de dados e servicos do Municipio.
+    </p>
+    <div class="faq-hero-acoes" aria-label="Acoes principais">
+      <a href="/sic/" class="faq-btn faq-btn-primario">Servico de Informacao ao Cidadao</a>
+      <a href="/consultardados/" class="faq-btn faq-btn-secundario">Consultar Dados</a>
+      <a href="/transparencia/" class="faq-btn faq-btn-secundario">Portal da Transparencia</a>
+    </div>
+  </header>
+
+  <section class="faq-card" aria-labelledby="titulo-evidencia-pntp">
+    <div class="faq-card-topo">
+      <div>
+        <h2 id="titulo-evidencia-pntp">Evidencia para o PNTP</h2>
+        <p>Esta pagina organiza perguntas e respostas relacionadas as atividades e servicos municipais.</p>
+      </div>
+    </div>
+    <div class="faq-evidencia">
+      <div class="faq-evidencia-item">
+        <strong>Criterio relacionado</strong>
+        <p>PNTP 2026 - 2.7 Perguntas e respostas frequentes.</p>
+      </div>
+      <div class="faq-evidencia-item">
+        <strong>Fundamento</strong>
+        <p>Art. 8o, § 1o, I, da Lei Federal no 12.527/2011.</p>
+      </div>
+      <div class="faq-evidencia-item">
+        <strong>Item de verificacao</strong>
+        <p>Disponibilidade da secao de FAQ no portal institucional.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-card faq-card-controles" aria-labelledby="titulo-controles">
+    <div class="faq-card-topo">
+      <div>
+        <h2 id="titulo-controles">Buscar e filtrar</h2>
+        <p>Use a busca por palavra-chave ou filtre por tema.</p>
+      </div>
+    </div>
+
+    <div class="faq-controles">
+      <div class="faq-campo">
+        <label for="faq-busca">Buscar pergunta ou resposta</label>
+        <input type="search" id="faq-busca" placeholder="Ex.: prazo, licitacao, salario, medicamento, LGPD" autocomplete="off">
+      </div>
+      <div class="faq-campo">
+        <label for="faq-categoria-select">Categoria</label>
+        <select id="faq-categoria-select">
+          <option value="todos">Todas as categorias</option>
+          <option value="sic">Acesso a Informacao (SIC)</option>
+          <option value="transparencia">Transparencia e Dados</option>
+          <option value="licitacoes">Licitacoes e Contratos</option>
+          <option value="servidores">Servidores Publicos</option>
+          <option value="obras">Obras Publicas</option>
+          <option value="saude">Saude</option>
+          <option value="educacao">Educacao</option>
+          <option value="tributos">Tributos</option>
+          <option value="ouvidoria">Ouvidoria</option>
+          <option value="lgpd">LGPD</option>
+          <option value="conselhos">Conselhos Municipais</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="faq-chips" aria-label="Filtros rapidos por categoria">
+      <button type="button" class="faq-chip ativo" data-categoria="todos">Todas</button>
+      <button type="button" class="faq-chip" data-categoria="sic">SIC</button>
+      <button type="button" class="faq-chip" data-categoria="transparencia">Transparencia</button>
+      <button type="button" class="faq-chip" data-categoria="licitacoes">Licitacoes</button>
+      <button type="button" class="faq-chip" data-categoria="servidores">Servidores</button>
+      <button type="button" class="faq-chip" data-categoria="obras">Obras</button>
+      <button type="button" class="faq-chip" data-categoria="saude">Saude</button>
+      <button type="button" class="faq-chip" data-categoria="educacao">Educacao</button>
+      <button type="button" class="faq-chip" data-categoria="tributos">Tributos</button>
+      <button type="button" class="faq-chip" data-categoria="ouvidoria">Ouvidoria</button>
+      <button type="button" class="faq-chip" data-categoria="lgpd">LGPD</button>
+      <button type="button" class="faq-chip" data-categoria="conselhos">Conselhos</button>
+    </div>
+
+    <div class="faq-barra-acoes">
+      <button type="button" id="faq-expandir" class="faq-btn-acao">Abrir todas</button>
+      <button type="button" id="faq-recolher" class="faq-btn-acao">Fechar todas</button>
+      <button type="button" id="faq-limpar" class="faq-btn-acao">Limpar filtros</button>
+    </div>
+
+    <div class="faq-status">
+      <p id="faq-resultado-texto" aria-live="polite">Exibindo todas as perguntas.</p>
+    </div>
+  </section>
+
+  <section id="faq-sem-resultado" class="faq-card faq-sem-resultado" hidden>
+    <h2>Nenhum resultado encontrado</h2>
+    <p>Nao localizamos perguntas com os filtros aplicados. Tente outro termo de busca ou clique em "Limpar filtros".</p>
+  </section>
+
+  <section class="faq-categoria-bloco" data-categoria-bloco="sic">
+    <div class="faq-categoria-titulo">
+      <h2>Acesso a Informacao (SIC)</h2>
+      <p>Pedidos de informacao publica, prazos, acompanhamento e recursos administrativos.</p>
+      <p class="faq-meta">Atualizado em 17/04/2026</p>
+    </div>
+
+    <details class="faq-item" data-categoria="sic" id="faq-como-fazer-pedido">
+      <summary><span>Como faco um pedido de acesso a informacao?</span></summary>
+      <div class="faq-resposta">
+        <p>O pedido pode ser registrado pelo e-SIC ou pelo atendimento presencial do SIC. Descreva a informacao desejada de forma clara e indique, quando possivel, o periodo, o assunto e o orgao responsavel.</p>
+        <a href="/sic/" class="faq-link-util">Acessar a pagina do SIC</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="sic" id="faq-prazo-resposta">
+      <summary><span>Qual e o prazo de resposta do pedido?</span></summary>
+      <div class="faq-resposta">
+        <p>O prazo inicial e de ate <strong>20 dias</strong>, prorrogavel por mais <strong>10 dias</strong> mediante justificativa formal ao solicitante.</p>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="sic" id="faq-preciso-justificar">
+      <summary><span>Preciso justificar o motivo do pedido?</span></summary>
+      <div class="faq-resposta">
+        <p>Nao. A Lei de Acesso a Informacao veda a exigencia de justificativa para pedidos de acesso a informacao publica.</p>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="sic" id="faq-acompanhar-pedido">
+      <summary><span>Como acompanho meu pedido de informacao?</span></summary>
+      <div class="faq-resposta">
+        <p>O acompanhamento deve ser feito pelo numero de protocolo recebido no momento da solicitacao, no sistema eletronico disponibilizado pelo Municipio ou pelo atendimento do SIC.</p>
+        <a href="/protocolo-digital/" class="faq-link-util">Acompanhar pelo Protocolo Digital</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="sic" id="faq-recurso-sic">
+      <summary><span>Posso recorrer se eu discordar da resposta?</span></summary>
+      <div class="faq-resposta">
+        <p>Sim. Em caso de negativa, omissao ou resposta insatisfatoria, o cidadao pode apresentar recurso administrativo no prazo informado na resposta recebida, conforme o fluxo do SIC.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="faq-categoria-bloco" data-categoria-bloco="transparencia">
+    <div class="faq-categoria-titulo">
+      <h2>Transparencia e Dados Publicos</h2>
+      <p>Consulta a receitas, despesas, dados abertos, atos oficiais e evidencias de transparencia.</p>
+      <p class="faq-meta">Atualizado em 17/04/2026</p>
+    </div>
+
+    <details class="faq-item" data-categoria="transparencia" id="faq-onde-consultar-dados">
+      <summary><span>Onde consulto os principais dados de transparencia?</span></summary>
+      <div class="faq-resposta">
+        <p>A pagina Consultar Dados reune atalhos para transparencia, saude, SIC, legislacao, estrutura administrativa, renuncia de receita, emendas e prestacao de contas.</p>
+        <a href="/consultardados/" class="faq-link-util">Acessar Consultar Dados</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="transparencia" id="faq-receitas-despesas">
+      <summary><span>Onde consultar receitas e despesas da Prefeitura?</span></summary>
+      <div class="faq-resposta">
+        <p>As receitas e despesas devem ser consultadas no Portal da Transparencia, com possibilidade de pesquisa por exercicio, orgao, credor, empenho e demais filtros disponibilizados.</p>
+        <a href="/transparencia/" class="faq-link-util">Acessar Portal da Transparencia</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="transparencia" id="faq-dados-abertos">
+      <summary><span>Existem dados disponiveis para download?</span></summary>
+      <div class="faq-resposta">
+        <p>Sim. A pagina de Dados Abertos orienta o acesso a conjuntos de dados publicos e formatos reutilizaveis, como CSV, JSON, XLSX, ODS, XML e PDF, quando disponiveis.</p>
+        <a href="/dados-abertos/" class="faq-link-util">Acessar Dados Abertos</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="transparencia" id="faq-atos-oficiais">
+      <summary><span>Onde encontro leis, decretos, portarias e atos oficiais?</span></summary>
+      <div class="faq-resposta">
+        <p>Os atos normativos e publicacoes oficiais ficam disponiveis nas secoes de legislacao, atos oficiais ou diario oficial do portal, conforme a categoria do documento.</p>
+        <a href="/legislacao/" class="faq-link-util">Consultar Legislacao Municipal</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="transparencia" id="faq-radar-transparencia">
+      <summary><span>O que e o Radar da Transparencia Publica?</span></summary>
+      <div class="faq-resposta">
+        <p>O Radar da Transparencia Publica e uma plataforma nacional que divulga resultados de avaliacao dos portais publicos no Programa Nacional de Transparencia Publica.</p>
+        <a href="/consultardados/" class="faq-link-util">Acessar atalho para o Radar</a>
+      </div>
+    </details>
+  </section>
+
+  <section class="faq-categoria-bloco" data-categoria-bloco="licitacoes">
+    <div class="faq-categoria-titulo">
+      <h2>Licitacoes e Contratos</h2>
+      <p>Editais, participacao em certames, contratos, aditivos e fornecedores.</p>
+      <p class="faq-meta">Atualizado em 17/04/2026</p>
+    </div>
+
+    <details class="faq-item" data-categoria="licitacoes" id="faq-onde-editais">
+      <summary><span>Onde encontro os editais de licitacao?</span></summary>
+      <div class="faq-resposta">
+        <p>Os editais, anexos, avisos, resultados, homologacoes e demais documentos devem ser consultados na secao de licitacoes do portal.</p>
+        <a href="/licitacoes/" class="faq-link-util">Acessar Licitacoes</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="licitacoes" id="faq-como-participar-licitacao">
+      <summary><span>Como participar de uma licitacao da Prefeitura?</span></summary>
+      <div class="faq-resposta">
+        <p>Consulte o edital do certame e verifique objeto, modalidade, prazos, documentos de habilitacao, forma de envio da proposta e criterios de julgamento.</p>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="licitacoes" id="faq-contratos-aditivos">
+      <summary><span>Os contratos e aditivos tambem sao publicados?</span></summary>
+      <div class="faq-resposta">
+        <p>Sim. A publicacao deve informar objeto, partes, valor, vigencia, aditivos, documentos vinculados e outras informacoes relevantes para controle social.</p>
+        <a href="/contratos/" class="faq-link-util">Consultar Contratos</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="licitacoes" id="faq-pncp">
+      <summary><span>As contratacoes tambem aparecem no PNCP?</span></summary>
+      <div class="faq-resposta">
+        <p>Quando aplicavel pela Lei Federal no 14.133/2021, as contratacoes devem ter publicidade no Portal Nacional de Contratacoes Publicas, alem dos canais oficiais do Municipio.</p>
+        <a href="https://www.gov.br/pncp/" target="_blank" rel="noopener" class="faq-link-util">Acessar PNCP</a>
+      </div>
+    </details>
+  </section>
+
+  <section class="faq-categoria-bloco" data-categoria-bloco="servidores">
+    <div class="faq-categoria-titulo">
+      <h2>Servidores Publicos</h2>
+      <p>Remuneracao, cargos, concursos, processos seletivos e quadro de pessoal.</p>
+      <p class="faq-meta">Atualizado em 17/04/2026</p>
+    </div>
+
+    <details class="faq-item" data-categoria="servidores" id="faq-salarios-servidores">
+      <summary><span>Onde consultar remuneracao dos servidores?</span></summary>
+      <div class="faq-resposta">
+        <p>A consulta de remuneracao, cargos, vinculos, lotacoes e demais informacoes de pessoal deve estar disponivel no Portal da Transparencia, na area de Recursos Humanos ou Servidores Publicos.</p>
+        <a href="/servidores/" class="faq-link-util">Consultar Servidores</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="servidores" id="faq-concursos">
+      <summary><span>Onde vejo concursos publicos e processos seletivos?</span></summary>
+      <div class="faq-resposta">
+        <p>Editais, resultados, listas de classificados, homologacoes e nomeacoes ficam disponiveis na area de concursos e selecoes publicas do portal.</p>
+        <a href="/concursos-e-selecoes-publicas/" class="faq-link-util">Acessar Concursos e Selecoes</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="servidores" id="faq-diarias-passagens">
+      <summary><span>Onde consultar diarias e passagens?</span></summary>
+      <div class="faq-resposta">
+        <p>As despesas com diarias e passagens devem ser publicadas com informacoes como beneficiario, destino, motivo, periodo e valor, quando houver registros.</p>
+        <a href="/diarias-e-passagens/" class="faq-link-util">Consultar Diarias e Passagens</a>
+      </div>
+    </details>
+  </section>
+
+  <section class="faq-categoria-bloco" data-categoria-bloco="obras">
+    <div class="faq-categoria-titulo">
+      <h2>Obras Publicas</h2>
+      <p>Obras em andamento, paralisadas, concluidas, valores, prazos e situacao.</p>
+      <p class="faq-meta">Atualizado em 17/04/2026</p>
+    </div>
+
+    <details class="faq-item" data-categoria="obras" id="faq-consultar-obras">
+      <summary><span>Onde consultar obras publicas do Municipio?</span></summary>
+      <div class="faq-resposta">
+        <p>As obras devem ser consultadas na secao propria do portal, com dados sobre objeto, local, empresa contratada, valor, prazo, medicao, situacao e documentos relacionados.</p>
+        <a href="/obras/" class="faq-link-util">Acessar Obras Publicas</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="obras" id="faq-obras-paralisadas">
+      <summary><span>Como saber se ha obras paralisadas?</span></summary>
+      <div class="faq-resposta">
+        <p>Quando houver obra paralisada, o portal deve informar a situacao, motivo da paralizacao, medidas adotadas e previsao de retomada, se existente.</p>
+        <a href="/obras-paralisadas/" class="faq-link-util">Consultar Obras Paralisadas</a>
+      </div>
+    </details>
+  </section>
+
+  <section class="faq-categoria-bloco" data-categoria-bloco="saude">
+    <div class="faq-categoria-titulo">
+      <h2>Saude</h2>
+      <p>Atendimento, unidades, medicamentos, listas de espera e documentos da saude.</p>
+      <p class="faq-meta">Atualizado em 17/04/2026</p>
+    </div>
+
+    <details class="faq-item" data-categoria="saude" id="faq-agendar-consulta">
+      <summary><span>Como agendar consulta na rede municipal?</span></summary>
+      <div class="faq-resposta">
+        <p>O agendamento segue o fluxo da Secretaria Municipal de Saude, normalmente pela unidade de referencia do cidadao ou pelos canais oficiais de atendimento.</p>
+        <a href="/saude/" class="faq-link-util">Acessar informacoes da Saude</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="saude" id="faq-medicamentos">
+      <summary><span>Onde vejo a lista de medicamentos disponiveis?</span></summary>
+      <div class="faq-resposta">
+        <p>A relacao de medicamentos e orientacoes de acesso devem ficar disponiveis na area da Saude, incluindo estoque, medicamentos padronizados e orientacoes sobre alto custo quando aplicavel.</p>
+        <a href="/consultardados/" class="faq-link-util">Consultar atalhos de Saude</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="saude" id="faq-lista-espera-saude">
+      <summary><span>Onde consultar listas de espera da Saude?</span></summary>
+      <div class="faq-resposta">
+        <p>As listas de espera publicas devem ser disponibilizadas com criterios de consulta e atualizacao periodica, preservando dados pessoais conforme a LGPD.</p>
+        <a href="/consultardados/" class="faq-link-util">Acessar lista de espera pelos atalhos de Saude</a>
+      </div>
+    </details>
+  </section>
+
+  <section class="faq-categoria-bloco" data-categoria-bloco="educacao">
+    <div class="faq-categoria-titulo">
+      <h2>Educacao</h2>
+      <p>Matriculas, lista de espera, rede municipal e informacoes educacionais.</p>
+      <p class="faq-meta">Atualizado em 17/04/2026</p>
+    </div>
+
+    <details class="faq-item" data-categoria="educacao" id="faq-lista-espera-creche">
+      <summary><span>Onde consultar a lista de espera em creches?</span></summary>
+      <div class="faq-resposta">
+        <p>A consulta deve estar disponivel em pagina da Educacao ou secao especifica, com criterios de priorizacao, data de atualizacao e orientacoes para acompanhamento.</p>
+        <a href="/educacao/" class="faq-link-util">Acessar Educacao</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="educacao" id="faq-matricula-escolar">
+      <summary><span>Como funciona a matricula na rede municipal?</span></summary>
+      <div class="faq-resposta">
+        <p>As orientacoes sobre calendario, documentos exigidos, escolas, etapas e prazos sao divulgadas pela Secretaria Municipal de Educacao.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="faq-categoria-bloco" data-categoria-bloco="tributos">
+    <div class="faq-categoria-titulo">
+      <h2>Tributos e Financas</h2>
+      <p>IPTU, taxas, certidoes, arrecadacao, renuncia de receita e emendas.</p>
+      <p class="faq-meta">Atualizado em 17/04/2026</p>
+    </div>
+
+    <details class="faq-item" data-categoria="tributos" id="faq-iptu-segunda-via">
+      <summary><span>Como emitir a segunda via do IPTU?</span></summary>
+      <div class="faq-resposta">
+        <p>A segunda via do IPTU deve ser emitida pelos servicos tributarios digitais do Municipio ou solicitada ao setor responsavel, conforme disponibilidade do sistema.</p>
+        <a href="/tributos/" class="faq-link-util">Acessar servicos tributarios</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="tributos" id="faq-certidao-negativa">
+      <summary><span>Como solicitar certidao negativa?</span></summary>
+      <div class="faq-resposta">
+        <p>A certidao negativa pode ser solicitada pelos servicos digitais do Municipio ou diretamente no setor tributario, conforme a regulamentacao local.</p>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="tributos" id="faq-renuncia-receita">
+      <summary><span>Onde consultar renuncia de receita?</span></summary>
+      <div class="faq-resposta">
+        <p>As informacoes de renuncia de receita devem apresentar beneficiarios, fundamento legal, valores previstos ou concedidos e procedimentos de acesso quando aplicavel.</p>
+        <a href="/consultardados/" class="faq-link-util">Consultar atalhos de Renuncia da Receita</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="tributos" id="faq-emendas-parlamentares">
+      <summary><span>Onde consultar emendas parlamentares?</span></summary>
+      <div class="faq-resposta">
+        <p>As emendas parlamentares devem informar autoria, esfera, objeto, valor previsto, valor recebido, execucao e situacao.</p>
+        <a href="/emendas-parlamentares-federais/" class="faq-link-util">Consultar Emendas Parlamentares</a>
+      </div>
+    </details>
+  </section>
+
+  <section class="faq-categoria-bloco" data-categoria-bloco="ouvidoria">
+    <div class="faq-categoria-titulo">
+      <h2>Ouvidoria</h2>
+      <p>Manifestacoes, reclamacoes, sugestoes, elogios, denuncias e acompanhamento.</p>
+      <p class="faq-meta">Atualizado em 17/04/2026</p>
+    </div>
+
+    <details class="faq-item" data-categoria="ouvidoria" id="faq-ouvidoria-diferenca">
+      <summary><span>Qual a diferenca entre Ouvidoria e SIC?</span></summary>
+      <div class="faq-resposta">
+        <p>A Ouvidoria recebe manifestacoes como reclamacoes, denuncias, elogios, solicitacoes e sugestoes. O SIC e o canal especifico para pedidos formais de acesso a informacao publica.</p>
+        <a href="/ouvidoria/" class="faq-link-util">Acessar Ouvidoria Municipal</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="ouvidoria" id="faq-como-fazer-manifestacao">
+      <summary><span>Como registrar uma manifestacao na Ouvidoria?</span></summary>
+      <div class="faq-resposta">
+        <p>A manifestacao pode ser registrada pelo canal eletronico da Ouvidoria ou pelos canais presenciais disponibilizados pelo Municipio.</p>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="ouvidoria" id="faq-relatorios-ouvidoria">
+      <summary><span>Onde consultar relatorios da Ouvidoria?</span></summary>
+      <div class="faq-resposta">
+        <p>Os relatorios estatisticos da Ouvidoria devem apresentar dados sobre manifestacoes recebidas, tipos, prazos, encaminhamentos e resultados, quando disponiveis.</p>
+        <a href="/ouvidoria/relatorios/" class="faq-link-util">Consultar Relatorios da Ouvidoria</a>
+      </div>
+    </details>
+  </section>
+
+  <section class="faq-categoria-bloco" data-categoria-bloco="lgpd">
+    <div class="faq-categoria-titulo">
+      <h2>LGPD e Protecao de Dados</h2>
+      <p>Privacidade, encarregado de dados, direitos do titular e seguranca da informacao.</p>
+      <p class="faq-meta">Atualizado em 17/04/2026</p>
+    </div>
+
+    <details class="faq-item" data-categoria="lgpd" id="faq-encarregado-lgpd">
+      <summary><span>Quem e o encarregado pelo tratamento de dados pessoais?</span></summary>
+      <div class="faq-resposta">
+        <p>O encarregado, tambem chamado de DPO, e o canal de comunicacao entre o Municipio, os titulares de dados e a Autoridade Nacional de Protecao de Dados.</p>
+        <a href="/encarregado-lgpd/" class="faq-link-util">Acessar pagina do Encarregado LGPD</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="lgpd" id="faq-direitos-titular">
+      <summary><span>Como exercer direitos sobre meus dados pessoais?</span></summary>
+      <div class="faq-resposta">
+        <p>O titular pode solicitar informacoes, correcao, acesso ou outras providencias relacionadas aos seus dados pessoais pelos canais indicados na pagina de privacidade ou do encarregado.</p>
+        <a href="/politica-de-privacidade/" class="faq-link-util">Consultar Politica de Privacidade</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="lgpd" id="faq-cookies">
+      <summary><span>Onde encontro a Politica de Cookies?</span></summary>
+      <div class="faq-resposta">
+        <p>A Politica de Cookies informa quais tecnologias podem ser utilizadas no portal e como o usuario pode gerenciar suas preferencias.</p>
+        <a href="/politica-de-cookies/" class="faq-link-util">Consultar Politica de Cookies</a>
+      </div>
+    </details>
+  </section>
+
+  <section class="faq-categoria-bloco" data-categoria-bloco="conselhos">
+    <div class="faq-categoria-titulo">
+      <h2>Conselhos Municipais e Controle Social</h2>
+      <p>Composicao, atas, contatos, funcionamento e documentos dos conselhos municipais.</p>
+      <p class="faq-meta">Atualizado em 17/04/2026</p>
+    </div>
+
+    <details class="faq-item" data-categoria="conselhos" id="faq-conselhos-municipais">
+      <summary><span>Onde encontro informacoes dos conselhos municipais?</span></summary>
+      <div class="faq-resposta">
+        <p>As paginas dos conselhos devem informar composicao, representantes, contatos, normas de instituicao, calendario de reunioes, atas e documentos produzidos.</p>
+        <a href="/conselhos-municipais/" class="faq-link-util">Consultar Conselhos Municipais</a>
+      </div>
+    </details>
+
+    <details class="faq-item" data-categoria="conselhos" id="faq-participar-conselhos">
+      <summary><span>Como participar de reunioes ou acompanhar decisoes dos conselhos?</span></summary>
+      <div class="faq-resposta">
+        <p>Consulte a pagina do conselho relacionado ao tema de interesse para verificar calendario, local das reunioes, contatos, atas e formas de participacao social.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="faq-card faq-rodape-info">
+    <div class="faq-rodape-grid">
+      <div>
+        <strong>Atualizacao desta pagina</strong>
+        <p>17/04/2026</p>
+      </div>
+      <div>
+        <strong>Responsavel</strong>
+        <p>Ouvidoria Municipal e Coordenacao de Informatica</p>
+      </div>
+      <div>
+        <strong>Area relacionada</strong>
+        <p><a href="/sic/">Servico de Informacao ao Cidadao (SIC)</a></p>
+      </div>
+      <div>
+        <strong>Canal de atendimento</strong>
+        <p><a href="/ouvidoria/">Ouvidoria Municipal</a></p>
+      </div>
+    </div>
+    <div class="faq-nota">
+      Esta pagina serve como evidencia do criterio PNTP 2026 relativo a perguntas e respostas frequentes. Recomenda-se revisar os links periodicamente e substituir atalhos genericos por links diretos sempre que novas paginas especificas forem publicadas.
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  var busca = document.getElementById("faq-busca");
+  var select = document.getElementById("faq-categoria-select");
+  var chips = Array.prototype.slice.call(document.querySelectorAll(".faq-chip"));
+  var itens = Array.prototype.slice.call(document.querySelectorAll(".faq-item"));
+  var blocos = Array.prototype.slice.call(document.querySelectorAll(".faq-categoria-bloco"));
+  var semResultado = document.getElementById("faq-sem-resultado");
+  var resultadoTexto = document.getElementById("faq-resultado-texto");
+  var btnExpandir = document.getElementById("faq-expandir");
+  var btnRecolher = document.getElementById("faq-recolher");
+  var btnLimpar = document.getElementById("faq-limpar");
+
+  function normalizar(valor){
+    return String(valor || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,"");
+  }
+
+  function categoriaAtual(){
+    return select.value || "todos";
+  }
+
+  function atualizarChips(categoria){
+    chips.forEach(function(chip){
+      chip.classList.toggle("ativo", chip.getAttribute("data-categoria") === categoria);
+    });
+  }
+
+  function aplicarFiltros(){
+    var termo = normalizar(busca.value);
+    var categoria = categoriaAtual();
+    var visiveis = 0;
+
+    itens.forEach(function(item){
+      var texto = normalizar(item.textContent);
+      var itemCategoria = item.getAttribute("data-categoria");
+      var combinaCategoria = categoria === "todos" || itemCategoria === categoria;
+      var combinaBusca = !termo || texto.indexOf(termo) !== -1;
+      var mostrar = combinaCategoria && combinaBusca;
+
+      item.hidden = !mostrar;
+      if(mostrar){ visiveis += 1; }
+    });
+
+    blocos.forEach(function(bloco){
+      var blocoCategoria = bloco.getAttribute("data-categoria-bloco");
+      var blocoItens = Array.prototype.slice.call(bloco.querySelectorAll(".faq-item"));
+      var temItemVisivel = blocoItens.some(function(item){ return !item.hidden; });
+      var combinaBloco = categoria === "todos" || blocoCategoria === categoria;
+      bloco.hidden = !(combinaBloco && temItemVisivel);
+    });
+
+    semResultado.hidden = visiveis !== 0;
+    if(visiveis === itens.length && categoria === "todos" && !termo){
+      resultadoTexto.textContent = "Exibindo todas as perguntas.";
+    }else if(visiveis === 1){
+      resultadoTexto.textContent = "Exibindo 1 pergunta encontrada.";
+    }else{
+      resultadoTexto.textContent = "Exibindo " + visiveis + " perguntas encontradas.";
+    }
+  }
+
+  chips.forEach(function(chip){
+    chip.addEventListener("click", function(){
+      var categoria = chip.getAttribute("data-categoria");
+      select.value = categoria;
+      atualizarChips(categoria);
+      aplicarFiltros();
+    });
+  });
+
+  busca.addEventListener("input", aplicarFiltros);
+  select.addEventListener("change", function(){
+    atualizarChips(categoriaAtual());
+    aplicarFiltros();
+  });
+
+  btnExpandir.addEventListener("click", function(){
+    itens.forEach(function(item){
+      if(!item.hidden){ item.open = true; }
+    });
+  });
+
+  btnRecolher.addEventListener("click", function(){
+    itens.forEach(function(item){ item.open = false; });
+  });
+
+  btnLimpar.addEventListener("click", function(){
+    busca.value = "";
+    select.value = "todos";
+    atualizarChips("todos");
+    itens.forEach(function(item){ item.open = false; });
+    aplicarFiltros();
+    busca.focus();
+  });
+
+  aplicarFiltros();
+})();
+</script>
+</body>
+</html>

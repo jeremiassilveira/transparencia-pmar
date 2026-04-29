@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unidades de Saúde - Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{--azul-escuro:#0b3d6e;--azul:#0f5ea8;--azul-hover:#0b4d89;--azul-claro:#dbeafe;--azul-suave:#f0f6ff;--verde:#166534;--verde-bg:#dcfce7;--vermelho:#991b1b;--vermelho-bg:#fee2e2;--amarelo:#854d0e;--amarelo-bg:#fef9c3;--cinza-900:#1f2937;--cinza-700:#374151;--cinza-500:#6b7280;--cinza-300:#d1d5db;--cinza-200:#dbe3ee;--cinza-100:#f8fafc;--branco:#fff}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900)}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,.elementor-widget-theme-post-title,.elementor-page-title,.wp-block-post-title,h1.entry-title,h1.page-title,.post-title,.site-main .page-header{display:none !important}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 28px 48px}
+.breadcrumb{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;padding:10px 14px;border:1px solid var(--cinza-200);border-radius:8px;background:var(--branco);color:var(--cinza-500);font-size:13px}
+.breadcrumb a{color:var(--azul);font-weight:700;text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+.hero{margin-bottom:20px;padding:34px 36px;border-radius:16px;background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 58%,#12805c 100%);color:#fff;box-shadow:0 8px 32px rgba(11,61,110,.20)}
+.tag{display:inline-block;margin-bottom:10px;padding:5px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800;text-transform:uppercase}
+.hero h1{margin:0 0 10px;color:#fff;font-size:32px;line-height:1.2}.hero p{max-width:920px;margin:0;color:rgba(255,255,255,.93);font-size:15px;line-height:1.7}
+.acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:800;text-decoration:none;border:1px solid rgba(255,255,255,.30);background:rgba(255,255,255,.12);color:#fff}.btn.primary{background:#fff;color:var(--azul-escuro);border-color:#fff}
+.card{margin-bottom:20px;padding:24px 26px;border:1px solid var(--cinza-200);border-radius:16px;background:var(--branco);box-shadow:0 4px 16px rgba(15,23,42,.04)}
+.card h2{margin:0 0 16px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);color:var(--azul-escuro);font-size:20px}.card p{margin:0 0 12px;color:var(--cinza-700);font-size:14px;line-height:1.7}
+.grid-unidades{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.unidade-card{padding:20px 22px;border:1px solid var(--cinza-200);border-radius:14px;background:var(--cinza-100);transition:border-color .15s}
+.unidade-card:hover{border-color:var(--azul-claro);background:var(--azul-suave)}
+.unidade-nome{font-size:16px;font-weight:800;color:var(--azul-escuro);margin:0 0 4px}
+.unidade-apelido{font-size:13px;color:var(--cinza-500);margin:0 0 14px}
+.unidade-info{display:grid;gap:8px}
+.unidade-linha{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--cinza-700)}
+.icone{flex-shrink:0;width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:var(--azul-claro);color:var(--azul-escuro);font-size:12px}
+.unidade-linha strong{color:var(--cinza-900)}
+.badge-horario{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:var(--verde-bg);color:var(--verde);font-size:12px;font-weight:800}
+.controle{display:grid;grid-template-columns:1fr 200px;gap:12px;align-items:end}
+.campo label{display:block;margin-bottom:6px;color:var(--cinza-700);font-size:13px;font-weight:800}
+.campo input,.campo select{width:100%;min-height:42px;padding:10px 12px;border:1px solid var(--cinza-300);border-radius:10px;font:inherit;font-size:14px}
+.export-bar-pntp{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px;padding:12px 14px;border:1px solid var(--cinza-200);border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(15,23,42,.04)}
+.export-label{margin-right:4px;color:var(--cinza-700);font-size:13px;font-weight:800}
+.btn-export-fmt{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:7px 11px;border:1px solid var(--cinza-200);border-radius:8px;background:#f8fafc;color:var(--cinza-700);font-size:12px;font-weight:800;cursor:pointer}
+.btn-export-fmt:hover,.btn-export-fmt:focus{border-color:var(--azul-claro);background:var(--azul-suave);color:var(--azul-escuro)}
+.fmt-dot{width:9px;height:9px;border-radius:999px;display:inline-block}.dot-csv{background:#16a34a}.dot-xlsx{background:#15803d}.dot-json{background:#2563eb}.dot-ods{background:#65a30d}.dot-xml{background:#9333ea}.dot-pdf{background:#dc2626}
+.tabela-wrap{overflow-x:auto;border:1px solid var(--cinza-200);border-radius:12px}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
+th{padding:12px 14px;background:var(--azul-escuro);color:#fff;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+td{padding:12px 14px;border-bottom:1px solid var(--cinza-200);color:var(--cinza-700);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:#f8fafc}
+a{color:var(--azul);font-weight:800;text-decoration:none}a:hover{text-decoration:underline}
+.nota{padding:14px 16px;border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:12px;background:var(--azul-suave);color:var(--cinza-700);font-size:14px;line-height:1.7}
+.rodape{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:18px;padding:12px}
+.sem-resultado{padding:32px;text-align:center;color:var(--cinza-500);font-size:14px}
+@media(max-width:900px){.grid-unidades{grid-template-columns:1fr}.controle{grid-template-columns:1fr}}
+@media(max-width:800px){.wrap{padding:16px 14px}.hero{padding:22px 18px}.hero h1{font-size:24px}.acoes{display:block}.btn{width:100%;margin-bottom:8px}.export-bar-pntp{align-items:stretch}.btn-export-fmt{flex:1 1 92px;justify-content:center}}
+@media print{.breadcrumb,.acoes,.controle,.export-bar-pntp{display:none !important}.hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200)}.hero h1{color:var(--azul-escuro) !important}.hero p{color:var(--cinza-700) !important}.grid-unidades{grid-template-columns:1fr !important}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<main class="wrap">
+  <nav class="breadcrumb" aria-label="Caminho da página">
+    <a href="/">Início</a><span aria-hidden="true">&rsaquo;</span>
+    <a href="/transparencia-publica/">Transparência</a><span aria-hidden="true">&rsaquo;</span>
+    <a href="index.html">Saúde</a><span aria-hidden="true">&rsaquo;</span>
+    <span>Unidades de Saúde</span>
+  </nav>
+
+  <header class="hero">
+    <span class="tag">Transparência — Saúde · PNTP 18.2</span>
+    <h1>Unidades de Saúde</h1>
+    <p>Listagem completa das Estratégias de Saúde da Família (ESF) do município de Arroio dos Ratos, com endereços, telefones, bairros e horários de atendimento ao público.</p>
+    <div class="acoes">
+      <a href="#tabela-unidades" class="btn primary">Ver tabela completa</a>
+      <a href="index.html" class="btn">Saúde — início</a>
+      <a href="medicamentos.html" class="btn">Medicamentos</a>
+      <a href="lista-de-espera.html" class="btn">Lista de Espera</a>
+    </div>
+  </header>
+
+  <!-- Cards visuais -->
+  <section class="card">
+    <h2>Unidades de Estratégia de Saúde da Família (ESF)</h2>
+    <p>O município conta com 4 unidades de ESF em funcionamento, atendendo de segunda a sexta-feira das <strong>8h às 12h</strong> e das <strong>13h às 17h</strong>.</p>
+    <div class="grid-unidades" id="grid-unidades">
+
+      <div class="unidade-card">
+        <p class="unidade-nome">ESF I</p>
+        <p class="unidade-apelido">Noe Viriato dos Santos</p>
+        <div class="unidade-info">
+          <div class="unidade-linha">
+            <span class="icone" aria-hidden="true">📍</span>
+            <span>Av. Espanha, 222 — <strong>Centro</strong></span>
+          </div>
+          <div class="unidade-linha">
+            <span class="icone" aria-hidden="true">📞</span>
+            <span><a href="tel:+555136562062">(51) 3656-2062</a></span>
+          </div>
+          <div class="unidade-linha">
+            <span class="icone" aria-hidden="true">🕐</span>
+            <span class="badge-horario">Seg – Sex · 8h–12h / 13h–17h</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="unidade-card">
+        <p class="unidade-nome">ESF II</p>
+        <p class="unidade-apelido">Miguel Florkovski</p>
+        <div class="unidade-info">
+          <div class="unidade-linha">
+            <span class="icone" aria-hidden="true">📍</span>
+            <span>Av. João Pereira da Silva, 1142 — <strong>N. Sra. Aparecida</strong></span>
+          </div>
+          <div class="unidade-linha">
+            <span class="icone" aria-hidden="true">📞</span>
+            <span><a href="tel:+555136564084">(51) 3656-4084</a></span>
+          </div>
+          <div class="unidade-linha">
+            <span class="icone" aria-hidden="true">🕐</span>
+            <span class="badge-horario">Seg – Sex · 8h–12h / 13h–17h</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="unidade-card">
+        <p class="unidade-nome">ESF III</p>
+        <p class="unidade-apelido">Aurélio Rodrigues Ariza</p>
+        <div class="unidade-info">
+          <div class="unidade-linha">
+            <span class="icone" aria-hidden="true">📍</span>
+            <span>Av. Pedro Fantin, 550 — <strong>Santa Bárbara</strong></span>
+          </div>
+          <div class="unidade-linha">
+            <span class="icone" aria-hidden="true">📞</span>
+            <span><a href="tel:+555136562050">(51) 3656-2050</a></span>
+          </div>
+          <div class="unidade-linha">
+            <span class="icone" aria-hidden="true">🕐</span>
+            <span class="badge-horario">Seg – Sex · 8h–12h / 13h–17h</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="unidade-card">
+        <p class="unidade-nome">ESF IV</p>
+        <p class="unidade-apelido">Tirteu Castro de Castro</p>
+        <div class="unidade-info">
+          <div class="unidade-linha">
+            <span class="icone" aria-hidden="true">📍</span>
+            <span>R. Antônio Fidélis dos Santos, 1125 — <strong>Dos Estados</strong></span>
+          </div>
+          <div class="unidade-linha">
+            <span class="icone" aria-hidden="true">📞</span>
+            <span><a href="tel:+555136564042">(51) 3656-4042</a></span>
+          </div>
+          <div class="unidade-linha">
+            <span class="icone" aria-hidden="true">🕐</span>
+            <span class="badge-horario">Seg – Sex · 8h–12h / 13h–17h</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Filtro e tabela -->
+  <section class="card" id="tabela-unidades">
+    <h2>Buscar unidade</h2>
+    <div class="controle">
+      <div class="campo">
+        <label for="busca">Buscar por nome, endereço ou bairro</label>
+        <input id="busca" type="search" placeholder="Ex.: ESF I, Centro, Aparecida">
+      </div>
+      <div class="campo">
+        <label for="bairro">Bairro</label>
+        <select id="bairro">
+          <option value="">Todos os bairros</option>
+          <option>Centro</option>
+          <option>N. Sra. Aparecida</option>
+          <option>Santa Bárbara</option>
+          <option>Dos Estados</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Tabela de unidades</h2>
+
+    <div id="barra-exportacao" class="export-bar-pntp" style="display:none">
+      <span class="export-label">Exportar dados visíveis:</span>
+      <button class="btn-export-fmt" onclick="exportarCSV()" title="Exportar em CSV"><span class="fmt-dot dot-csv"></span> CSV</button>
+      <button class="btn-export-fmt" onclick="exportarXLSX()" title="Exportar em XLSX"><span class="fmt-dot dot-xlsx"></span> XLSX</button>
+      <button class="btn-export-fmt" onclick="exportarJSON()" title="Exportar em JSON"><span class="fmt-dot dot-json"></span> JSON</button>
+      <button class="btn-export-fmt" onclick="exportarODS()" title="Exportar em ODS"><span class="fmt-dot dot-ods"></span> ODS</button>
+      <button class="btn-export-fmt" onclick="exportarXML()" title="Exportar em XML"><span class="fmt-dot dot-xml"></span> XML</button>
+      <button class="btn-export-fmt" onclick="exportarPDF()" title="Exportar / imprimir como PDF"><span class="fmt-dot dot-pdf"></span> PDF</button>
+    </div>
+
+    <div class="tabela-wrap">
+      <table id="tabela">
+        <thead>
+          <tr>
+            <th>Unidade</th>
+            <th>Nome da unidade</th>
+            <th>Endereço</th>
+            <th>Bairro</th>
+            <th>Telefone</th>
+            <th>Horário de atendimento</th>
+            <th>Tipo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-bairro="Centro">
+            <td>ESF I</td>
+            <td>Noe Viriato dos Santos</td>
+            <td>Av. Espanha, 222</td>
+            <td>Centro</td>
+            <td><a href="tel:+555136562062">(51) 3656-2062</a></td>
+            <td>Seg – Sex · 8h–12h / 13h–17h</td>
+            <td>Estratégia de Saúde da Família</td>
+          </tr>
+          <tr data-bairro="N. Sra. Aparecida">
+            <td>ESF II</td>
+            <td>Miguel Florkovski</td>
+            <td>Av. João Pereira da Silva, 1142</td>
+            <td>N. Sra. Aparecida</td>
+            <td><a href="tel:+555136564084">(51) 3656-4084</a></td>
+            <td>Seg – Sex · 8h–12h / 13h–17h</td>
+            <td>Estratégia de Saúde da Família</td>
+          </tr>
+          <tr data-bairro="Santa Bárbara">
+            <td>ESF III</td>
+            <td>Aurélio Rodrigues Ariza</td>
+            <td>Av. Pedro Fantin, 550</td>
+            <td>Santa Bárbara</td>
+            <td><a href="tel:+555136562050">(51) 3656-2050</a></td>
+            <td>Seg – Sex · 8h–12h / 13h–17h</td>
+            <td>Estratégia de Saúde da Família</td>
+          </tr>
+          <tr data-bairro="Dos Estados">
+            <td>ESF IV</td>
+            <td>Tirteu Castro de Castro</td>
+            <td>R. Antônio Fidélis dos Santos, 1125</td>
+            <td>Dos Estados</td>
+            <td><a href="tel:+555136564042">(51) 3656-4042</a></td>
+            <td>Seg – Sex · 8h–12h / 13h–17h</td>
+            <td>Estratégia de Saúde da Família</td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="sem-resultado" class="sem-resultado" style="display:none">Nenhuma unidade encontrada para os filtros selecionados.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Evidência PNTP 2026 — Critério 18.2</h2>
+    <div class="nota">
+      Esta página atende ao critério <strong>18.2 — Serviços de saúde</strong> do Programa Nacional de Transparência Pública (PNTP 2026), que exige a publicação de listagem completa das unidades de saúde com locais, horários e dados de contato. Prazo de atualidade: 30 dias. Última atualização: abril de 2026.
+    </div>
+  </section>
+
+  <div class="rodape">Última atualização: abril de 2026 | Responsável pela informação: Secretaria Municipal de Saúde e Coordenação de Informática.</div>
+</main>
+<script>
+(function(){
+  var busca=document.getElementById("busca");
+  var bairro=document.getElementById("bairro");
+  var linhas=[].slice.call(document.querySelectorAll("#tabela tbody tr"));
+  var colunas=[].slice.call(document.querySelectorAll("#tabela thead th")).map(function(th){return th.innerText.trim();});
+  var semResultado=document.getElementById("sem-resultado");
+
+  function normalizar(s){
+    return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+  }
+
+  function filtrar(){
+    var termo=normalizar(busca.value||"");
+    var bairroValor=bairro.value;
+    var visiveis=0;
+    linhas.forEach(function(linha){
+      var texto=normalizar(linha.textContent);
+      var okTexto=!termo||texto.indexOf(termo)>-1;
+      var okBairro=!bairroValor||linha.getAttribute("data-bairro")===bairroValor;
+      var mostrar=okTexto&&okBairro;
+      linha.style.display=mostrar?"":"none";
+      if(mostrar)visiveis++;
+    });
+    semResultado.style.display=visiveis===0?"block":"none";
+  }
+
+  function linhasVisiveis(){
+    return linhas.filter(function(linha){return linha.style.display!=="none";});
+  }
+
+  function textoCelula(cell){
+    return cell.innerText.replace(/\s+\n/g,"\n").replace(/\n\s+/g,"\n").trim();
+  }
+
+  function planilha(){
+    return [colunas].concat(linhasVisiveis().map(function(linha){
+      return [].slice.call(linha.children).map(function(cell){return textoCelula(cell).replace(/\n/g," | ");});
+    }));
+  }
+
+  function dadosVisiveis(){
+    return linhasVisiveis().map(function(linha){
+      var obj={};
+      [].slice.call(linha.children).forEach(function(cell,i){
+        obj[colunas[i]]=textoCelula(cell).replace(/\n/g," | ");
+      });
+      return obj;
+    });
+  }
+
+  function baixar(nome,tipoMime,conteudo){
+    var blob=new Blob([conteudo],{type:tipoMime});
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download=nome;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function exportarCSV(){
+    var linhasCsv=planilha().map(function(row){
+      return row.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(";");
+    }).join("\n");
+    baixar("unidades-saude.csv","text/csv;charset=utf-8","﻿"+linhasCsv);
+  }
+
+  function exportarXLSX(){
+    if(!window.XLSX){alert("Biblioteca XLSX não carregada.");return;}
+    var ws=XLSX.utils.aoa_to_sheet(planilha());
+    var wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,"Unidades");
+    XLSX.writeFile(wb,"unidades-saude.xlsx");
+  }
+
+  function exportarJSON(){
+    var payload={
+      fonte:"Portal da Transparência - Prefeitura Municipal de Arroio dos Ratos",
+      pagina:"Unidades de Saúde",
+      criterio:"PNTP 2026 - 18.2",
+      geradoEm:new Date().toISOString(),
+      totalRegistros:dadosVisiveis().length,
+      dados:dadosVisiveis()
+    };
+    baixar("unidades-saude.json","application/json;charset=utf-8",JSON.stringify(payload,null,2));
+  }
+
+  function exportarODS(){
+    if(!window.XLSX){alert("Biblioteca XLSX não carregada.");return;}
+    var ws=XLSX.utils.aoa_to_sheet(planilha());
+    var wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,"Unidades");
+    XLSX.writeFile(wb,"unidades-saude.ods");
+  }
+
+  function escXML(valor){
+    return String(valor).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;");
+  }
+
+  function tag(nome){
+    return nome.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"");
+  }
+
+  function exportarXML(){
+    var xml='<?xml version="1.0" encoding="UTF-8"?>\n<unidades_saude geradoEm="'+escXML(new Date().toISOString())+'">\n';
+    dadosVisiveis().forEach(function(item){
+      xml+="  <unidade>\n";
+      colunas.forEach(function(col){
+        xml+="    <"+tag(col)+">"+escXML(item[col]||"")+"</"+tag(col)+">\n";
+      });
+      xml+="  </unidade>\n";
+    });
+    xml+="</unidades_saude>\n";
+    baixar("unidades-saude.xml","application/xml;charset=utf-8",xml);
+  }
+
+  function exportarPDF(){window.print();}
+
+  busca.addEventListener("input",filtrar);
+  bairro.addEventListener("change",filtrar);
+  document.getElementById("barra-exportacao").style.display="flex";
+
+  window.exportarCSV=exportarCSV;
+  window.exportarXLSX=exportarXLSX;
+  window.exportarJSON=exportarJSON;
+  window.exportarODS=exportarODS;
+  window.exportarXML=exportarXML;
+  window.exportarPDF=exportarPDF;
+})();
+</script>
+</body>
+</html>
