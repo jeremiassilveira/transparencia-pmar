@@ -2254,14 +2254,27 @@
 <script>
 (function () {
 
-  /* Filtra as linhas da tabela de atas pelo ano selecionado */
+  /* Normaliza texto removendo acentos para busca insensível */
+  function normalizarTexto(str) {
+    return str
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '');
+  }
+
+  /* Filtra as linhas da tabela de atas por ano e/ou texto */
   function filtrarAtas() {
-    var ano = document.getElementById('filtro-ata-ano').value;
+    var ano   = document.getElementById('filtro-ata-ano').value;
+    var busca = document.getElementById('busca-ata-texto');
+    var termo = busca ? normalizarTexto(busca.value.trim()) : '';
     var linhas = document.querySelectorAll('#tabela-atas tbody tr');
     var visiveis = 0;
 
     linhas.forEach(function (tr) {
-      if (!ano || tr.getAttribute('data-ano') === ano) {
+      var anoMatch   = !ano   || tr.getAttribute('data-ano') === ano;
+      var textoMatch = !termo || normalizarTexto(tr.textContent).indexOf(termo) !== -1;
+
+      if (anoMatch && textoMatch) {
         tr.classList.remove('cms-oculto');
         visiveis++;
       } else {
@@ -2273,19 +2286,34 @@
     if (msg) msg.style.display = (visiveis === 0) ? 'block' : 'none';
   }
 
-  /* Limpa o filtro e mostra todas as linhas */
+  /* Limpa todos os filtros e mostra todas as linhas */
   function limparFiltroAtas() {
     document.getElementById('filtro-ata-ano').value = '';
+    var busca = document.getElementById('busca-ata-texto');
+    if (busca) busca.value = '';
     filtrarAtas();
   }
 
   /* Expõe as funções para os botões onclick do HTML */
-  window.filtrarAtas = filtrarAtas;
+  window.filtrarAtas     = filtrarAtas;
   window.limparFiltroAtas = limparFiltroAtas;
 
   /* Aplica filtro automaticamente ao mudar o select */
   var sel = document.getElementById('filtro-ata-ano');
   if (sel) sel.addEventListener('change', filtrarAtas);
+
+  /* Aplica busca ao digitar (com debounce de 300ms) */
+  var busca = document.getElementById('busca-ata-texto');
+  if (busca) {
+    var debounce;
+    busca.addEventListener('input', function () {
+      clearTimeout(debounce);
+      debounce = setTimeout(filtrarAtas, 300);
+    });
+    busca.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); filtrarAtas(); }
+    });
+  }
 
 })();
 </script>
