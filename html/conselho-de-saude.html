@@ -1316,13 +1316,22 @@
       organizadas cronologicamente. Use o filtro abaixo para localizar atas por exercício.
     </p>
 
+    <!-- Busca por texto -->
+    <div class="cms-busca-wrap">
+      <label for="busca-ata-texto">🔍 Buscar nas atas:</label>
+      <input type="search" id="busca-ata-texto" placeholder="Digite palavra-chave (ex: dengue, regimento, APAE)..." autocomplete="off">
+      <button class="cms-btn-filtrar" type="button" onclick="filtrarAtas()">Buscar</button>
+    </div>
+
     <!-- Filtro por ano -->
     <div class="cms-filtro-ano">
       <label for="filtro-ata-ano">Filtrar por exercício:</label>
       <select id="filtro-ata-ano">
         <option value="">Todos os anos</option>
+        <option value="2026">2026</option>
         <option value="2025">2025</option>
         <option value="2024">2024</option>
+        <option value="2023">2023</option>
       </select>
       <button class="cms-btn-filtrar" type="button" onclick="filtrarAtas()">Filtrar</button>
       <button class="cms-btn-limpar" type="button" onclick="limparFiltroAtas()">Limpar</button>
