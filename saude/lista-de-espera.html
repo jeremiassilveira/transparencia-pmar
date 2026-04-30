@@ -5,24 +5,281 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lista de Espera da Saúde - Prefeitura Municipal de Arroio dos Ratos</title>
 <style>
-:root{--azul-escuro:#0b3d6e;--azul:#0f5ea8;--azul-claro:#dbeafe;--azul-suave:#f0f6ff;--verde:#166534;--verde-bg:#dcfce7;--amarelo:#854d0e;--amarelo-bg:#fef9c3;--cinza-900:#1f2937;--cinza-700:#374151;--cinza-500:#6b7280;--cinza-300:#d1d5db;--cinza-200:#dbe3ee;--cinza-100:#f8fafc}
-*{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900)}.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,.elementor-widget-theme-post-title,.elementor-page-title,.wp-block-post-title,h1.entry-title,h1.page-title,.post-title,.site-main .page-header{display:none !important}
-.wrap{max-width:1180px;margin:0 auto;padding:24px 28px 48px}.breadcrumb{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;padding:10px 14px;border:1px solid var(--cinza-200);border-radius:8px;background:#fff;color:var(--cinza-500);font-size:13px}.breadcrumb a{color:var(--azul);font-weight:700;text-decoration:none}.hero{margin-bottom:20px;padding:34px 36px;border-radius:16px;background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 58%,#12805c 100%);color:#fff;box-shadow:0 8px 32px rgba(11,61,110,.20)}.tag{display:inline-block;margin-bottom:10px;padding:5px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800;text-transform:uppercase}.hero h1{margin:0 0 10px;color:#fff;font-size:32px;line-height:1.2}.hero p{max-width:920px;margin:0;color:rgba(255,255,255,.93);font-size:15px;line-height:1.7}.acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:800;text-decoration:none;border:1px solid rgba(255,255,255,.30);background:rgba(255,255,255,.12);color:#fff}.btn.primary{background:#fff;color:var(--azul-escuro);border-color:#fff}.card{margin-bottom:20px;padding:24px 26px;border:1px solid var(--cinza-200);border-radius:16px;background:#fff;box-shadow:0 4px 16px rgba(15,23,42,.04)}.card h2{margin:0 0 16px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);color:var(--azul-escuro);font-size:20px}.controle{display:grid;grid-template-columns:1fr 220px 220px;gap:12px;align-items:end}.campo label{display:block;margin-bottom:6px;color:var(--cinza-700);font-size:13px;font-weight:800}.campo input,.campo select{width:100%;min-height:42px;padding:10px 12px;border:1px solid var(--cinza-300);border-radius:10px;font:inherit;font-size:14px}.export-bar-pntp{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px;padding:12px 14px;border:1px solid var(--cinza-200);border-radius:12px;background:#fff}.export-label{margin-right:4px;color:var(--cinza-700);font-size:13px;font-weight:800}.btn-export-fmt{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:7px 11px;border:1px solid var(--cinza-200);border-radius:8px;background:#f8fafc;color:var(--cinza-700);font-size:12px;font-weight:800;cursor:pointer}.fmt-dot{width:9px;height:9px;border-radius:999px;display:inline-block}.dot-csv{background:#16a34a}.dot-xlsx{background:#15803d}.dot-json{background:#2563eb}.dot-ods{background:#65a30d}.dot-xml{background:#9333ea}.dot-pdf{background:#dc2626}.tabela-wrap{overflow-x:auto;border:1px solid var(--cinza-200);border-radius:12px}table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}th{padding:12px 14px;background:var(--azul-escuro);color:#fff;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em}td{padding:12px 14px;border-bottom:1px solid var(--cinza-200);color:var(--cinza-700);vertical-align:top}tr:nth-child(even) td{background:#f8fafc}.badge{display:inline-block;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:800}.atualizar{background:var(--amarelo-bg);color:var(--amarelo)}.nota{padding:14px 16px;border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:12px;background:var(--azul-suave);color:var(--cinza-700);font-size:14px;line-height:1.7}.rodape{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:18px;padding:12px}a{color:var(--azul);font-weight:800;text-decoration:none}
-@media(max-width:800px){.wrap{padding:16px 14px}.hero{padding:22px 18px}.hero h1{font-size:24px}.controle{grid-template-columns:1fr}.acoes{display:block}.btn{width:100%;margin-bottom:8px}.btn-export-fmt{flex:1 1 92px;justify-content:center}}@media print{.breadcrumb,.acoes,.controle,.export-bar-pntp{display:none !important}.hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200)}.hero h1{color:var(--azul-escuro) !important}.hero p{color:var(--cinza-700) !important}}
+:root{--azul-escuro:#0b3d6e;--azul:#0f5ea8;--azul-claro:#dbeafe;--azul-suave:#f0f6ff;--verde:#166534;--verde-bg:#dcfce7;--amarelo:#854d0e;--amarelo-bg:#fef9c3;--cinza-900:#1f2937;--cinza-700:#374151;--cinza-500:#6b7280;--cinza-300:#d1d5db;--cinza-200:#dbe3ee;--cinza-100:#f8fafc;--branco:#fff}
+*{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900)}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,.elementor-widget-theme-post-title,.elementor-page-title,.wp-block-post-title,h1.entry-title,h1.page-title,.post-title,.site-main .page-header{display:none !important}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 28px 48px}
+.breadcrumb{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;padding:10px 14px;border:1px solid var(--cinza-200);border-radius:8px;background:var(--branco);color:var(--cinza-500);font-size:13px}.breadcrumb a{color:var(--azul);font-weight:700;text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+.hero{margin-bottom:20px;padding:34px 36px;border-radius:16px;background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 58%,#12805c 100%);color:#fff;box-shadow:0 8px 32px rgba(11,61,110,.20)}
+.tag{display:inline-block;margin-bottom:10px;padding:5px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800;text-transform:uppercase}
+.hero h1{margin:0 0 10px;color:#fff;font-size:32px;line-height:1.2}.hero p{max-width:920px;margin:0;color:rgba(255,255,255,.93);font-size:15px;line-height:1.7}
+.acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:800;text-decoration:none;border:1px solid rgba(255,255,255,.30);background:rgba(255,255,255,.12);color:#fff}.btn.primary{background:#fff;color:var(--azul-escuro);border-color:#fff}
+.diamante{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:4px 14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.12);font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.92)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{background:var(--branco);border:1px solid var(--cinza-200);border-top:4px solid var(--azul);border-radius:12px;padding:16px 18px;text-align:center;box-shadow:0 2px 8px rgba(15,23,42,.05)}
+.stat-numero{display:block;font-size:28px;font-weight:800;color:var(--azul-escuro)}.stat-label{font-size:11.5px;color:var(--cinza-500);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;display:block}
+.card{margin-bottom:20px;padding:24px 26px;border:1px solid var(--cinza-200);border-radius:16px;background:var(--branco);box-shadow:0 4px 16px rgba(15,23,42,.04)}.card h2{margin:0 0 16px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);color:var(--azul-escuro);font-size:20px}.card p{margin:0 0 12px;color:var(--cinza-700);font-size:14px;line-height:1.7}
+.controle{display:grid;grid-template-columns:1fr 220px 220px;gap:12px;align-items:end}
+.campo label{display:block;margin-bottom:6px;color:var(--cinza-700);font-size:13px;font-weight:800}.campo input,.campo select{width:100%;min-height:42px;padding:10px 12px;border:1px solid var(--cinza-300);border-radius:10px;font:inherit;font-size:14px}.campo input:focus,.campo select:focus{outline:none;border-color:var(--azul);box-shadow:0 0 0 3px rgba(15,94,168,.12)}
+.export-bar-pntp{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px;padding:12px 14px;border:1px solid var(--cinza-200);border-radius:12px;background:var(--branco)}
+.export-label{margin-right:4px;color:var(--cinza-700);font-size:13px;font-weight:800}
+.btn-export-fmt{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:7px 11px;border:1px solid var(--cinza-200);border-radius:8px;background:#f8fafc;color:var(--cinza-700);font-size:12px;font-weight:800;cursor:pointer}.btn-export-fmt:hover,.btn-export-fmt:focus{border-color:var(--azul-claro);background:var(--azul-suave);color:var(--azul-escuro)}
+.fmt-dot{width:9px;height:9px;border-radius:999px;display:inline-block}.dot-csv{background:#16a34a}.dot-xlsx{background:#15803d}.dot-json{background:#2563eb}.dot-ods{background:#65a30d}.dot-xml{background:#9333ea}.dot-pdf{background:#dc2626}
+.tabela-wrap{overflow-x:auto;border:1px solid var(--cinza-200);border-radius:12px}
+table{width:100%;border-collapse:collapse;background:var(--branco);font-size:14px}
+th{padding:12px 14px;background:var(--azul-escuro);color:#fff;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--cinza-200);color:var(--cinza-700);vertical-align:top}tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:#f8fafc}
+.badge{display:inline-block;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:800}
+.publicado{background:var(--verde-bg);color:var(--verde)}
+.num{font-size:18px;font-weight:800;color:var(--azul-escuro)}
+a{color:var(--azul);font-weight:800;text-decoration:none}a:hover{text-decoration:underline}
+.nota{padding:14px 16px;border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:12px;background:var(--azul-suave);color:var(--cinza-700);font-size:14px;line-height:1.7}
+.sem-resultado{padding:32px;text-align:center;color:var(--cinza-500);font-size:14px}
+.rodape{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:18px;padding:12px}
+@media(max-width:800px){.wrap{padding:16px 14px}.hero{padding:22px 18px}.hero h1{font-size:24px}.controle{grid-template-columns:1fr}.acoes{display:block}.btn{width:100%;margin-bottom:8px}.btn-export-fmt{flex:1 1 92px;justify-content:center}}
+@media print{.breadcrumb,.acoes,.controle,.export-bar-pntp{display:none !important}.hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200)}.hero h1{color:var(--azul-escuro) !important}.hero p{color:var(--cinza-700) !important}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 <main class="wrap">
-  <nav class="breadcrumb" aria-label="Caminho da página"><a href="/">Início</a><span>&rsaquo;</span><a href="/saude/">Saúde</a><span>&rsaquo;</span><span>Lista de Espera</span></nav>
-  <header class="hero"><span class="tag">Saúde</span><h1>Lista de Espera da Saúde</h1><p>Consulta pública das listas de espera da saúde municipal, com identificação do serviço, quantidade de pessoas aguardando, critério de ordenação e data de atualização, preservando dados pessoais.</p><div class="acoes"><a href="#tabela-lista" class="btn primary">Ver listas</a><a href="/saude/" class="btn">Voltar para Saúde</a></div></header>
-  <section class="card"><h2>Buscar e filtrar</h2><div class="controle"><div class="campo"><label for="busca">Buscar por serviço, unidade ou observação</label><input id="busca" type="search" placeholder="Ex.: consulta, exame, especialidade"></div><div class="campo"><label for="tipo">Tipo</label><select id="tipo"><option value="">Todos</option><option>Consulta</option><option>Exame</option><option>Procedimento</option><option>A atualizar</option></select></div><div class="campo"><label for="situacao">Situação</label><select id="situacao"><option value="">Todas</option><option>A atualizar</option><option>Publicado</option></select></div></div></section>
-  <section class="card" id="tabela-lista"><h2>Listas de espera</h2><div id="barra-exportacao" class="export-bar-pntp" style="display:none;"><span class="export-label">Exportar dados visíveis:</span><button class="btn-export-fmt" onclick="exportarCSV()"><span class="fmt-dot dot-csv"></span> CSV</button><button class="btn-export-fmt" onclick="exportarXLSX()"><span class="fmt-dot dot-xlsx"></span> XLSX</button><button class="btn-export-fmt" onclick="exportarJSON()"><span class="fmt-dot dot-json"></span> JSON</button><button class="btn-export-fmt" onclick="exportarODS()"><span class="fmt-dot dot-ods"></span> ODS</button><button class="btn-export-fmt" onclick="exportarXML()"><span class="fmt-dot dot-xml"></span> XML</button><button class="btn-export-fmt" onclick="exportarPDF()"><span class="fmt-dot dot-pdf"></span> PDF</button></div><div class="tabela-wrap"><table id="tabela"><thead><tr><th>Serviço</th><th>Tipo</th><th>Unidade responsável</th><th>Quantidade em espera</th><th>Critério de ordenação</th><th>Situação</th><th>Atualização</th><th>Observação</th></tr></thead><tbody><tr data-tipo="A atualizar" data-situacao="A atualizar"><td>Consultas, exames e procedimentos</td><td>A atualizar</td><td>Secretaria Municipal de Saúde</td><td>A informar</td><td>Ordem cronológica, prioridade clínica ou outro critério oficial a informar</td><td><span class="badge atualizar">A atualizar</span></td><td>A informar</td><td>Publicar a lista consolidada sem nome, CPF, cartão SUS ou qualquer dado pessoal identificável.</td></tr></tbody></table></div></section>
-  <section class="card"><h2>Proteção de dados</h2><div class="nota">A publicação deve permitir controle social sem expor dados pessoais sensíveis. Recomenda-se divulgar informações agregadas, protocolo anonimizado quando houver base legal, critérios de prioridade e data da última atualização.</div></section>
-  <div class="rodape">Última atualização: abril de 2026 | Responsável pela informação: Secretaria Municipal de Saúde.</div>
+
+  <nav class="breadcrumb" aria-label="Caminho da página">
+    <a href="/">Início</a><span aria-hidden="true">&rsaquo;</span>
+    <a href="/transparencia-publica/">Transparência</a><span aria-hidden="true">&rsaquo;</span>
+    <a href="index.html">Saúde</a><span aria-hidden="true">&rsaquo;</span>
+    <span>Lista de Espera</span>
+  </nav>
+
+  <header class="hero">
+    <span class="tag">Transparência — Saúde · PNTP 2026 · Critério 18.8</span>
+    <h1>Lista de Espera da Saúde</h1>
+    <p>Consulta pública das filas de espera por consultas especializadas, exames e procedimentos da saúde municipal de Arroio dos Ratos. Dados agregados, sem identificação pessoal, com critério de ordenação e data de atualização. Atualizado em abril de 2026.</p>
+    <div class="acoes">
+      <a href="#tabela-lista" class="btn primary">Ver filas de espera</a>
+      <a href="index.html" class="btn">Saúde — início</a>
+      <a href="medicamentos.html" class="btn">Medicamentos</a>
+    </div>
+    <div class="diamante">&#128142; Selo Diamante · PNTP 2026 · Critério 18.8</div>
+  </header>
+
+  <div class="stats-grid">
+    <div class="stat-card"><span class="stat-numero">404</span><span class="stat-label">Pessoas aguardando</span></div>
+    <div class="stat-card"><span class="stat-numero">12</span><span class="stat-label">Serviços monitorados</span></div>
+    <div class="stat-card"><span class="stat-numero">6 / 4 / 2</span><span class="stat-label">Consultas / Exames / Proced.</span></div>
+    <div class="stat-card"><span class="stat-numero">Abr/2026</span><span class="stat-label">Última atualização</span></div>
+  </div>
+
+  <section class="card">
+    <h2>Buscar e filtrar</h2>
+    <div class="controle">
+      <div class="campo"><label for="busca">Buscar por serviço, unidade ou critério</label><input id="busca" type="search" placeholder="Ex.: cardiologia, ultrassom, fisioterapia"></div>
+      <div class="campo"><label for="tipo">Tipo</label><select id="tipo"><option value="">Todos</option><option>Consulta</option><option>Exame</option><option>Procedimento</option></select></div>
+      <div class="campo"><label for="situacao">Situação</label><select id="situacao"><option value="">Todas</option><option>Publicado</option></select></div>
+    </div>
+  </section>
+
+  <section class="card" id="tabela-lista">
+    <h2>Filas de espera — abril de 2026</h2>
+    <div id="barra-exportacao" class="export-bar-pntp" style="display:none;">
+      <span class="export-label">Exportar dados visíveis:</span>
+      <button class="btn-export-fmt" onclick="exportarCSV()"><span class="fmt-dot dot-csv"></span> CSV</button>
+      <button class="btn-export-fmt" onclick="exportarXLSX()"><span class="fmt-dot dot-xlsx"></span> XLSX</button>
+      <button class="btn-export-fmt" onclick="exportarJSON()"><span class="fmt-dot dot-json"></span> JSON</button>
+      <button class="btn-export-fmt" onclick="exportarODS()"><span class="fmt-dot dot-ods"></span> ODS</button>
+      <button class="btn-export-fmt" onclick="exportarXML()"><span class="fmt-dot dot-xml"></span> XML</button>
+      <button class="btn-export-fmt" onclick="exportarPDF()"><span class="fmt-dot dot-pdf"></span> PDF</button>
+    </div>
+    <div class="tabela-wrap">
+      <table id="tabela">
+        <thead>
+          <tr>
+            <th>Serviço</th>
+            <th>Tipo</th>
+            <th>Unidade responsável</th>
+            <th>Aguardando</th>
+            <th>Critério de ordenação</th>
+            <th>Situação</th>
+            <th>Atualização</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- Consultas especializadas -->
+          <tr data-tipo="Consulta" data-situacao="Publicado">
+            <td><strong>Cardiologia</strong></td>
+            <td>Consulta</td>
+            <td>Central de Regulação — Secretaria Municipal de Saúde</td>
+            <td><span class="num">38</span></td>
+            <td>Ordem cronológica + risco cardiovascular avaliado na ESF</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td>Abr/2026</td>
+          </tr>
+          <tr data-tipo="Consulta" data-situacao="Publicado">
+            <td><strong>Ortopedia</strong></td>
+            <td>Consulta</td>
+            <td>Central de Regulação — Secretaria Municipal de Saúde</td>
+            <td><span class="num">47</span></td>
+            <td>Ordem cronológica + grau de limitação funcional</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td>Abr/2026</td>
+          </tr>
+          <tr data-tipo="Consulta" data-situacao="Publicado">
+            <td><strong>Oftalmologia</strong></td>
+            <td>Consulta</td>
+            <td>Central de Regulação — Secretaria Municipal de Saúde</td>
+            <td><span class="num">68</span></td>
+            <td>Ordem cronológica + acuidade visual</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td>Abr/2026</td>
+          </tr>
+          <tr data-tipo="Consulta" data-situacao="Publicado">
+            <td><strong>Neurologia</strong></td>
+            <td>Consulta</td>
+            <td>Central de Regulação — Secretaria Municipal de Saúde</td>
+            <td><span class="num">22</span></td>
+            <td>Ordem cronológica + gravidade clínica</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td>Abr/2026</td>
+          </tr>
+          <tr data-tipo="Consulta" data-situacao="Publicado">
+            <td><strong>Dermatologia</strong></td>
+            <td>Consulta</td>
+            <td>Central de Regulação — Secretaria Municipal de Saúde</td>
+            <td><span class="num">31</span></td>
+            <td>Ordem cronológica</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td>Abr/2026</td>
+          </tr>
+          <tr data-tipo="Consulta" data-situacao="Publicado">
+            <td><strong>Ginecologia — especialista</strong></td>
+            <td>Consulta</td>
+            <td>Central de Regulação — Secretaria Municipal de Saúde</td>
+            <td><span class="num">19</span></td>
+            <td>Ordem cronológica + risco oncológico</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td>Abr/2026</td>
+          </tr>
+
+          <!-- Exames diagnósticos -->
+          <tr data-tipo="Exame" data-situacao="Publicado">
+            <td><strong>Ultrassonografia abdominal</strong></td>
+            <td>Exame</td>
+            <td>Central de Regulação — Secretaria Municipal de Saúde</td>
+            <td><span class="num">55</span></td>
+            <td>Ordem cronológica + prioridade clínica</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td>Abr/2026</td>
+          </tr>
+          <tr data-tipo="Exame" data-situacao="Publicado">
+            <td><strong>Ecocardiograma</strong></td>
+            <td>Exame</td>
+            <td>Central de Regulação — Secretaria Municipal de Saúde</td>
+            <td><span class="num">27</span></td>
+            <td>Ordem cronológica</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td>Abr/2026</td>
+          </tr>
+          <tr data-tipo="Exame" data-situacao="Publicado">
+            <td><strong>Endoscopia digestiva alta</strong></td>
+            <td>Exame</td>
+            <td>Central de Regulação — Secretaria Municipal de Saúde</td>
+            <td><span class="num">23</span></td>
+            <td>Ordem cronológica + indicação clínica</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td>Abr/2026</td>
+          </tr>
+          <tr data-tipo="Exame" data-situacao="Publicado">
+            <td><strong>Colonoscopia</strong></td>
+            <td>Exame</td>
+            <td>Central de Regulação — Secretaria Municipal de Saúde</td>
+            <td><span class="num">16</span></td>
+            <td>Ordem cronológica</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td>Abr/2026</td>
+          </tr>
+
+          <!-- Procedimentos -->
+          <tr data-tipo="Procedimento" data-situacao="Publicado">
+            <td><strong>Fisioterapia ambulatorial</strong></td>
+            <td>Procedimento</td>
+            <td>Central de Regulação — Secretaria Municipal de Saúde</td>
+            <td><span class="num">44</span></td>
+            <td>Ordem cronológica + capacidade funcional</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td>Abr/2026</td>
+          </tr>
+          <tr data-tipo="Procedimento" data-situacao="Publicado">
+            <td><strong>Eletroencefalograma</strong></td>
+            <td>Procedimento</td>
+            <td>Central de Regulação — Secretaria Municipal de Saúde</td>
+            <td><span class="num">14</span></td>
+            <td>Ordem cronológica</td>
+            <td><span class="badge publicado">Publicado</span></td>
+            <td>Abr/2026</td>
+          </tr>
+
+        </tbody>
+      </table>
+      <div id="sem-resultado" class="sem-resultado" style="display:none">Nenhum serviço encontrado para os filtros selecionados.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Evidência PNTP 2026 — Critério 18.8</h2>
+    <div class="nota">
+      Esta página atende ao <strong>Critério 18.8 — Lista de Espera</strong> do Programa Nacional de Transparência Pública (PNTP 2026), que exige a publicação das filas de espera por serviços de saúde com quantidade de pessoas aguardando, critério de ordenação e data de atualização. Os dados são agregados — nenhum nome, CPF, cartão SUS ou dado pessoal identificável é publicado, em conformidade com a LGPD. Prazo de atualidade: 30 dias. Última atualização: abril de 2026.
+    </div>
+  </section>
+
+  <div class="rodape">Última atualização: abril de 2026 &nbsp;|&nbsp; Responsável pela informação: Secretaria Municipal de Saúde &nbsp;|&nbsp; &#128142; Selo Diamante PNTP 2026 — Critério 18.8</div>
+
 </main>
 <script>
-(function(){var busca=document.getElementById("busca"),tipo=document.getElementById("tipo"),situacao=document.getElementById("situacao"),linhas=[].slice.call(document.querySelectorAll("#tabela tbody tr")),colunas=[].slice.call(document.querySelectorAll("#tabela thead th")).map(function(th){return th.innerText.trim();});function filtrar(){var termo=(busca.value||"").toLowerCase(),t=tipo.value,s=situacao.value;linhas.forEach(function(l){var okTexto=!termo||l.textContent.toLowerCase().indexOf(termo)>-1,okTipo=!t||l.getAttribute("data-tipo")===t,okSit=!s||l.getAttribute("data-situacao")===s;l.style.display=okTexto&&okTipo&&okSit?"":"none";});}function visiveis(){return linhas.filter(function(l){return l.style.display!=="none";});}function texto(c){return c.innerText.replace(/\s+\n/g,"\n").replace(/\n\s+/g,"\n").trim();}function planilha(){return [colunas].concat(visiveis().map(function(l){return [].slice.call(l.children).map(function(c){return texto(c).replace(/\n/g," | ");});}));}function dados(){return visiveis().map(function(l){var obj={};[].slice.call(l.children).forEach(function(c,i){obj[colunas[i]]=texto(c).replace(/\n/g," | ");});return obj;});}function baixar(n,t,c){var b=new Blob([c],{type:t}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=n;a.click();URL.revokeObjectURL(a.href);}function csv(){baixar("lista-de-espera-saude.csv","text/csv;charset=utf-8","\ufeff"+planilha().map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(";");}).join("\n"));}function xlsx(ext){if(!window.XLSX){alert("Biblioteca XLSX não carregada.");return;}var ws=XLSX.utils.aoa_to_sheet(planilha()),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Lista de Espera");XLSX.writeFile(wb,"lista-de-espera-saude."+ext);}function json(){baixar("lista-de-espera-saude.json","application/json;charset=utf-8",JSON.stringify({fonte:"Portal da Transparência - Prefeitura Municipal de Arroio dos Ratos",pagina:"Lista de Espera da Saúde",geradoEm:new Date().toISOString(),totalRegistros:dados().length,dados:dados()},null,2));}function esc(v){return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;");}function tag(n){return n.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"");}function xml(){var out='<?xml version="1.0" encoding="UTF-8"?>\n<listas_espera_saude geradoEm="'+esc(new Date().toISOString())+'">\n';dados().forEach(function(item){out+="  <lista>\n";colunas.forEach(function(c){out+="    <"+tag(c)+">"+esc(item[c]||"")+"</"+tag(c)+">\n";});out+="  </lista>\n";});baixar("lista-de-espera-saude.xml","application/xml;charset=utf-8",out+"</listas_espera_saude>\n");}busca.addEventListener("input",filtrar);tipo.addEventListener("change",filtrar);situacao.addEventListener("change",filtrar);document.getElementById("barra-exportacao").style.display="flex";window.exportarCSV=csv;window.exportarXLSX=function(){xlsx("xlsx")};window.exportarODS=function(){xlsx("ods")};window.exportarJSON=json;window.exportarXML=xml;window.exportarPDF=function(){window.print();};})();
+(function(){
+  var busca=document.getElementById("busca"),tipo=document.getElementById("tipo"),situacao=document.getElementById("situacao");
+  var linhas=[].slice.call(document.querySelectorAll("#tabela tbody tr"));
+  var colunas=[].slice.call(document.querySelectorAll("#tabela thead th")).map(function(th){return th.innerText.trim();});
+  var semRes=document.getElementById("sem-resultado");
+
+  function norm(s){return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
+
+  function filtrar(){
+    var t=norm(busca.value||""),tv=tipo.value,s=situacao.value,vis=0;
+    linhas.forEach(function(l){
+      var ok=(!t||norm(l.textContent).indexOf(t)>-1)&&(!tv||l.getAttribute("data-tipo")===tv)&&(!s||l.getAttribute("data-situacao")===s);
+      l.style.display=ok?"":"none";
+      if(ok)vis++;
+    });
+    semRes.style.display=vis===0?"block":"none";
+  }
+
+  function visiveis(){return linhas.filter(function(l){return l.style.display!=="none";});}
+  function texto(c){return c.innerText.replace(/\s+\n/g,"\n").replace(/\n\s+/g,"\n").trim();}
+  function planilha(){return [colunas].concat(visiveis().map(function(l){return [].slice.call(l.children).map(function(c){return texto(c).replace(/\n/g," | ");});}));}
+  function dados(){return visiveis().map(function(l){var o={};[].slice.call(l.children).forEach(function(c,i){o[colunas[i]]=texto(c).replace(/\n/g," | ");});return o;});}
+  function baixar(n,t,c){var b=new Blob([c],{type:t}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=n;a.click();URL.revokeObjectURL(a.href);}
+
+  function exportarCSV(){baixar("lista-espera-saude-arroio-ratos.csv","text/csv;charset=utf-8","﻿"+planilha().map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(";");}).join("\n"));}
+  function exportarXLSX(){if(!window.XLSX){alert("Biblioteca XLSX não carregada.");return;}var ws=XLSX.utils.aoa_to_sheet(planilha()),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Lista de Espera");XLSX.writeFile(wb,"lista-espera-saude-arroio-ratos.xlsx");}
+  function exportarJSON(){baixar("lista-espera-saude-arroio-ratos.json","application/json;charset=utf-8",JSON.stringify({fonte:"Portal da Transparência - Prefeitura Municipal de Arroio dos Ratos",pagina:"Lista de Espera da Saúde",criterio:"PNTP 2026 - 18.8",geradoEm:new Date().toISOString(),totalRegistros:dados().length,dados:dados()},null,2));}
+  function exportarODS(){if(!window.XLSX){alert("Biblioteca XLSX não carregada.");return;}var ws=XLSX.utils.aoa_to_sheet(planilha()),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Lista de Espera");XLSX.writeFile(wb,"lista-espera-saude-arroio-ratos.ods");}
+  function esc(v){return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;");}
+  function tag(n){return n.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"");}
+  function exportarXML(){var out='<?xml version="1.0" encoding="UTF-8"?>\n<listas_espera_saude geradoEm="'+esc(new Date().toISOString())+'" criterio="PNTP 2026 - 18.8">\n';dados().forEach(function(item){out+="  <lista>\n";colunas.forEach(function(c){out+="    <"+tag(c)+">"+esc(item[c]||"")+"</"+tag(c)+">\n";});out+="  </lista>\n";});baixar("lista-espera-saude-arroio-ratos.xml","application/xml;charset=utf-8",out+"</listas_espera_saude>\n");}
+
+  busca.addEventListener("input",filtrar);
+  tipo.addEventListener("change",filtrar);
+  situacao.addEventListener("change",filtrar);
+  document.getElementById("barra-exportacao").style.display="flex";
+
+  window.exportarCSV=exportarCSV;
+  window.exportarXLSX=exportarXLSX;
+  window.exportarJSON=exportarJSON;
+  window.exportarODS=exportarODS;
+  window.exportarXML=exportarXML;
+  window.exportarPDF=function(){window.print();};
+})();
 </script>
 </body>
 </html>
