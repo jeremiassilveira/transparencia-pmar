@@ -1,0 +1,1780 @@
+<!-- ============================================================
+     CONSELHO MUNICIPAL DE SAÚDE — ARROIO DOS RATOS/RS
+     Atende: Cartilha PNTP 2026, Critério 18.6
+     Versão: 2.0 — Selo Diamante
+     URL sugerida: /conselho-municipal-de-saude/
+     Última atualização: Abril de 2026
+     Responsável: Conselho Municipal de Saúde / Secretaria de Saúde
+     Manutenção: Coordenação de Informática
+
+     INSTRUÇÕES GERAIS:
+     - Cole este código no editor de código do WordPress
+     - Substitua todos os href="#" pelos links reais dos PDFs
+     - Para adicionar novos registros, use os blocos <!-- MODELO -->
+     - Atualize sempre a data no rodapé após qualquer alteração
+
+     ESTRUTURA DA PÁGINA:
+     1. Breadcrumb
+     2. Hero
+     3. Menu âncora (sticky)
+     4. Cards de resumo
+     5. Base legal (#base-legal)
+     6. Funcionamento e contato (#contato)
+     7. Composição atual (#composicao)
+     8. Diretoria atual (#diretoria)
+     9. Atas das reuniões (#atas) — 2024 + 2025, com filtro por ano
+    10. Resoluções (#resolucoes)
+    11. Ofícios, pareceres e manifestações (#oficios)
+    12. Documentos aprovados (#documentos-aprovados)
+    13. Orientação para atualização (#orientacoes)
+    14. Rodapé
+     ============================================================ -->
+
+<style>
+
+  /* ── RESET BÁSICO ── */
+  .cms-wrap * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── CONTAINER PRINCIPAL ── */
+  .cms-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px 40px;
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #1f2937;
+    background: #f8fafc;
+  }
+
+  /* ── BREADCRUMB ── */
+  .cms-breadcrumb {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 18px;
+    padding: 9px 14px;
+    background: #ffffff;
+    border: 1px solid #dbe3ee;
+    border-radius: 8px;
+    display: inline-block;
+  }
+  .cms-breadcrumb a { color: #0f5ea8; text-decoration: none; font-weight: 500; }
+  .cms-breadcrumb a:hover { text-decoration: underline; }
+
+  /* ── HERO ── */
+  .cms-hero {
+    background: linear-gradient(135deg, #0b3d6e 0%, #0f5ea8 60%, #1a7fd4 100%);
+    color: #ffffff;
+    padding: 34px 36px;
+    border-radius: 16px;
+    margin-bottom: 0;
+    box-shadow: 0 6px 28px rgba(11,61,110,0.22);
+  }
+  .cms-hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 12px;
+    margin-bottom: 12px;
+    color: rgba(255,255,255,0.95);
+  }
+  .cms-hero h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 10px;
+    line-height: 1.25;
+  }
+  .cms-hero p {
+    font-size: 14.5px;
+    color: rgba(255,255,255,0.88);
+    max-width: 760px;
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+  .cms-hero p:last-child { margin-bottom: 0; }
+
+  /* ── MENU ÂNCORA STICKY ── */
+  /* Fica logo abaixo do hero e gruda no topo ao rolar */
+  .cms-nav {
+    background: #0b3d6e;
+    border-radius: 0 0 10px 10px;
+    padding: 0;
+    margin-bottom: 22px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(11,61,110,0.25);
+  }
+  .cms-nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 0 10px;
+  }
+  .cms-nav ul li a {
+    display: block;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 11px 12px;
+    white-space: nowrap;
+    transition: color 0.2s, background 0.2s;
+    border-bottom: 3px solid transparent;
+  }
+  .cms-nav ul li a:hover {
+    color: #ffffff;
+    border-bottom-color: #60a5fa;
+  }
+
+  /* ── CARDS DE RESUMO ── */
+  .cms-resumo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .cms-resumo-card {
+    background: #ffffff;
+    border: 1px solid #dbe3ee;
+    border-top: 4px solid #0f5ea8;
+    border-radius: 10px;
+    padding: 16px 18px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(15,23,42,0.05);
+  }
+  .cms-resumo-numero {
+    font-size: 26px;
+    font-weight: 800;
+    color: #0b3d6e;
+    display: block;
+  }
+  .cms-resumo-label {
+    font-size: 11.5px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+
+  /* ── CARDS GENÉRICOS ── */
+  .cms-card {
+    background: #ffffff;
+    border: 1px solid #dbe3ee;
+    border-radius: 14px;
+    padding: 24px 26px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px rgba(15,23,42,0.05);
+    scroll-margin-top: 55px; /* compensa o menu sticky */
+  }
+  .cms-card h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0b3d6e;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 2px solid #dbeafe;
+  }
+  .cms-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0b3d6e;
+    margin: 20px 0 10px;
+  }
+
+  /* ── NOTA / INTRO ── */
+  .cms-nota {
+    font-size: 13.5px;
+    color: #374151;
+    background: #f0f6ff;
+    border-left: 3px solid #0f5ea8;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    line-height: 1.55;
+  }
+
+  /* ── AVISOS ── */
+  .cms-aviso {
+    font-size: 13px;
+    color: #92400e;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-left: 4px solid #f59e0b;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+  }
+  .cms-aviso strong { display: block; margin-bottom: 2px; }
+
+  /* ── FILTRO DE ANO ── */
+  /* Controles simples de filtro para as tabelas de atas */
+  .cms-filtro-ano {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .cms-filtro-ano label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .cms-filtro-ano select {
+    padding: 7px 12px;
+    border: 1px solid #cfd8e3;
+    border-radius: 8px;
+    font-size: 13.5px;
+    background: #fff;
+    color: #1f2937;
+    cursor: pointer;
+  }
+  .cms-filtro-ano select:focus {
+    outline: none;
+    border-color: #0f5ea8;
+    box-shadow: 0 0 0 3px rgba(15,94,168,0.12);
+  }
+  .cms-filtro-ano .cms-btn-filtrar {
+    padding: 7px 16px;
+    background: #0f5ea8;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .cms-filtro-ano .cms-btn-limpar {
+    padding: 7px 14px;
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* ── TABELAS RESPONSIVAS ── */
+  .cms-tabela-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid #dbe3ee;
+    margin-top: 6px;
+  }
+  .cms-tabela {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+    background: #ffffff;
+    font-size: 13.5px;
+  }
+  .cms-tabela thead th {
+    background: #0b3d6e;
+    color: #ffffff;
+    text-align: left;
+    padding: 11px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .cms-tabela tbody td {
+    padding: 11px 13px;
+    border-bottom: 1px solid #eef2f7;
+    vertical-align: middle;
+    color: #1f2937;
+  }
+  .cms-tabela tbody tr:nth-child(even) { background: #fafcff; }
+  .cms-tabela tbody tr:hover { background: #f0f6ff; }
+  .cms-tabela tbody tr:last-child td { border-bottom: none; }
+  /* Linhas ocultas pelo filtro */
+  .cms-tabela tbody tr.cms-oculto { display: none; }
+
+  /* ── BADGES ── */
+  .cms-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .cms-badge--ordinaria  { background: #dbeafe; color: #1e40af; }
+  .cms-badge--extra      { background: #fef9c3; color: #854d0e; }
+  .cms-badge--aprovado   { background: #dcfce7; color: #166534; }
+  .cms-badge--ressalva   { background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; }
+  .cms-badge--pendente   { background: #f3f4f6; color: #6b7280; border: 1px solid #d1d5db; }
+
+  /* ── BOTÃO PDF ── */
+  .cms-btn-pdf {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #0f5ea8;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .cms-btn-pdf:hover { background: #0b3d6e; color: #ffffff; }
+  .cms-btn-pdf--pendente {
+    background: #e5e7eb;
+    color: #6b7280;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* ── GRIDS DE CARDS ── */
+  .cms-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .cms-info-item {
+    background: #f8fafc;
+    border: 1px solid #dbe3ee;
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .cms-info-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6b7280;
+    margin-bottom: 4px;
+  }
+  .cms-info-valor {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0b3d6e;
+    line-height: 1.4;
+  }
+  .cms-info-valor a { color: #0f5ea8; text-decoration: none; }
+  .cms-info-valor a:hover { text-decoration: underline; }
+
+  /* ── DIRETORIA ── */
+  .cms-diretoria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .cms-dir-card {
+    background: #f0f6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .cms-dir-cargo {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #0f5ea8;
+    margin-bottom: 6px;
+  }
+  .cms-dir-nome {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0b3d6e;
+    line-height: 1.35;
+  }
+
+  /* ── ORIENTAÇÕES ── */
+  .cms-orientacao {
+    background: #f8fafc;
+    border: 1px solid #dbe3ee;
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-size: 13.5px;
+    color: #374151;
+    line-height: 1.7;
+  }
+  .cms-orientacao ol { padding-left: 20px; margin-top: 8px; }
+  .cms-orientacao li { margin-bottom: 6px; }
+  .cms-orientacao code {
+    background: #e5e7eb;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12.5px;
+    color: #111827;
+  }
+
+  /* ── RODAPÉ ── */
+  .cms-rodape {
+    font-size: 12.5px;
+    color: #6b7280;
+    padding: 14px 18px;
+    background: #ffffff;
+    border: 1px solid #dbe3ee;
+    border-radius: 10px;
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+  .cms-rodape strong { color: #374151; }
+
+  /* ── SELO DIAMANTE ── */
+  .cms-diamante-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    margin-top: 12px;
+    color: #e0f2fe;
+  }
+
+  /* ── BUSCA DE TEXTO ── */
+  .cms-busca-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .cms-busca-wrap input[type="search"],
+  .cms-busca-wrap input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px 12px;
+    border: 1px solid #cfd8e3;
+    border-radius: 8px;
+    font-size: 13.5px;
+    background: #fff;
+    color: #1f2937;
+  }
+  .cms-busca-wrap input:focus {
+    outline: none;
+    border-color: #0f5ea8;
+    box-shadow: 0 0 0 3px rgba(15,94,168,0.12);
+  }
+  .cms-busca-wrap label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  /* ── CALENDÁRIO ── */
+  .cms-calendario-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .cms-calendario-item {
+    background: #f8fafc;
+    border: 1px solid #dbe3ee;
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .cms-calendario-mes {
+    background: #0b3d6e;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 4px 8px;
+    text-align: center;
+    min-width: 44px;
+  }
+  .cms-calendario-data {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0b3d6e;
+    line-height: 1.2;
+  }
+  .cms-calendario-info {
+    font-size: 11.5px;
+    color: #6b7280;
+    margin-top: 2px;
+  }
+  .cms-calendario-status {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .cms-calendario-status--realizada { background: #dcfce7; color: #166534; }
+  .cms-calendario-status--agendada  { background: #dbeafe; color: #1e40af; }
+  .cms-calendario-status--extra     { background: #fef9c3; color: #854d0e; }
+
+  /* ── PAUTAS ── */
+  .cms-pauta-item {
+    background: #f8fafc;
+    border: 1px solid #dbe3ee;
+    border-left: 4px solid #0f5ea8;
+    border-radius: 0 10px 10px 0;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .cms-pauta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .cms-pauta-titulo {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0b3d6e;
+  }
+  .cms-pauta-data {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    white-space: nowrap;
+  }
+  .cms-pauta-itens {
+    font-size: 13px;
+    color: #374151;
+    padding-left: 18px;
+    margin: 0;
+    line-height: 1.65;
+  }
+  .cms-pauta-itens li { margin-bottom: 3px; }
+
+  /* ── RESPONSIVO ── */
+  @media (max-width: 768px) {
+    .cms-wrap { padding: 14px 14px 32px; }
+    .cms-hero  { padding: 22px 18px; }
+    .cms-hero h1 { font-size: 21px; }
+    .cms-card  { padding: 18px 16px; }
+    .cms-nav ul { gap: 0; }
+    .cms-nav ul li a { font-size: 11.5px; padding: 9px 8px; }
+  }
+
+  /* ── IMPRESSÃO ── */
+  @media print {
+    body, .cms-wrap { background: #fff !important; }
+    .cms-hero {
+      background: #0b3d6e !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .cms-breadcrumb, .cms-btn-pdf, .cms-nav,
+    .cms-filtro-ano, .cms-orientacao { display: none; }
+    .cms-card { box-shadow: none; break-inside: avoid; }
+  }
+
+</style>
+<!-- FIM DOS ESTILOS -->
+
+
+<!-- ============================================================
+     CONTEÚDO
+     ============================================================ -->
+<div class="cms-wrap">
+
+  <!-- ── BREADCRUMB ── -->
+  <nav class="cms-breadcrumb" aria-label="Navegação estrutural">
+    <a href="/">Início</a> &raquo;
+    <a href="/saude/">Saúde</a> &raquo;
+    <span>Conselho Municipal de Saúde</span>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <header class="cms-hero">
+    <div class="cms-hero-tag">🏥 Saúde · Controle Social · SUS</div>
+    <h1>Conselho Municipal de Saúde</h1>
+    <p>
+      O Conselho Municipal de Saúde de Arroio dos Ratos é instância colegiada municipal de
+      controle social do Sistema Único de Saúde — SUS, com funções deliberativas, fiscalizadoras
+      e de formulação estratégica, atuando no acompanhamento, controle e avaliação das políticas
+      públicas de saúde no Município.
+    </p>
+    <p>
+      O Conselho possui caráter permanente e é composto por representantes do governo,
+      prestadores de serviços privados conveniados ou sem fins lucrativos, profissionais de saúde
+      e usuários do SUS, observada a paridade legal prevista na Lei nº 8.142/1990.
+    </p>
+  </header>
+
+  <!-- ── MENU ÂNCORA STICKY ──
+       Gruda no topo da tela ao rolar. Links levam a cada seção.
+       Para adicionar nova seção: copie um <li> e ajuste o href e texto. -->
+  <nav class="cms-nav" aria-label="Navegação das seções">
+    <ul>
+      <li><a href="#base-legal">⚖️ Base legal</a></li>
+      <li><a href="#contato">📬 Contato</a></li>
+      <li><a href="#composicao">👥 Composição</a></li>
+      <li><a href="#diretoria">🏛️ Diretoria</a></li>
+      <li><a href="#atas">📋 Atas</a></li>
+      <li><a href="#resolucoes">📜 Resoluções</a></li>
+      <li><a href="#oficios">✉️ Ofícios</a></li>
+      <li><a href="#documentos-aprovados">✅ Docs aprovados</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── CARDS DE RESUMO ── -->
+  <!-- Atualizar os números quando houver mudanças na composição ou documentos -->
+  <div class="cms-resumo-grid">
+    <div class="cms-resumo-card">
+      <span class="cms-resumo-numero">12</span>
+      <span class="cms-resumo-label">Conselheiros</span>
+    </div>
+    <div class="cms-resumo-card">
+      <span class="cms-resumo-numero">3</span>
+      <span class="cms-resumo-label">Segmentos</span>
+    </div>
+    <div class="cms-resumo-card">
+      <span class="cms-resumo-numero">23</span>
+      <span class="cms-resumo-label">Atas publicadas<br><small style="font-size:10px;color:#9ca3af;">2024–2025</small></span>
+    </div>
+    <div class="cms-resumo-card">
+      <span class="cms-resumo-numero">5</span>
+      <span class="cms-resumo-label">Resoluções 2026</span>
+    </div>
+    <div class="cms-resumo-card">
+      <span class="cms-resumo-numero">2025–2028</span>
+      <span class="cms-resumo-label">Mandato atual</span>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SEÇÃO 1 — BASE LEGAL
+       ══════════════════════════════════════════════════════════ -->
+  <section class="cms-card" id="base-legal">
+    <h2>⚖️ Base legal e documentos institucionais</h2>
+    <p class="cms-nota">
+      Normas municipais que criaram, organizaram e reestruturaram o Conselho Municipal de Saúde
+      de Arroio dos Ratos, além do Regimento Interno vigente. Os PDFs estão disponíveis para download.
+    </p>
+
+    <div class="cms-tabela-wrap">
+      <table class="cms-tabela" aria-label="Base legal do Conselho Municipal de Saúde">
+        <thead>
+          <tr>
+            <th>Norma</th>
+            <th>Assunto</th>
+            <th>Arquivo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Lei nº 843/1991</strong></td>
+            <td>Cria o Conselho Municipal de Saúde e dá outras providências.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Lei nº 1.673/1998</strong></td>
+            <td>Dá nova redação à Lei nº 843/1991 — organiza objetivos, composição e funcionamento.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Lei nº 1.685/1998</strong></td>
+            <td>Dá nova redação à Lei nº 843/1991 — trata da estrutura e funcionamento.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Lei nº 2.761/2007</strong></td>
+            <td>Altera a composição dos representantes dos usuários.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Lei nº 3.604/2013</strong></td>
+            <td>Altera a composição do Conselho por segmentos.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Lei nº 3.607/2013</strong></td>
+            <td>Define composição com titulares e suplentes, observada a paridade.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Lei nº 3.951/2017</strong></td>
+            <td>Reestrutura o Conselho Municipal de Saúde de Arroio dos Ratos.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Portaria nº 1.063/2025</strong></td>
+            <td>Designa os membros e a diretoria para o mandato 2025–2028.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Regimento Interno</strong></td>
+            <td>
+              Disciplina a organização, funcionamento e procedimentos internos.
+              <br><em style="font-size:12px;color:#6b7280;">Aprovado na reunião de 14/08/2025 — Ata CMS nº 08/2025.</em>
+            </td>
+            <td>
+              <!-- Substituir href="#" pelo link real quando disponível -->
+              <a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a>
+              <!--
+              Se ainda não disponível, use:
+              <span class="cms-btn-pdf cms-btn-pdf--pendente">Em organização</span>
+              -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SEÇÃO 2 — FUNCIONAMENTO E CONTATO
+       ══════════════════════════════════════════════════════════ -->
+  <section class="cms-card" id="contato">
+    <h2>📬 Funcionamento e contato</h2>
+    <p class="cms-nota">
+      Para encaminhar solicitações, dúvidas, manifestações e documentos ao Conselho Municipal
+      de Saúde, utilize o e-mail institucional ou os canais de atendimento da Secretaria
+      Municipal de Saúde.
+    </p>
+    <div class="cms-grid-2">
+      <div class="cms-info-item">
+        <div class="cms-info-label">Local</div>
+        <div class="cms-info-valor">Secretaria Municipal de Saúde</div>
+      </div>
+      <div class="cms-info-item">
+        <div class="cms-info-label">Endereço</div>
+        <div class="cms-info-valor">
+          Rua Dr. Roberto Cardoso, nº 659<br>
+          Bairro Santa Bárbara — CEP 96740-000<br>
+          Arroio dos Ratos/RS
+        </div>
+      </div>
+      <div class="cms-info-item">
+        <div class="cms-info-label">Horário de atendimento</div>
+        <div class="cms-info-valor">Das 8h às 12h e das 13h às 17h</div>
+      </div>
+      <div class="cms-info-item">
+        <div class="cms-info-label">Reuniões ordinárias</div>
+        <div class="cms-info-valor">Toda segunda quinta-feira do mês</div>
+      </div>
+      <div class="cms-info-item">
+        <div class="cms-info-label">E-mail de contato direto</div>
+        <div class="cms-info-valor">
+          <a href="mailto:cms@arroiodosratos.rs.gov.br">cms@arroiodosratos.rs.gov.br</a>
+        </div>
+      </div>
+      <div class="cms-info-item">
+        <div class="cms-info-label">Telefone</div>
+        <div class="cms-info-valor">
+          <a href="tel:+555136561372">(51) 3656-1372</a> — Ramal 401<br>
+          <a href="tel:+555136563240">(51) 3656-3240</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SEÇÃO 3 — COMPOSIÇÃO ATUAL
+       Mandato 2025–2028 · Portaria nº 1.063/2025
+       ATENÇÃO: Nunca publicar CPF nesta tabela.
+       ══════════════════════════════════════════════════════════ -->
+  <section class="cms-card" id="composicao">
+    <h2>👥 Composição atual — Portaria nº 1.063/2025</h2>
+    <p class="cms-nota">
+      Composição para o mandato 2025–2028, designada pela Portaria nº 1.063/2025.
+      Não são publicados CPF ou outros dados pessoais dos conselheiros.
+    </p>
+
+    <div class="cms-tabela-wrap">
+      <table class="cms-tabela" aria-label="Composição do CMS — mandato 2025-2028">
+        <thead>
+          <tr>
+            <th>Segmento</th>
+            <th>Entidade / Representação</th>
+            <th>Titular</th>
+            <th>Suplente</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- GOVERNO E PRESTADORES -->
+          <tr>
+            <td>Governo e prestadores de serviços privados conveniados ou sem fins lucrativos</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Jurema de Oliveira Ferreira</td>
+            <td>Everton Sartorio</td>
+          </tr>
+          <tr>
+            <td>Governo e prestadores de serviços privados conveniados ou sem fins lucrativos</td>
+            <td>Associação Hospitalar Vila Nova</td>
+            <td>Mara Marques</td>
+            <td>Daiana Reis da Silva</td>
+          </tr>
+
+          <!-- PROFISSIONAIS DA SAÚDE -->
+          <tr>
+            <td>Profissionais da Saúde</td>
+            <td>Agente Comunitário de Saúde</td>
+            <td>Rita de Cássia Flores Rolim de Carvalho</td>
+            <td>Ritielli Lopes Souza</td>
+          </tr>
+          <tr>
+            <td>Profissionais da Saúde</td>
+            <td>Conselho Regional de Enfermagem</td>
+            <td>Matheus Maurer Weber</td>
+            <td>Ileci Maria Sena Rodrigues</td>
+          </tr>
+          <tr>
+            <td>Profissionais da Saúde</td>
+            <td>Conselho Regional de Farmácia</td>
+            <td>Gabriele Tuhtenhagem Lopes</td>
+            <td>Silvana Vicente da Silveira</td>
+          </tr>
+          <tr>
+            <td>Profissionais da Saúde</td>
+            <td>Conselho Regional de Medicina Veterinária</td>
+            <td>Lucas Wildfaier Menezes</td>
+            <td>Eduarda Santos Michelsen</td>
+          </tr>
+
+          <!-- USUÁRIOS -->
+          <tr>
+            <td>Usuários</td>
+            <td>Sindicato dos Municipários de Arroio dos Ratos</td>
+            <td>Jorge Ronivon Menezes dos Santos</td>
+            <td>Maria Elizete Abreu de Souza</td>
+          </tr>
+          <tr>
+            <td>Usuários</td>
+            <td>Associação de Moradores do Rincão dos Américos</td>
+            <td>Norma Denise Macedo de Paula</td>
+            <td>Jacinto Teixeira</td>
+          </tr>
+          <tr>
+            <td>Usuários</td>
+            <td>Associação Comunitária da Vila Liberal</td>
+            <td>João Luis Francisco Serpa</td>
+            <td>Danieli Serpa de Souza</td>
+          </tr>
+          <tr>
+            <td>Usuários</td>
+            <td>Sindicato dos Trabalhadores Rurais</td>
+            <td>Lauri Brasil Vieira</td>
+            <td>Márcia Maria Simon Pizzio</td>
+          </tr>
+          <tr>
+            <td>Usuários</td>
+            <td>Associação de Moradores Vila Nova</td>
+            <td>Gildo Dutra Soares</td>
+            <td>Luana Beatriz Vargas</td>
+          </tr>
+          <tr>
+            <td>Usuários</td>
+            <td>Associação de Pais e Amigos dos Excepcionais — APAE</td>
+            <td>Ricardo Dohndorf Iankoski</td>
+            <td>Lorran Alves Teixeira</td>
+          </tr>
+
+          <!--
+          MODELO PARA NOVO CONSELHEIRO — copie, remova o comentário e preencha:
+          <tr>
+            <td>[Segmento]</td>
+            <td>[Entidade]</td>
+            <td>[Nome Titular]</td>
+            <td>[Nome Suplente]</td>
+          </tr>
+          IMPORTANTE: Nunca inserir CPF.
+          -->
+
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SEÇÃO 4 — DIRETORIA ATUAL
+       Mandato 2025–2028 / eleita em 11/09/2025 (Ata 10/2025)
+       ══════════════════════════════════════════════════════════ -->
+  <section class="cms-card" id="diretoria">
+    <h2>🏛️ Diretoria atual — mandato 2025–2028</h2>
+    <p class="cms-nota">
+      Diretoria eleita na reunião extraordinária de 11/09/2025 (Ata CMS nº 10/2025) e
+      empossada em 09/10/2025 (Ata CMS nº 12/2025), conforme Portaria nº 1.063/2025.
+    </p>
+    <div class="cms-diretoria-grid">
+      <div class="cms-dir-card">
+        <div class="cms-dir-cargo">Presidente</div>
+        <div class="cms-dir-nome">Rita de Cássia Flores Rolim de Carvalho</div>
+      </div>
+      <div class="cms-dir-card">
+        <div class="cms-dir-cargo">Vice-Presidente</div>
+        <div class="cms-dir-nome">Jorge Ronivon Menezes dos Santos</div>
+      </div>
+      <div class="cms-dir-card">
+        <div class="cms-dir-cargo">Primeiro-Secretário</div>
+        <div class="cms-dir-nome">Matheus Maurer Weber</div>
+      </div>
+      <div class="cms-dir-card">
+        <div class="cms-dir-cargo">Segundo-Secretário</div>
+        <div class="cms-dir-nome">Gildo Dutra Soares</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SEÇÃO 5 — ATAS DAS REUNIÕES
+       Filtro por ano via JavaScript simples (sem biblioteca).
+       Adicionar novas atas no final da tabela do exercício correto.
+       O atributo data-ano em cada <tr> controla o filtro.
+       ══════════════════════════════════════════════════════════ -->
+  <section class="cms-card" id="atas">
+    <h2>📋 Atas das reuniões</h2>
+    <p class="cms-nota">
+      Atas das reuniões ordinárias e extraordinárias do Conselho Municipal de Saúde,
+      organizadas cronologicamente. Use o filtro abaixo para localizar atas por exercício.
+    </p>
+
+    <!-- Filtro por ano -->
+    <div class="cms-filtro-ano">
+      <label for="filtro-ata-ano">Filtrar por exercício:</label>
+      <select id="filtro-ata-ano">
+        <option value="">Todos os anos</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+      </select>
+      <button class="cms-btn-filtrar" type="button" onclick="filtrarAtas()">Filtrar</button>
+      <button class="cms-btn-limpar" type="button" onclick="limparFiltroAtas()">Limpar</button>
+    </div>
+
+    <div class="cms-tabela-wrap">
+      <table class="cms-tabela" id="tabela-atas" aria-label="Atas das reuniões do CMS">
+        <thead>
+          <tr>
+            <th>Nº</th>
+            <th>Ano</th>
+            <th>Tipo</th>
+            <th>Data</th>
+            <th>Assunto / Resumo</th>
+            <th>Arquivo</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- ════════ ATAS DE 2025 ════════ -->
+
+          <!-- Ata 01/2025 -->
+          <tr data-ano="2025">
+            <td><strong>Ata nº 01/2025</strong></td>
+            <td>2025</td>
+            <td><span class="cms-badge cms-badge--extra">Extraordinária</span></td>
+            <td>13/02/2025</td>
+            <td>Aprovação do novo local para construção do ESF V.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 02/2025 -->
+          <tr data-ano="2025">
+            <td><strong>Ata nº 02/2025</strong></td>
+            <td>2025</td>
+            <td><span class="cms-badge cms-badge--extra">Extraordinária</span></td>
+            <td>13/03/2025</td>
+            <td>Discussão de programas de saúde, relatórios e assuntos gerais da Secretaria Municipal de Saúde.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 03/2025 -->
+          <tr data-ano="2025">
+            <td><strong>Ata nº 03/2025</strong></td>
+            <td>2025</td>
+            <td><span class="cms-badge cms-badge--extra">Extraordinária</span></td>
+            <td>10/04/2025</td>
+            <td>Análise de documentos, conferência, APAE, estagiário e relatório do 3º quadrimestre de 2024.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 04/2025 -->
+          <tr data-ano="2025">
+            <td><strong>Ata nº 04/2025</strong></td>
+            <td>2025</td>
+            <td><span class="cms-badge cms-badge--extra">Extraordinária</span></td>
+            <td>08/05/2025</td>
+            <td>Deliberação sobre doação de veículo, relatório de gestão e esclarecimentos sobre consultas, exames e serviços.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 05/2025 -->
+          <tr data-ano="2025">
+            <td><strong>Ata nº 05/2025</strong></td>
+            <td>2025</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>11/06/2025</td>
+            <td>Aprovação de alterações do Plano Municipal de Saúde 2022–2025, PAS 2025 e emendas parlamentares.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 06/2025 -->
+          <tr data-ano="2025">
+            <td><strong>Ata nº 06/2025</strong></td>
+            <td>2025</td>
+            <td><span class="cms-badge cms-badge--extra">Extraordinária</span></td>
+            <td>25/06/2025</td>
+            <td>Aprovação da Programação Plurianual de Saúde 2026–2029.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 07/2025 -->
+          <tr data-ano="2025">
+            <td><strong>Ata nº 07/2025</strong></td>
+            <td>2025</td>
+            <td><span class="cms-badge cms-badge--extra">Extraordinária</span></td>
+            <td>10/07/2025</td>
+            <td>Aprovação do Plano de Contingência Municipal para Enfrentamento da Dengue 2025–2026 e assuntos gerais.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 08/2025 -->
+          <tr data-ano="2025">
+            <td><strong>Ata nº 08/2025</strong></td>
+            <td>2025</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>14/08/2025</td>
+            <td>Leitura, alterações e aprovação do Regimento Interno do Conselho Municipal de Saúde.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 09/2025 -->
+          <tr data-ano="2025">
+            <td><strong>Ata nº 09/2025</strong></td>
+            <td>2025</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>14/08/2025</td>
+            <td>Aprovação do RAG 2024, RDQA 1º quadrimestre/2025, remapeamento das ESF e aumento de visitadores do PIM.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 10/2025 -->
+          <tr data-ano="2025">
+            <td><strong>Ata nº 10/2025</strong></td>
+            <td>2025</td>
+            <td><span class="cms-badge cms-badge--extra">Extraordinária</span></td>
+            <td>11/09/2025</td>
+            <td>Eleição da nova diretoria para o mandato 2025–2028.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 11/2025 -->
+          <tr data-ano="2025">
+            <td><strong>Ata nº 11/2025</strong></td>
+            <td>2025</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>11/09/2025</td>
+            <td>Aprovação de atas anteriores, ofícios expedidos, denúncia encaminhada e aprovações relacionadas ao CMS.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 12/2025 -->
+          <tr data-ano="2025">
+            <td><strong>Ata nº 12/2025</strong></td>
+            <td>2025</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>09/10/2025</td>
+            <td>Posse da nova diretoria, ciência da Portaria nº 1.063/2025, aprovação de plano de contingência e prorrogação de contrato.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- ════════ ATAS DE 2024 ════════
+               Dados extraídos dos PDFs originais das atas.
+               Presidente do período: Ricardo Dohndorf Iankoski
+               Secretário das atas: Matheus Maurer Weber -->
+
+          <!-- Ata 01/2024 — 14/03/2024 — Ordinária
+               Pauta: fraldas descartáveis, RMGS 3º Quad/23, ESF 5, ouvidoria, Centro Regional -->
+          <tr data-ano="2024">
+            <td><strong>Ata nº 01/2024</strong></td>
+            <td>2024</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>14/03/2024</td>
+            <td>Projeto de dispensação de fraldas descartáveis; questionamentos sobre RMGS 3º Quad/2023, ESF V, ouvidoria e Centro Regional de Especialidades.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 02/2024 — 14/03/2024 — Ordinária
+               Pauta: aprovação da PAS 2024 por unanimidade -->
+          <tr data-ano="2024">
+            <td><strong>Ata nº 02/2024</strong></td>
+            <td>2024</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>14/03/2024</td>
+            <td>Aprovação por unanimidade da Programação Anual de Saúde de 2024.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 03/2024 — 17/04/2024 — Extraordinária
+               Pauta: ESF V, remapeamento, ouvidoria (Ouve Brasil), Centro Regional, RMGS 3º Quad/23 -->
+          <tr data-ano="2024">
+            <td><strong>Ata nº 03/2024</strong></td>
+            <td>2024</td>
+            <td><span class="cms-badge cms-badge--extra">Extraordinária</span></td>
+            <td>17/04/2024</td>
+            <td>Reunião com Secretária de Saúde e Prefeito: ESF V e remapeamento das ESF; apresentação da empresa de ouvidoria (Ouve Brasil); esclarecimentos sobre o Centro Regional de Especialidades.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 04/2024 — 09/05/2024 — Ordinária
+               Pauta: leitura de ofícios (APAE, SMS), devolução de R$70 mil da Vigilância, diárias servidores -->
+          <tr data-ano="2024">
+            <td><strong>Ata nº 04/2024</strong></td>
+            <td>2024</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>09/05/2024</td>
+            <td>Leitura de ofícios enviados e recebidos; informes sobre devolução de R$ 70 mil da Vigilância em Saúde; pagamento de diárias dos servidores.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 05/2024 — 13/06/2024 — Ordinária
+               Pauta: recebimento de verbas (portarias estaduais), aprovação com ressalva do RMGS 3º Quad/23 (ouvidoria R$294.100), explicações sobre as portarias de investimento -->
+          <tr data-ano="2024">
+            <td><strong>Ata nº 05/2024</strong></td>
+            <td>2024</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>13/06/2024</td>
+            <td>Aprovação do RMGS 3º Quadrimestre/2023 com ressalva sobre contratação da ouvidoria (R$ 294.100,00 não submetida ao conselho). Recebimento de verbas estaduais para cuidado materno infantil, HIV/AIDS e emergência em saúde.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 06/2024 — 11/07/2024 — Ordinária
+               Pauta: RMGS 1º Quad/2024, Ajuste financeiro do PA Santa Bárbara (aprovado por unanimidade), questionamentos sobre ecógrafo -->
+          <tr data-ano="2024">
+            <td><strong>Ata nº 06/2024</strong></td>
+            <td>2024</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>11/07/2024</td>
+            <td>Análise do RMGS 1º Quadrimestre/2024; aprovação por unanimidade do ajuste financeiro do Pronto Atendimento Santa Bárbara (R$ 366.789,58); questionamentos sobre ecógrafo não adquirido.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 07/2024 — 08/08/2024 — Ordinária
+               Pauta: correspondências (solicitação do regimento interno pela Procuradoria, resposta sobre ecógrafo) -->
+          <tr data-ano="2024">
+            <td><strong>Ata nº 07/2024</strong></td>
+            <td>2024</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>08/08/2024</td>
+            <td>Leitura de correspondências: solicitações da Procuradoria Geral sobre o Regimento Interno; resposta da SMS sobre o ecógrafo; expedição de ofícios nº 08, 09 e 10/2024.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 08/2024 — 12/09/2024 — Ordinária
+               Pauta: denúncia vídeo redes sociais (material/veículos/prontuários), situação pessoal do presidente Ricardo (BO da Procuradoria), comunicação ao MP sobre ouvidoria -->
+          <tr data-ano="2024">
+            <td><strong>Ata nº 08/2024</strong></td>
+            <td>2024</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>12/09/2024</td>
+            <td>Denúncia em vídeo sobre material, veículos e documentos da saúde; comunicação ao Ministério Público sobre contratação da ouvidoria; RMGS 1º e 2º Quadrimestre/2024 — pendência de dados no sistema.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 09/2024 — 10/10/2024 — Ordinária
+               Pauta: resposta ao ofício sobre vídeo, BO da Procuradoria sobre Ricardo, retorno de consultas no Centro de Especialidades -->
+          <tr data-ano="2024">
+            <td><strong>Ata nº 09/2024</strong></td>
+            <td>2024</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>10/10/2024</td>
+            <td>Leitura do ofício da Procuradoria (Parecer Jurídico nº 65/2024) sobre afastamento do presidente; análise do Boletim de Ocorrência; discussão sobre retorno de consultas no Centro de Especialidades.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 10/2024 — 14/11/2024 — Ordinária
+               Pauta: comissão de transição (vice-prefeito eleito Renato), conflito de veículo da Vigilância em Saúde (votação), ESF 5 e remapeamento, RMGS 2º Quad/2024 -->
+          <tr data-ano="2024">
+            <td><strong>Ata nº 10/2024</strong></td>
+            <td>2024</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>14/11/2024</td>
+            <td>Presença da comissão de transição (vice-prefeito eleito); votação sobre uso do veículo da Vigilância em Saúde; discussão sobre remapeamento e ESF 5; análise do RMGS 2º Quadrimestre/2024.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!-- Ata 11/2024 — 12/12/2024 — Ordinária
+               Pauta: aprovação RMGS 1º Quad/2024 (unanimidade), RMGS 2º Quad/2024 com ressalva (ouvidoria), PAS 2025 aprovada por unanimidade, parceria APAE 2025 aprovada -->
+          <tr data-ano="2024">
+            <td><strong>Ata nº 11/2024</strong></td>
+            <td>2024</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <td>12/12/2024</td>
+            <td>Aprovação por unanimidade do RMGS 1º Quadrimestre/2024; aprovação do RMGS 2º Quadrimestre/2024 com ressalva (ouvidoria); aprovação por unanimidade da PAS 2025; parecer favorável à parceria com a APAE para 2025.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!--
+          MODELO PARA NOVA ATA — copie, remova o comentário e preencha.
+          Ajuste data-ano para o exercício correto (ex: data-ano="2026").
+
+          <tr data-ano="2026">
+            <td><strong>Ata nº XX/2026</strong></td>
+            <td>2026</td>
+            <td><span class="cms-badge cms-badge--ordinaria">Ordinária</span></td>
+            <!-- Para extraordinária: cms-badge--extra e "Extraordinária" -->
+            <td>DD/MM/2026</td>
+            <td>Resumo dos assuntos tratados na reunião.</td>
+            <td><a href="LINK-DO-PDF" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          -->
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mensagem quando filtro não retorna resultados -->
+    <div id="atas-sem-resultado" style="display:none; text-align:center; padding:18px; font-size:14px; color:#6b7280;">
+      Nenhuma ata encontrada para o exercício selecionado.
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SEÇÃO 6 — RESOLUÇÕES
+       ══════════════════════════════════════════════════════════ -->
+  <section class="cms-card" id="resolucoes">
+    <h2>📜 Resoluções</h2>
+    <p class="cms-nota">
+      Resoluções deliberadas pelo Conselho Municipal de Saúde, em ordem cronológica.
+    </p>
+
+    <h3>Exercício de 2026</h3>
+    <div class="cms-tabela-wrap">
+      <table class="cms-tabela" aria-label="Resoluções do CMS — 2026">
+        <thead>
+          <tr>
+            <th>Nº</th>
+            <th>Data</th>
+            <th>Assunto</th>
+            <th>Arquivo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Res. CMS nº 12/2026</strong></td>
+            <td>10/02/2026</td>
+            <td>Aprovação de Projeto de Implantação de Atividade Educativa — Oficina Terapêutica Tipo 2.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Res. CMS nº 13/2026</strong></td>
+            <td>26/02/2026</td>
+            <td>Aprovação da Programação Anual de Saúde 2026 e Plano Municipal de Saúde 2026–2029.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Res. CMS nº 14/2026</strong></td>
+            <td>26/02/2026</td>
+            <td>Aprovação da habilitação do Programa Acompanha RAPS.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Res. CMS nº 15/2026</strong></td>
+            <td>30/03/2026</td>
+            <td>Aprovação do Relatório Anual de Gestão 2025 e RDQA 3º Quadrimestre/2025.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Res. CMS nº 16/2026</strong></td>
+            <td>01/04/2026</td>
+            <td>Aprovação das alterações da Programação Anual de Saúde 2026 e Plano Municipal de Saúde 2026–2029.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!--
+          MODELO PARA NOVA RESOLUÇÃO:
+          <tr>
+            <td><strong>Res. CMS nº XX/2026</strong></td>
+            <td>DD/MM/2026</td>
+            <td>Assunto da resolução.</td>
+            <td><a href="LINK" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          -->
+
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SEÇÃO 7 — OFÍCIOS, PARECERES E MANIFESTAÇÕES
+       Dados reais extraídos das atas de 2024.
+       ══════════════════════════════════════════════════════════ -->
+  <section class="cms-card" id="oficios">
+    <h2>✉️ Ofícios, pareceres e manifestações</h2>
+    <p class="cms-nota">
+      Ofícios, pareceres, manifestações e comunicações oficiais expedidas pelo Conselho
+      Municipal de Saúde, organizados por exercício.
+    </p>
+
+    <!-- ── OFÍCIOS DE 2026 ── -->
+    <h3>Exercício de 2026</h3>
+    <div class="cms-tabela-wrap">
+      <table class="cms-tabela" aria-label="Ofícios expedidos — 2026">
+        <thead>
+          <tr><th>Nº</th><th>Data</th><th>Destinatário</th><th>Assunto</th><th>Arquivo</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Ofício nº 01/2026</strong></td>
+            <td>09/01/2026</td>
+            <td>APAE</td>
+            <td>Parecer favorável à proposta de parceria com o Município para 2026.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 02/2026</strong></td>
+            <td>09/01/2026</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Encaminhamento de parecer referente à parceria com a APAE e plano de trabalho 2026.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 03/2026</strong></td>
+            <td>09/01/2026</td>
+            <td>Prefeito Municipal</td>
+            <td>Reiteração de aquisição de veículo para a Vigilância em Saúde.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 04/2026</strong></td>
+            <td>09/01/2026</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Solicitação de informações sobre aplicação de recursos financeiros da saúde.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 05/2026</strong></td>
+            <td>09/01/2026</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Solicitação de seleção de profissionais e aquisição de tablets para agentes de saúde.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 06/2026</strong></td>
+            <td>09/01/2026</td>
+            <td>Prefeito Municipal</td>
+            <td>Solicitação de seleção de profissionais e aquisição de tablets para agentes de saúde.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 07/2026</strong></td>
+            <td>09/01/2026</td>
+            <td>Prefeito Municipal</td>
+            <td>Solicitação de esclarecimentos e convite para participação em reunião do CMS.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 08/2026</strong></td>
+            <td>09/01/2026</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Aprovação de prorrogação de contrato da Associação Hospitalar Vila Nova.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 09/2026</strong></td>
+            <td>09/01/2026</td>
+            <td>Procuradoria Geral</td>
+            <td>Resposta ao Ofício nº 41/2025 e aprovação referente à Associação Hospitalar Vila Nova.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 10/2026</strong></td>
+            <td>09/01/2026</td>
+            <td>Câmara de Vereadores</td>
+            <td>Solicitação urgente de contratação de profissionais para a área da saúde.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 11/2026</strong></td>
+            <td>09/01/2026</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Aprovação do Relatório de Gestão em Saúde — 2º Quadrimestre de 2025.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!--
+          MODELO NOVO OFÍCIO 2026:
+          <tr>
+            <td><strong>Ofício nº XX/2026</strong></td>
+            <td>DD/MM/2026</td>
+            <td>Destinatário</td>
+            <td>Assunto.</td>
+            <td><a href="LINK" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── OFÍCIOS DE 2024 ──
+         Dados reais extraídos das atas de 2024. -->
+    <h3>Exercício de 2024</h3>
+    <div class="cms-tabela-wrap">
+      <table class="cms-tabela" aria-label="Ofícios expedidos — 2024">
+        <thead>
+          <tr><th>Nº</th><th>Data</th><th>Destinatário</th><th>Assunto</th><th>Arquivo</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Ofício nº 01/2024</strong></td>
+            <td>19/03/2024</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Solicitação de esclarecimentos sobre RMGS 3º Quad/2023, ESF V, ouvidoria e Centro Regional.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 02/2024</strong></td>
+            <td>15/04/2024</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Convite para reunião extraordinária de 17/04/2024 às 09h30min.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 03/2024</strong></td>
+            <td>17/04/2024</td>
+            <td>APAE</td>
+            <td>Atestado de pleno e regular funcionamento do CMS — mandato 01/01/2023 a 31/12/2025.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 04/2024</strong></td>
+            <td>10/05/2024</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Reiteração de esclarecimentos sobre RMGS 3º Quad/2023 e contratação da ouvidoria; prazo de 15 dias para resposta.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 05/2024</strong></td>
+            <td>14/05/2024</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Comunicação do parecer unânime favorável à Programação Anual de Saúde 2024.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 06/2024</strong></td>
+            <td>28/05/2024</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Resposta ao Ofício nº 33/2024 — documentos enviados com campos em aberto, solicitação de preenchimento e assinatura.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 07/2024</strong></td>
+            <td>17/06/2024</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Comunicação da aprovação do RMGS 3º Quadrimestre/2023 com ressalva sobre contratação da ouvidoria (R$ 294.100,00).</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 08/2024</strong></td>
+            <td>22/07/2024</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Comunicação de dificuldade de análise do RMGS 1º Quadrimestre/2024 por dados subtraídos do sistema.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 09/2024</strong></td>
+            <td>22/07/2024</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Questionamentos sobre o ecógrafo — dinheiro depositado em conta corrente sem rendimentos e compra não efetuada.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 10/2024</strong></td>
+            <td>31/07/2024</td>
+            <td>Procuradoria Geral</td>
+            <td>Resposta ao Ofício nº 88/2024 — envio do Regimento Interno do CMS (20 folhas).</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 11/2024</strong></td>
+            <td>30/09/2024</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Solicitação de esclarecimentos sobre vídeo em redes sociais mostrando material, veículos e documentos da saúde em local inadequado.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 12/2024</strong></td>
+            <td>26/11/2024</td>
+            <td>Coordenação da Vigilância em Saúde</td>
+            <td>Comunicação da decisão do CMS de que o veículo Renault Oroch (JAU8H38) deve ser de uso exclusivo da Vigilância em Saúde.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ofício nº 13/2024</strong></td>
+            <td>27/11/2024</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td>Comunicação de dificuldade de análise do RMGS 1º e 2º Quadrimestre/2024 por falta de acesso às despesas realizadas.</td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+
+          <!--
+          MODELO NOVO OFÍCIO 2024 (para arquivo histórico):
+          <tr>
+            <td><strong>Ofício nº XX/2024</strong></td>
+            <td>DD/MM/2024</td>
+            <td>Destinatário</td>
+            <td>Assunto.</td>
+            <td><a href="LINK" class="cms-btn-pdf" target="_blank" rel="noopener">📄 PDF</a></td>
+          </tr>
+          -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SEÇÃO 8 — DOCUMENTOS APROVADOS PELO CONSELHO
+       ══════════════════════════════════════════════════════════ -->
+  <section class="cms-card" id="documentos-aprovados">
+    <h2>✅ Documentos aprovados pelo Conselho</h2>
+    <p class="cms-nota">
+      Documentos de planejamento e gestão em saúde aprovados pelo Conselho Municipal de Saúde.
+      Quando o documento estiver publicado em outra seção do portal, o link pode direcionar a essa página.
+    </p>
+
+    <div class="cms-tabela-wrap">
+      <table class="cms-tabela" aria-label="Documentos aprovados pelo CMS">
+        <thead>
+          <tr><th>Ano</th><th>Documento</th><th>Assunto</th><th>Situação</th><th>Arquivo</th></tr>
+        </thead>
+        <tbody>
+          <!-- 2024 -->
+          <tr>
+            <td>2024</td>
+            <td><strong>Programação Anual de Saúde 2024</strong></td>
+            <td>Aprovada por unanimidade na Ata nº 02/2024 (14/03/2024).</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <tr>
+            <td>2024</td>
+            <td><strong>RMGS 3º Quadrimestre/2023</strong></td>
+            <td>Aprovado com ressalva (Ata nº 05/2024) — contratação da ouvidoria não submetida ao conselho.</td>
+            <td><span class="cms-badge cms-badge--ressalva">Aprovado c/ ressalva</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <tr>
+            <td>2024</td>
+            <td><strong>Ajuste financeiro do PA Santa Bárbara</strong></td>
+            <td>Aprovado por unanimidade na Ata nº 06/2024 (11/07/2024) — valor de R$ 366.789,58.</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <tr>
+            <td>2024</td>
+            <td><strong>RMGS 1º Quadrimestre/2024</strong></td>
+            <td>Aprovado por unanimidade na Ata nº 11/2024 (12/12/2024).</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <tr>
+            <td>2024</td>
+            <td><strong>RMGS 2º Quadrimestre/2024</strong></td>
+            <td>Aprovado com ressalva (Ata nº 11/2024) — pagamentos da ouvidoria não aprovados pelo conselho.</td>
+            <td><span class="cms-badge cms-badge--ressalva">Aprovado c/ ressalva</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <!-- 2025 -->
+          <tr>
+            <td>2025</td>
+            <td><strong>Programação Anual de Saúde 2025</strong></td>
+            <td>Aprovada por unanimidade na Ata nº 11/2024 (12/12/2024).</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <tr>
+            <td>2025</td>
+            <td><strong>Plano Municipal de Saúde 2022–2025 — alterações</strong></td>
+            <td>Aprovado pelo CMS (Ata nº 05/2025).</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <tr>
+            <td>2025</td>
+            <td><strong>Programação Plurianual da Saúde 2026–2029</strong></td>
+            <td>Aprovada pelo CMS (Ata nº 06/2025).</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <tr>
+            <td>2025</td>
+            <td><strong>Plano de Contingência Dengue 2025–2026</strong></td>
+            <td>Aprovado pelo CMS (Ata nº 07/2025).</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <tr>
+            <td>2025</td>
+            <td><strong>Parceria APAE 2025</strong></td>
+            <td>Parecer favorável unânime (Ata nº 11/2024) — 106 usuários, R$ 200.844,00.</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <!-- 2026 -->
+          <tr>
+            <td>2026</td>
+            <td><strong>Programação Anual de Saúde 2026</strong></td>
+            <td>Aprovada pelo CMS (Resolução nº 13/2026).</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <tr>
+            <td>2026</td>
+            <td><strong>Plano Municipal de Saúde 2026–2029</strong></td>
+            <td>Aprovado pelo CMS (Resolução nº 13/2026).</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <tr>
+            <td>2026</td>
+            <td><strong>Relatório Anual de Gestão — RAG 2025</strong></td>
+            <td>Aprovado pelo CMS (Resolução nº 15/2026).</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <tr>
+            <td>2026</td>
+            <td><strong>RDQA 3º Quadrimestre/2025</strong></td>
+            <td>Aprovado pelo CMS (Resolução nº 15/2026).</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          <tr>
+            <td>2026</td>
+            <td><strong>Parceria APAE 2026</strong></td>
+            <td>Aprovada pelo CMS (Ofício nº 01/2026 — Resolução CMS nº 12/2026).</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="#" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+
+          <!--
+          MODELO NOVO DOCUMENTO APROVADO:
+          <tr>
+            <td>2026</td>
+            <td><strong>Nome do documento</strong></td>
+            <td>Aprovado pelo CMS (referência da ata ou resolução).</td>
+            <td><span class="cms-badge cms-badge--aprovado">Aprovado</span></td>
+            <td><a href="LINK" class="cms-btn-pdf" target="_blank" rel="noopener">📄 Acessar</a></td>
+          </tr>
+          -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SEÇÃO 9 — ORIENTAÇÃO PARA ATUALIZAÇÃO
+       Para uso interno da equipe de manutenção.
+       ══════════════════════════════════════════════════════════ -->
+  <section class="cms-card" id="orientacoes">
+    <h2>🛠️ Orientação para atualização dos documentos</h2>
+    <div class="cms-orientacao">
+      <strong>Para inserir novos documentos, siga os passos:</strong>
+      <ol>
+        <li>
+          Salve o PDF com nome padronizado, <strong>sem acentos e sem espaços</strong>:
+          <br><code>Ata-CMS-13-2025.pdf</code> &nbsp;|&nbsp; <code>Resolucao-CMS-17-2026.pdf</code> &nbsp;|&nbsp; <code>Oficio-CMS-12-2026.pdf</code>
+        </li>
+        <li>No WordPress: <strong>Mídia › Adicionar novo</strong> → faça o upload → copie o <strong>URL do arquivo</strong>.</li>
+        <li>No editor de código desta página, localize o bloco <code>&lt;!-- MODELO --&gt;</code> da seção desejada.</li>
+        <li>Copie o modelo, cole como nova linha e preencha os dados. Substitua <code>href="#"</code> pelo URL copiado.</li>
+        <li>Para atas: ajuste o atributo <code>data-ano="XXXX"</code> para que o filtro por exercício funcione.</li>
+        <li><strong>Atualize a data no rodapé</strong> — campo "Última atualização".</li>
+      </ol>
+    </div>
+  </section>
+
+
+  <!-- ── RODAPÉ ──
+       ATENÇÃO: Atualizar o mês e ano após cada edição na página. -->
+  <footer class="cms-rodape">
+    <strong>Última atualização:</strong> Abril de 2026 &nbsp;|&nbsp;
+    <strong>Responsável pelas informações:</strong> Conselho Municipal de Saúde / Secretaria Municipal de Saúde &nbsp;|&nbsp;
+    <strong>Manutenção:</strong> Coordenação de Informática &nbsp;|&nbsp;
+    <strong>Fundamentação:</strong> Art. 31, III da LC nº 141/12; Resolução MS nº 453/12; Critério 18.6 PNTP 2026
+  </footer>
+
+</div><!-- fim cms-wrap -->
+
+
+<!-- ============================================================
+     JAVASCRIPT — Filtro de atas por exercício
+     Sem dependências externas. Funciona com JS puro.
+     ============================================================ -->
+<script>
+(function () {
+
+  /* Filtra as linhas da tabela de atas pelo ano selecionado */
+  function filtrarAtas() {
+    var ano = document.getElementById('filtro-ata-ano').value;
+    var linhas = document.querySelectorAll('#tabela-atas tbody tr');
+    var visiveis = 0;
+
+    linhas.forEach(function (tr) {
+      if (!ano || tr.getAttribute('data-ano') === ano) {
+        tr.classList.remove('cms-oculto');
+        visiveis++;
+      } else {
+        tr.classList.add('cms-oculto');
+      }
+    });
+
+    var msg = document.getElementById('atas-sem-resultado');
+    if (msg) msg.style.display = (visiveis === 0) ? 'block' : 'none';
+  }
+
+  /* Limpa o filtro e mostra todas as linhas */
+  function limparFiltroAtas() {
+    document.getElementById('filtro-ata-ano').value = '';
+    filtrarAtas();
+  }
+
+  /* Expõe as funções para os botões onclick do HTML */
+  window.filtrarAtas = filtrarAtas;
+  window.limparFiltroAtas = limparFiltroAtas;
+
+  /* Aplica filtro automaticamente ao mudar o select */
+  var sel = document.getElementById('filtro-ata-ano');
+  if (sel) sel.addEventListener('change', filtrarAtas);
+
+})();
+</script>
+<!-- FIM — CONSELHO MUNICIPAL DE SAÚDE · Arroio dos Ratos/RS · PNTP 2026 · Critério 18.6 -->
