@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conselhos Municipais - Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{--azul-escuro:#0b3d6e;--azul:#0f5ea8;--azul-claro:#dbeafe;--azul-suave:#f0f6ff;--verde:#166534;--verde-bg:#dcfce7;--amarelo:#854d0e;--amarelo-bg:#fef9c3;--cinza-900:#1f2937;--cinza-700:#374151;--cinza-500:#6b7280;--cinza-300:#d1d5db;--cinza-200:#dbe3ee;--cinza-100:#f8fafc;--branco:#fff}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900)}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,.elementor-widget-theme-post-title,.elementor-page-title,.wp-block-post-title,h1.entry-title,h1.page-title,.post-title,.site-main .page-header{display:none !important}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 28px 48px}
+.breadcrumb{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;padding:10px 14px;border:1px solid var(--cinza-200);border-radius:8px;background:var(--branco);color:var(--cinza-500);font-size:13px}
+.breadcrumb a{color:var(--azul);font-weight:700;text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+.hero{margin-bottom:20px;padding:34px 36px;border-radius:16px;background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 58%,#12805c 100%);color:#fff;box-shadow:0 8px 32px rgba(11,61,110,.20)}
+.tag{display:inline-block;margin-bottom:10px;padding:5px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800;text-transform:uppercase}
+.hero h1{margin:0 0 10px;color:#fff;font-size:32px;line-height:1.2}
+.hero p{max-width:920px;margin:0;color:rgba(255,255,255,.93);font-size:15px;line-height:1.7}
+.acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:800;text-decoration:none;border:1px solid rgba(255,255,255,.30);background:rgba(255,255,255,.12);color:#fff}
+.btn.primary{background:#fff;color:var(--azul-escuro);border-color:#fff}
+.diamante{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:4px 14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.12);font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.92)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{background:var(--branco);border:1px solid var(--cinza-200);border-top:4px solid var(--azul);border-radius:12px;padding:16px 18px;text-align:center;box-shadow:0 2px 8px rgba(15,23,42,.05)}
+.stat-numero{display:block;font-size:28px;font-weight:800;color:var(--azul-escuro)}
+.stat-label{display:block;margin-top:4px;color:var(--cinza-500);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase}
+.card{margin-bottom:20px;padding:24px 26px;border:1px solid var(--cinza-200);border-radius:16px;background:var(--branco);box-shadow:0 4px 16px rgba(15,23,42,.04)}
+.card h2{margin:0 0 16px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);color:var(--azul-escuro);font-size:20px}
+.card p{margin:0 0 12px;color:var(--cinza-700);font-size:14px;line-height:1.7}
+.nota{padding:14px 16px;border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:12px;background:var(--azul-suave);color:var(--cinza-700);font-size:14px;line-height:1.7}
+.conselhos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.conselho-card{display:flex;flex-direction:column;min-height:210px;padding:18px;border:1px solid var(--cinza-200);border-radius:12px;background:var(--branco);text-decoration:none;color:var(--cinza-700);box-shadow:0 2px 10px rgba(15,23,42,.04)}
+.conselho-card:hover{border-color:var(--azul-claro);background:var(--azul-suave);text-decoration:none}
+.conselho-card strong{display:block;margin-bottom:8px;color:var(--azul-escuro);font-size:16px;line-height:1.35}
+.conselho-card span{font-size:13px;line-height:1.55}
+.conselho-card .meta{margin-top:auto;padding-top:12px;color:var(--azul);font-size:13px;font-weight:800}
+.controle{display:grid;grid-template-columns:1fr 190px 230px 170px;gap:12px;align-items:end}
+.campo label{display:block;margin-bottom:6px;color:var(--cinza-700);font-size:13px;font-weight:800}
+.campo input,.campo select{width:100%;min-height:42px;padding:10px 12px;border:1px solid var(--cinza-300);border-radius:10px;font:inherit;font-size:14px}
+.campo input:focus,.campo select:focus{outline:none;border-color:var(--azul);box-shadow:0 0 0 3px rgba(15,94,168,.12)}
+.tabela-wrap{overflow-x:auto;border:1px solid var(--cinza-200);border-radius:12px}
+table{width:100%;border-collapse:collapse;background:var(--branco);font-size:14px}
+th{padding:12px 14px;background:var(--azul-escuro);color:#fff;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--cinza-200);color:var(--cinza-700);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:#f8fafc}
+.badge{display:inline-block;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.b-pub{background:var(--verde-bg);color:var(--verde)}
+.b-criacao{background:#f3f4f6;color:#374151;border:1px solid var(--cinza-300)}
+.b-upd{background:var(--amarelo-bg);color:var(--amarelo)}
+.b-des{background:#fee2e2;color:#991b1b}
+a{color:var(--azul);font-weight:800;text-decoration:none}a:hover{text-decoration:underline}
+.sem-resultado{display:none;padding:24px;text-align:center;color:var(--cinza-500);font-size:14px}
+.rodape{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:18px;padding:12px}
+@media(max-width:1000px){.conselhos-grid{grid-template-columns:repeat(2,1fr)}.controle{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.wrap{padding:16px 14px}.hero{padding:22px 18px}.hero h1{font-size:24px}.acoes{display:block}.btn{width:100%;margin-bottom:8px}.conselhos-grid,.controle{grid-template-columns:1fr}}
+@media print{.breadcrumb,.acoes,.controle{display:none !important}.hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200)}.hero h1{color:var(--azul-escuro) !important}.hero p{color:var(--cinza-700) !important}.conselhos-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <nav class="breadcrumb" aria-label="Caminho da página">
+    <a href="/">Início</a><span aria-hidden="true">&rsaquo;</span>
+    <a href="/transparencia-publica/">Transparência</a><span aria-hidden="true">&rsaquo;</span>
+    <a href="/consultardados/">Consultar Dados</a><span aria-hidden="true">&rsaquo;</span>
+    <span>Conselhos Municipais</span>
+  </nav>
+
+  <header class="hero">
+    <span class="tag">Controle social · Participação cidadã · PNTP 2026</span>
+    <h1>Conselhos Municipais</h1>
+    <p>Espaço destinado à divulgação dos conselhos municipais de Arroio dos Ratos, com acesso às páginas específicas, composição, canais de contato, normas, atas, deliberações e documentos de acompanhamento das políticas públicas.</p>
+    <div class="acoes">
+      <a href="#lista-conselhos" class="btn primary">Ver conselhos</a>
+      <a href="/conselho-municipal-de-saude/" class="btn">Conselho de Saúde</a>
+      <a href="/cacs-fundeb/" class="btn">CACS FUNDEB</a>
+      <a href="/cmear/" class="btn">CMEAR</a>
+      <a href="/cae/" class="btn">CAE</a>
+    </div>
+    <div class="diamante">💎 Transparência reforçada · Selo Diamante PNTP 2026</div>
+  </header>
+
+  <div class="stats-grid" aria-label="Resumo dos conselhos municipais">
+    <div class="stat-card">
+      <span class="stat-numero">25</span>
+      <span class="stat-label">Conselhos relacionados</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-numero">19</span>
+      <span class="stat-label">Conselhos ativos</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-numero">6</span>
+      <span class="stat-label">Em reativação</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-numero">Abr/2026</span>
+      <span class="stat-label">Última atualização</span>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2>O que deve constar nas páginas dos conselhos</h2>
+    <div class="nota">
+      As páginas específicas dos conselhos devem publicar, sempre que aplicável: norma de criação, finalidade, composição, representantes, mandato, diretoria, forma de contato, calendário de reuniões, pautas, atas, resoluções, pareceres, relatórios e demais documentos produzidos pelo colegiado. A relação abaixo foi organizada a partir da relação oficial de Conselhos Municipais de Arroio dos Ratos.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Acesso rápido</h2>
+    <div class="conselhos-grid">
+      <a class="conselho-card" href="/conselho-municipal-de-saude/">
+        <strong>Conselho Municipal de Saúde</strong>
+        <span>Controle social do SUS, composição, calendário, pautas, atas, resoluções, ofícios e documentos aprovados.</span>
+        <span class="meta">Acessar página completa</span>
+      </a>
+      <a class="conselho-card" href="/cacs-fundeb/">
+        <strong>CACS FUNDEB</strong>
+        <span>Conselho de Acompanhamento e Controle Social do Fundo de Manutenção e Desenvolvimento da Educação Básica.</span>
+        <span class="meta">Acessar conselho</span>
+      </a>
+      <a class="conselho-card" href="/cmear/">
+        <strong>CMEAR</strong>
+        <span>Conselho Municipal de Educação de Arroio dos Ratos, com informações institucionais e documentos relacionados.</span>
+        <span class="meta">Acessar conselho</span>
+      </a>
+      <a class="conselho-card" href="/cae/">
+        <strong>CAE</strong>
+        <span>Conselho de Alimentação Escolar, responsável pelo acompanhamento da política de alimentação escolar.</span>
+        <span class="meta">Acessar conselho</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Buscar e filtrar</h2>
+    <div class="controle">
+      <div class="campo">
+        <label for="busca">Buscar por conselho, lei, órgão ou observação</label>
+        <input id="busca" type="search" placeholder="Ex.: saúde, educação, FUNDEB, reativando">
+      </div>
+      <div class="campo">
+        <label for="area">Área</label>
+        <select id="area">
+          <option value="">Todas</option>
+          <option>Administração, Cultura, Desporto e Turismo</option>
+          <option>Agricultura</option>
+          <option>Cidadania e Assistência Social</option>
+          <option>Desenvolvimento Econômico e Social</option>
+          <option>Saúde</option>
+          <option>Educação</option>
+          <option>Gabinete do Prefeito</option>
+          <option>Meio Ambiente</option>
+          <option>Obras e Transportes</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="orgao">Órgão vinculado</label>
+        <select id="orgao">
+          <option value="">Todos</option>
+          <option>Secretaria Municipal de Administração, Cultura, Desporto e Turismo</option>
+          <option>Secretaria Municipal de Agricultura</option>
+          <option>Secretaria Municipal de Cidadania e Assistência Social</option>
+          <option>Secretaria Municipal de Desenvolvimento Econômico e Social</option>
+          <option>Secretaria Municipal de Educação</option>
+          <option>Secretaria Municipal de Meio Ambiente</option>
+          <option>Secretaria Municipal de Obras e Transportes</option>
+          <option>Secretaria Municipal de Saúde</option>
+          <option>Gabinete do Prefeito Municipal</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="situacao">Situação</label>
+        <select id="situacao">
+          <option value="">Todas</option>
+          <option>Ativo</option>
+          <option>Desativado</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="lista-conselhos">
+    <h2>Lista de Conselhos Municipais</h2>
+    <div class="tabela-wrap">
+      <table id="tabela-conselhos" aria-label="Lista de Conselhos Municipais">
+        <thead>
+          <tr>
+            <th>Conselho</th>
+            <th>Área</th>
+            <th>Referência legal</th>
+            <th>Órgão vinculado</th>
+            <th>Situação</th>
+            <th>Observação / Acesso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-area="Obras e Transportes" data-orgao="Secretaria Municipal de Obras e Transportes" data-situacao="Ativo">
+            <td><strong>Saneamento Básico</strong></td>
+            <td>Obras e Transportes</td>
+            <td>Lei Municipal nº 4.380</td>
+            <td>Secretaria Municipal de Obras e Transportes</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Administração, Cultura, Desporto e Turismo" data-orgao="Secretaria Municipal de Administração, Cultura, Desporto e Turismo" data-situacao="Ativo">
+            <td><strong>Turismo</strong></td>
+            <td>Administração, Cultura, Desporto e Turismo</td>
+            <td>Lei Municipal nº 4.367</td>
+            <td>Secretaria Municipal de Administração, Cultura, Desporto e Turismo</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Administração, Cultura, Desporto e Turismo" data-orgao="Secretaria Municipal de Administração, Cultura, Desporto e Turismo" data-situacao="Ativo">
+            <td><strong>Desporto</strong></td>
+            <td>Administração, Cultura, Desporto e Turismo</td>
+            <td>Lei Municipal nº 4.366</td>
+            <td>Secretaria Municipal de Administração, Cultura, Desporto e Turismo</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Gabinete do Prefeito" data-orgao="Gabinete do Prefeito Municipal" data-situacao="Desativado">
+            <td><strong>Proteção e Defesa Civil</strong></td>
+            <td>Gabinete do Prefeito</td>
+            <td>Lei Municipal nº 4.346</td>
+            <td>Gabinete do Prefeito Municipal</td>
+            <td><span class="badge b-des">Desativado</span></td>
+            <td>Relação oficial indica necessidade de nomes e elaboração de portaria.</td>
+          </tr>
+          <tr data-area="Administração, Cultura, Desporto e Turismo" data-orgao="Secretaria Municipal de Administração, Cultura, Desporto e Turismo" data-situacao="Ativo">
+            <td><strong>Promoção da Igualdade Racial</strong></td>
+            <td>Administração, Cultura, Desporto e Turismo</td>
+            <td>Lei Municipal nº 4.223</td>
+            <td>Secretaria Municipal de Administração, Cultura, Desporto e Turismo</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Cidadania e Assistência Social" data-orgao="Secretaria Municipal de Cidadania e Assistência Social" data-situacao="Ativo">
+            <td><strong>Direitos da Mulher</strong></td>
+            <td>Cidadania e Assistência Social</td>
+            <td>Lei Municipal nº 4.176</td>
+            <td>Secretaria Municipal de Cidadania e Assistência Social</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Administração, Cultura, Desporto e Turismo" data-orgao="Secretaria Municipal de Administração, Cultura, Desporto e Turismo" data-situacao="Ativo">
+            <td><strong>Política Cultural</strong></td>
+            <td>Administração, Cultura, Desporto e Turismo</td>
+            <td>Lei Municipal nº 3.476</td>
+            <td>Secretaria Municipal de Administração, Cultura, Desporto e Turismo</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>Ativo, conforme relação oficial. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Educação" data-orgao="Secretaria Municipal de Educação" data-situacao="Desativado">
+            <td><strong>Polo de Apoio Presencial da UAB</strong></td>
+            <td>Educação</td>
+            <td>Lei Municipal nº 3.300</td>
+            <td>Secretaria Municipal de Educação</td>
+            <td><span class="badge b-des">Desativado</span></td>
+            <td>Relação oficial informa que a Educação está reativando.</td>
+          </tr>
+          <tr data-area="Cidadania e Assistência Social" data-orgao="Secretaria Municipal de Cidadania e Assistência Social" data-situacao="Desativado">
+            <td><strong>Pessoas Portadoras de Deficiência</strong></td>
+            <td>Cidadania e Assistência Social</td>
+            <td>Lei Municipal nº 3.268</td>
+            <td>Secretaria Municipal de Cidadania e Assistência Social</td>
+            <td><span class="badge b-des">Desativado</span></td>
+            <td>Relação oficial indica alinhamento para reativação.</td>
+          </tr>
+          <tr data-area="Cidadania e Assistência Social" data-orgao="Secretaria Municipal de Cidadania e Assistência Social" data-situacao="Desativado">
+            <td><strong>Habitação</strong></td>
+            <td>Cidadania e Assistência Social</td>
+            <td>Lei Municipal nº 1.943</td>
+            <td>Secretaria Municipal de Cidadania e Assistência Social</td>
+            <td><span class="badge b-des">Desativado</span></td>
+            <td>Relação oficial indica alinhamento para reativação.</td>
+          </tr>
+          <tr data-area="Meio Ambiente" data-orgao="Secretaria Municipal de Meio Ambiente" data-situacao="Ativo">
+            <td><strong>Defesa do Meio Ambiente</strong></td>
+            <td>Meio Ambiente</td>
+            <td>Lei Municipal nº 3.036</td>
+            <td>Secretaria Municipal de Meio Ambiente</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Cidadania e Assistência Social" data-orgao="Secretaria Municipal de Cidadania e Assistência Social" data-situacao="Ativo">
+            <td><strong>Idoso</strong></td>
+            <td>Cidadania e Assistência Social</td>
+            <td>Lei Municipal nº 2.260</td>
+            <td>Secretaria Municipal de Cidadania e Assistência Social</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Agricultura" data-orgao="Secretaria Municipal de Agricultura" data-situacao="Desativado">
+            <td><strong>Agricultura</strong></td>
+            <td>Agricultura</td>
+            <td>Lei Municipal nº 4.528</td>
+            <td>Secretaria Municipal de Agricultura</td>
+            <td><span class="badge b-des">Desativado</span></td>
+            <td>Relação oficial indica alinhamento sobre reativação.</td>
+          </tr>
+          <tr data-area="Desenvolvimento Econômico e Social" data-orgao="Secretaria Municipal de Desenvolvimento Econômico e Social" data-situacao="Ativo">
+            <td><strong>Desenvolvimento</strong></td>
+            <td>Desenvolvimento Econômico e Social</td>
+            <td>Lei Municipal nº 2.183</td>
+            <td>Secretaria Municipal de Desenvolvimento Econômico e Social</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Educação" data-orgao="Secretaria Municipal de Educação" data-situacao="Ativo">
+            <td><strong>Acompanhamento e Controle Social do FUNDEB</strong></td>
+            <td>Educação</td>
+            <td>Lei Municipal nº 4.125</td>
+            <td>Secretaria Municipal de Educação</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td><a href="/cacs-fundeb/">Acessar CACS FUNDEB</a></td>
+          </tr>
+          <tr data-area="Educação" data-orgao="Secretaria Municipal de Educação" data-situacao="Ativo">
+            <td><strong>Educação</strong></td>
+            <td>Educação</td>
+            <td>Lei Municipal nº 951</td>
+            <td>Secretaria Municipal de Educação</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td><a href="/cmear/">Acessar CMEAR</a></td>
+          </tr>
+          <tr data-area="Saúde" data-orgao="Secretaria Municipal de Saúde" data-situacao="Ativo">
+            <td><strong>Conselho Municipal de Saúde</strong></td>
+            <td>Saúde</td>
+            <td>Lei Municipal nº 3.951</td>
+            <td>Secretaria Municipal de Saúde</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td><a href="/conselho-municipal-de-saude/">Acessar página completa</a></td>
+          </tr>
+          <tr data-area="Educação" data-orgao="Secretaria Municipal de Educação" data-situacao="Ativo">
+            <td><strong>Alimentação Escolar</strong></td>
+            <td>Educação</td>
+            <td>Lei Municipal nº 4.247</td>
+            <td>Secretaria Municipal de Educação</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td><a href="/cae/">Acessar CAE</a></td>
+          </tr>
+          <tr data-area="Gabinete do Prefeito" data-orgao="Gabinete do Prefeito Municipal" data-situacao="Ativo">
+            <td><strong>Direitos da Criança e do Adolescente</strong></td>
+            <td>Gabinete do Prefeito</td>
+            <td>Lei Municipal nº 3.732</td>
+            <td>Gabinete do Prefeito Municipal</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Cidadania e Assistência Social" data-orgao="Secretaria Municipal de Cidadania e Assistência Social" data-situacao="Ativo">
+            <td><strong>Assistência Social</strong></td>
+            <td>Cidadania e Assistência Social</td>
+            <td>Lei Municipal nº 2.987</td>
+            <td>Secretaria Municipal de Cidadania e Assistência Social</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Cidadania e Assistência Social" data-orgao="Secretaria Municipal de Cidadania e Assistência Social" data-situacao="Desativado">
+            <td><strong>Segurança Alimentar e Nutricional Sustentável</strong></td>
+            <td>Cidadania e Assistência Social</td>
+            <td>Lei Municipal nº 2.316</td>
+            <td>Secretaria Municipal de Cidadania e Assistência Social</td>
+            <td><span class="badge b-des">Desativado</span></td>
+            <td>Relação oficial indica alinhamento para reativação.</td>
+          </tr>
+          <tr data-area="Administração, Cultura, Desporto e Turismo" data-orgao="Secretaria Municipal de Administração, Cultura, Desporto e Turismo" data-situacao="Ativo">
+            <td><strong>Cultura</strong></td>
+            <td>Administração, Cultura, Desporto e Turismo</td>
+            <td>Lei Municipal nº 2.278</td>
+            <td>Secretaria Municipal de Administração, Cultura, Desporto e Turismo</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Administração, Cultura, Desporto e Turismo" data-orgao="Secretaria Municipal de Administração, Cultura, Desporto e Turismo" data-situacao="Ativo">
+            <td><strong>Bem-Estar e Proteção Animal</strong></td>
+            <td>Administração, Cultura, Desporto e Turismo</td>
+            <td>Lei Municipal nº 4.495 e Lei Complementar nº 02/2020</td>
+            <td>Secretaria Municipal de Administração, Cultura, Desporto e Turismo</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Administração, Cultura, Desporto e Turismo" data-orgao="Secretaria Municipal de Administração, Cultura, Desporto e Turismo" data-situacao="Ativo">
+            <td><strong>Previdência</strong></td>
+            <td>Administração, Cultura, Desporto e Turismo</td>
+            <td>Lei Municipal nº 2.119</td>
+            <td>Secretaria Municipal de Administração, Cultura, Desporto e Turismo</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+          <tr data-area="Obras e Transportes" data-orgao="Secretaria Municipal de Obras e Transportes" data-situacao="Ativo">
+            <td><strong>Transportes Coletivos</strong></td>
+            <td>Obras e Transportes</td>
+            <td>A confirmar na legislação municipal</td>
+            <td>Secretaria Municipal de Obras e Transportes</td>
+            <td><span class="badge b-pub">Ativo</span></td>
+            <td>O Conselho está ativo e funcionando. <span class="badge b-criacao">Site em criação</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sem-resultado" id="sem-resultado">Nenhum conselho encontrado para os filtros selecionados.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Responsabilidade pelas informações</h2>
+    <p>As informações específicas de cada conselho são de responsabilidade do respectivo órgão gestor e da secretaria municipal vinculada. A manutenção técnica da página é realizada pela Coordenação de Informática.</p>
+  </section>
+
+  <div class="rodape">
+    Última atualização: abril de 2026 | Prefeitura Municipal de Arroio dos Ratos
+  </div>
+</main>
+
+<script>
+(function(){
+  var busca = document.getElementById("busca");
+  var area = document.getElementById("area");
+  var orgao = document.getElementById("orgao");
+  var situacao = document.getElementById("situacao");
+  var linhas = [].slice.call(document.querySelectorAll("#tabela-conselhos tbody tr"));
+  var semResultado = document.getElementById("sem-resultado");
+
+  function normalizar(texto){
+    return (texto || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  }
+
+  function filtrar(){
+    var termo = normalizar(busca.value);
+    var areaValor = area.value;
+    var orgaoValor = orgao.value;
+    var situacaoValor = situacao.value;
+    var visiveis = 0;
+
+    linhas.forEach(function(linha){
+      var okTexto = !termo || normalizar(linha.textContent).indexOf(termo) > -1;
+      var okArea = !areaValor || linha.getAttribute("data-area") === areaValor;
+      var okOrgao = !orgaoValor || linha.getAttribute("data-orgao") === orgaoValor;
+      var okSituacao = !situacaoValor || linha.getAttribute("data-situacao") === situacaoValor;
+      var mostrar = okTexto && okArea && okOrgao && okSituacao;
+      linha.style.display = mostrar ? "" : "none";
+      if(mostrar) visiveis++;
+    });
+
+    semResultado.style.display = visiveis ? "none" : "block";
+  }
+
+  busca.addEventListener("input", filtrar);
+  area.addEventListener("change", filtrar);
+  orgao.addEventListener("change", filtrar);
+  situacao.addEventListener("change", filtrar);
+})();
+</script>
+</body>
+</html>
+
