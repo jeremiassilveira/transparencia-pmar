@@ -1,13 +1,15 @@
 <!--
   ╔══════════════════════════════════════════════════════════════════════╗
   ║  ATOS OFICIAIS — Prefeitura de Arroio dos Ratos                     ║
-  ║  Versão: 4.0 — API REST do WordPress + Exportação Multiformato      ║
+  ║  Versão: 5.0 — API REST do WordPress + Exportação Multiformato      ║
   ╠══════════════════════════════════════════════════════════════════════╣
-  ║  NOVIDADES v4.0:                                                     ║
+  ║  NOVIDADES v5.0:                                                     ║
   ║  • Exportação em 6 formatos: CSV, XLSX, JSON, ODS, XML, PDF          ║
   ║  • SheetJS para XLSX e ODS (CDN cdnjs.cloudflare.com)                ║
   ║  • Barra de exportação com identidade visual por formato             ║
-  ║  • Código inteiramente comentado para manutenção futura              ║
+  ║  • Inclusão de plano-plurianual-ppa no filtro de Tipo do Ato          ║
+  ║  • Busca de categorias por slug direto, sem limite das 100 primeiras  ║
+  ║  • Correção de status para evitar falso "Anulado" em "Plurianual"    ║
   ╠══════════════════════════════════════════════════════════════════════╣
   ║  INSTRUÇÕES DE USO:                                                  ║
   ║  1. Cole este bloco HTML em uma página do WordPress (editor HTML).   ║
@@ -171,6 +173,12 @@
     </p>
 
     <!-- Indicador de carregamento (visível durante fetch da API) -->
+    <div id="atos-loading" class="atos-loading">
+      <span class="loading-spinner"></span>
+      Carregando atos oficiais…
+      <small id="loading-detalhe" style="display:block;margin-top:6px;font-size:12px;opacity:.7;"></small>
+    </div>
+
     <!-- Mensagem de erro da API (oculta por padrão) -->
     <div id="atos-erro" class="atos-erro" style="display:none;"></div>  <!-- ← JS -->
 
@@ -206,7 +214,7 @@
     <p>
       Esta página reúne automaticamente publicações do WordPress organizadas nos seguintes grupos:
       <strong>Administração, Pessoal, Legislação, Licitações e Contratos, Convênios,
-      Finanças e Orçamento, Saúde, Seleções Públicas</strong> e Outros.
+      Finanças e Orçamento, Plano Plurianual (PPA), Saúde, Seleções Públicas</strong> e Outros.
     </p>
     <p>
       Para melhor padronização, recomenda-se publicar os títulos com identificação clara
@@ -224,7 +232,7 @@
        2. Layout geral
        3. Hero / totalizadores / cards
        4. Filtros e botões de ação
-       5. Barra de exportação (NOVO v4)
+       5. Barra de exportação
        6. Tabela e badges
        7. Estados (loading, erro, sem resultado)
        8. Rodapé informativo
@@ -352,7 +360,7 @@
   border-radius: 6px; border-left: 3px solid var(--azul-principal);
 }
 
-/* ── 5. BARRA DE EXPORTAÇÃO (NOVO v4) ───────────────────────────────
+/* ── 5. BARRA DE EXPORTAÇÃO ─────────────────────────────────────────
    Substitui o antigo botão único "Exportar CSV".
    Cada formato tem um ponto colorido para identificação rápida.
    ─────────────────────────────────────────────────────────────────── */
@@ -459,7 +467,17 @@
 .btn-abrir:hover { background: #bfdbfe; color: #1e3a8a; }
 
 /* ── 7. Estados ──────────────────────────────────────────────────── */
-
+.atos-loading {
+  padding: 20px 16px; border-radius: 8px; font-size: 14px;
+  background: var(--azul-suave); color: var(--azul-escuro); border: 1px solid var(--azul-claro);
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.loading-spinner {
+  width: 18px; height: 18px;
+  border: 3px solid var(--azul-claro); border-top-color: var(--azul-principal);
+  border-radius: 50%; animation: spin .8s linear infinite; flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .atos-erro {
   padding: 16px; border-radius: 8px; font-size: 14px;
@@ -545,7 +563,7 @@
        G. EXTRAÇÃO DE DADOS   — extrairNumero, inferirStatus, badgeClass
        H. RENDERIZAÇÃO        — popularSelect, prepararFiltros, renderTabela
        I. FILTROS             — aplicarFiltros, limparFiltros
-       J. EXPORTAÇÃO (v4)     — CSV, XLSX, JSON, ODS, XML, PDF
+       J. EXPORTAÇÃO          — CSV, XLSX, JSON, ODS, XML, PDF
        K. API WORDPRESS       — buscarIdsCategorias, init (fetch paginado)
        L. EVENTOS             — addEventListener para botões e selects
      ═══════════════════════════════════════════════════════════════════ -->
@@ -643,8 +661,8 @@
   var semResultado     = document.getElementById("msg-sem-resultado");
   var linkLimpar       = document.getElementById("link-limpar");
   var resultFiltro     = document.getElementById("resultado-filtro");
-  var barraExportacao  = document.getElementById("barra-exportacao");   /* ← NOVO v4 */
-  var notaExportacao   = document.getElementById("nota-exportacao");    /* ← NOVO v4 */
+  var barraExportacao  = document.getElementById("barra-exportacao");
+  var notaExportacao   = document.getElementById("nota-exportacao");
 
   /* Filtros */
   var filtroAno    = document.getElementById("filtro-ano");
@@ -842,33 +860,57 @@
   /**
    * Busca os IDs de categoria na API com base nos slugs configurados.
    * Necessário para filtrar os posts por categoria no endpoint /posts.
+   * v5: consulta cada slug diretamente para não depender da primeira
+   * página de /categories?per_page=100, que pode não conter todas.
    */
   async function buscarIdsCategorias(slugs) {
-    var url = API_BASE + "/categories?per_page=100&_fields=id,slug,name";
-    var resp = await fetch(url, { credentials: "same-origin" });
-    if (!resp.ok) throw new Error(
-      "Erro ao acessar a API REST do WordPress.\nURL: " + url + "\nStatus: " + resp.status
-    );
-    var cats = await resp.json();
-
-    /* Monta mapa slug → id para busca rápida */
-    var mapa = {};
-    cats.forEach(function(c){ mapa[c.slug] = c.id; });
-
     var ids = [];
-    slugs.forEach(function(slug){
-      if (mapa[slug] && ids.indexOf(mapa[slug]) === -1)
-        ids.push(mapa[slug]);
-      /* Tenta também sem acentos */
-      var slugNorm = normalizar(slug).replace(/\s+/g, "-");
-      if (mapa[slugNorm] && ids.indexOf(mapa[slugNorm]) === -1)
-        ids.push(mapa[slugNorm]);
-    });
+    var slugsNaoEncontrados = [];
+
+    async function buscarPorUrl(url) {
+      var resp = await fetch(url, { credentials: "same-origin" });
+      if (!resp.ok) return [];
+      return await resp.json();
+    }
+
+    async function adicionarCategorias(url) {
+      var cats = await buscarPorUrl(url);
+      cats.forEach(function(c) {
+        if (c && c.id && ids.indexOf(c.id) === -1) ids.push(c.id);
+      });
+      return cats.length;
+    }
+
+    for (var i = 0; i < slugs.length; i++) {
+      var slug = slugs[i];
+      var achou = await adicionarCategorias(
+        API_BASE + "/categories?slug=" + encodeURIComponent(slug) + "&per_page=100&_fields=id,slug,name"
+      );
+
+      if (!achou) {
+        var slugNorm = normalizar(slug).replace(/\s+/g, "-");
+        if (slugNorm !== slug) {
+          achou = await adicionarCategorias(
+            API_BASE + "/categories?slug=" + encodeURIComponent(slugNorm) + "&per_page=100&_fields=id,slug,name"
+          );
+        }
+      }
+
+      if (!achou) slugsNaoEncontrados.push(slug);
+    }
 
     if (!ids.length) {
-      console.warn("[Atos Oficiais v4] Nenhuma categoria encontrada. Slugs disponíveis: "
-        + cats.map(function(c){ return c.slug; }).join(", "));
+      await adicionarCategorias(API_BASE + "/categories?search=" + encodeURIComponent("atos oficiais") + "&per_page=100&_fields=id,slug,name");
+      await adicionarCategorias(API_BASE + "/categories?search=" + encodeURIComponent("plano plurianual") + "&per_page=100&_fields=id,slug,name");
+      await adicionarCategorias(API_BASE + "/categories?search=" + encodeURIComponent("ppa") + "&per_page=100&_fields=id,slug,name");
     }
+
+    if (!ids.length) {
+      console.warn("[Atos Oficiais v5] Nenhuma categoria encontrada. Slugs tentados: " + slugs.join(", "));
+    } else if (slugsNaoEncontrados.length) {
+      console.warn("[Atos Oficiais v5] Alguns slugs não foram encontrados: " + slugsNaoEncontrados.join(", "));
+    }
+
     return ids;
   }
 
@@ -1010,7 +1052,7 @@
   }
 
   /* ════════════════════════════════════════════════════════════════
-     J. EXPORTAÇÃO — 6 FORMATOS PNTP (NOVO v4)
+     J. EXPORTAÇÃO — 6 FORMATOS PNTP
      ────────────────────────────────────────────────────────────────
      Todas as funções operam sobre dadosFiltrados (ou dadosOriginais
      se nenhum filtro estiver ativo). Isso garante que o cidadão
@@ -1024,7 +1066,7 @@
    * dadosFiltrados é atualizado por aplicarFiltros() e limparFiltros().
    */
   function getDadosVisiveis() {
-    return dadosFiltrados.length ? dadosFiltrados : dadosOriginais;
+    return dadosFiltrados;
   }
 
   /**
@@ -1361,7 +1403,7 @@
       loading.style.display = "none";
       erroEl.style.display  = "block";
       erroEl.textContent    = "❌ Erro ao carregar atos oficiais:\n\n" + e.message;
-      console.error("[Atos Oficiais v4]", e);
+      console.error("[Atos Oficiais v5]", e);
     }
   }
 

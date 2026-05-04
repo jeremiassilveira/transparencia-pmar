@@ -1,5 +1,7 @@
 # PDFs grandes
 *.pdf
+!html/documentos/ppa-2018-2021/*.pdf
+!html/documentos/ppa-2022-2025/*.pdf
 
 # Sistema
 Thumbs.db

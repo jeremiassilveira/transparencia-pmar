@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plano Plurianual 2018-2021 - Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --amarelo:#854d0e;
+  --amarelo-bg:#fef9c3;
+  --amarelo-borda:#fde68a;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#dbe3ee;
+  --cinza-100:#f8fafc;
+  --branco:#ffffff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900)}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,
+.elementor-widget-theme-post-title,.elementor-page-title,
+.wp-block-post-title,h1.entry-title,h1.page-title,
+.post-title,.site-main .page-header{display:none !important}
+
+.wrap{max-width:1180px;margin:0 auto;padding:24px 28px 48px}
+.breadcrumb{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;padding:10px 14px;border:1px solid var(--cinza-200);border-radius:8px;background:var(--branco);color:var(--cinza-500);font-size:13px}
+.breadcrumb a{color:var(--azul);font-weight:700;text-decoration:none}
+.breadcrumb a:hover,.breadcrumb a:focus{text-decoration:underline}
+
+.hero{margin-bottom:20px;padding:34px 36px;border-radius:16px;background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 62%,#1a7fd4 100%);color:#fff;box-shadow:0 8px 32px rgba(11,61,110,.20)}
+.tag{display:inline-block;margin-bottom:10px;padding:5px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+.hero h1{margin:0 0 10px;color:#fff;font-size:32px;line-height:1.2}
+.hero p{max-width:900px;margin:0;color:rgba(255,255,255,.93);font-size:15px;line-height:1.7}
+.hero-acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:11px 18px;border-radius:10px;font-size:14px;font-weight:800;line-height:1.2;text-decoration:none;transition:background .2s ease,transform .2s ease}
+.btn-primario{border:1px solid #fff;background:#fff;color:var(--azul-escuro)}
+.btn-secundario{border:1px solid rgba(255,255,255,.30);background:rgba(255,255,255,.12);color:#fff}
+.btn:hover,.btn:focus{transform:translateY(-1px)}
+.btn-primario:hover,.btn-primario:focus{background:#f8fbff}
+.btn-secundario:hover,.btn-secundario:focus{background:rgba(255,255,255,.20)}
+
+.indicadores{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.indicador{padding:18px;border:1px solid var(--cinza-200);border-left:4px solid var(--azul);border-radius:14px;background:#fbfdff}
+.indicador strong{display:block;margin-bottom:6px;color:var(--cinza-500);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.indicador .valor{display:block;color:var(--azul-escuro);font-size:20px;font-weight:900;line-height:1.2}
+.indicador .detalhe{display:block;margin-top:6px;color:var(--cinza-500);font-size:12px;line-height:1.4}
+
+.card{margin-bottom:20px;padding:24px 26px;border:1px solid var(--cinza-200);border-radius:16px;background:var(--branco);box-shadow:0 4px 16px rgba(15,23,42,.04)}
+.card h2{margin:0 0 16px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);color:var(--azul-escuro);font-size:20px;line-height:1.25}
+.card p{margin:0 0 12px;color:var(--cinza-700);font-size:14px;line-height:1.75}
+.card p:last-child{margin-bottom:0}
+
+.docs-lista{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.doc-item{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border:1px solid var(--cinza-200);border-radius:12px;background:#fbfdff;text-decoration:none;color:inherit;transition:border-color .2s,background .2s}
+.doc-item:hover,.doc-item:focus{border-color:var(--azul-claro);background:var(--azul-suave)}
+.doc-icone{flex-shrink:0;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--azul-claro);color:var(--azul-escuro);font-size:13px;font-weight:900}
+.doc-info strong{display:block;color:var(--azul-escuro);font-size:14px;font-weight:800;margin-bottom:3px}
+.doc-info span{color:var(--cinza-500);font-size:12px;line-height:1.4}
+
+.lei-box{display:flex;align-items:center;gap:16px;padding:18px 20px;border:1px solid var(--verde-borda);border-left:4px solid var(--verde);border-radius:12px;background:var(--verde-bg);margin-bottom:20px}
+.lei-box-icone{font-size:18px;font-weight:900;color:var(--verde);flex-shrink:0}
+.lei-box-texto strong{display:block;color:var(--verde);font-size:14px;font-weight:800;margin-bottom:2px}
+.lei-box-texto span{color:#166534;font-size:13px;line-height:1.5}
+.nota{padding:14px 16px;border:1px solid var(--amarelo-borda);border-left:4px solid var(--amarelo);border-radius:12px;background:var(--amarelo-bg);color:#78350f;font-size:13px;line-height:1.7;margin-bottom:16px}
+.rodape{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:18px;padding:12px}
+.rodape a{color:var(--azul);font-weight:800;text-decoration:none}
+.rodape a:hover{text-decoration:underline}
+
+@media(max-width:980px){
+  .indicadores{grid-template-columns:repeat(2,1fr)}
+  .docs-lista{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .wrap{padding:16px 14px 36px}
+  .hero{padding:22px 18px}
+  .hero h1{font-size:24px}
+  .hero-acoes{display:block}
+  .btn{width:100%;margin-bottom:8px}
+  .card{padding:20px 18px}
+  .indicadores{grid-template-columns:1fr 1fr}
+  .lei-box{flex-direction:column;gap:10px;align-items:flex-start}
+}
+@media print{
+  .breadcrumb,.hero-acoes{display:none !important}
+  .wrap{max-width:none;padding:0}
+  .hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200)}
+  .hero h1{color:var(--azul-escuro) !important}
+  .hero p{color:var(--cinza-700) !important}
+  .card,.indicador{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <nav class="breadcrumb" aria-label="Caminho da pagina">
+    <a href="/">Inicio</a>
+    <span aria-hidden="true">&raquo;</span>
+    <a href="/planejamento-e-prestacao-de-contas/">Planejamento e Prestacao de Contas</a>
+    <span aria-hidden="true">&raquo;</span>
+    <span>PPA 2018-2021</span>
+  </nav>
+
+  <header class="hero">
+    <span class="tag">Planejamento Governamental</span>
+    <h1>Plano Plurianual 2018-2021</h1>
+    <p>
+      Instrumento de planejamento de medio prazo que estabelece as diretrizes, programas,
+      objetivos e metas da Administracao Municipal para o quadriênio 2018-2021.
+    </p>
+    <div class="hero-acoes" aria-label="Acoes principais">
+      <a href="documentos/ppa-2018-2021/ppa-2018-2021.pdf" target="_blank" rel="noopener" class="btn btn-primario">
+        Documento Principal
+      </a>
+      <a href="#documentos" class="btn btn-secundario">
+        Anexos do PPA
+      </a>
+      <a href="ppa-2022-2025.html" class="btn btn-secundario">
+        PPA 2022-2025
+      </a>
+    </div>
+  </header>
+
+  <section class="indicadores" aria-label="Dados do PPA">
+    <div class="indicador">
+      <strong>Vigencia</strong>
+      <span class="valor">2018-2021</span>
+      <span class="detalhe">Quadriênio</span>
+    </div>
+    <div class="indicador">
+      <strong>Lei vinculada</strong>
+      <span class="valor">nº 3.904</span>
+      <span class="detalhe">Lei Ordinaria de 2017</span>
+    </div>
+    <div class="indicador">
+      <strong>Anexos</strong>
+      <span class="valor">4 arquivos</span>
+      <span class="detalhe">Anexos I, II, III e IV</span>
+    </div>
+    <div class="indicador">
+      <strong>Consulta</strong>
+      <span class="valor">Online</span>
+      <span class="detalhe">Acesso aos documentos oficiais</span>
+    </div>
+  </section>
+
+  <div class="lei-box" role="note" aria-label="Lei vinculada">
+    <span class="lei-box-icone" aria-hidden="true">LEI</span>
+    <div class="lei-box-texto">
+      <strong>Lei Ordinaria nº 3.904/2017</strong>
+      <span>
+        Arquivos do Plano Plurianual 2018-2021 e anexos associados a Lei Ordinaria
+        nº 3.904/2017 de Arroio dos Ratos.
+      </span>
+    </div>
+  </div>
+
+  <section class="card" aria-labelledby="sobre-titulo">
+    <h2 id="sobre-titulo">O que e o Plano Plurianual?</h2>
+    <p>
+      O Plano Plurianual (PPA) e o instrumento de planejamento de medio prazo previsto no
+      §1º do Art. 165 da Constituicao Federal de 1988. Ele organiza, para quatro anos, as
+      diretrizes, objetivos e metas da Administracao Publica.
+    </p>
+    <p>
+      O PPA orienta a elaboracao das Leis de Diretrizes Orcamentarias (LDO) e das Leis
+      Orcamentarias Anuais (LOA), mantendo alinhamento entre planejamento, orcamento e
+      execucao das politicas publicas.
+    </p>
+  </section>
+
+  <section class="card" id="documentos" aria-labelledby="docs-titulo">
+    <h2 id="docs-titulo">Documentos do PPA 2018-2021</h2>
+    <p>
+      Acesse o documento principal e os anexos do Plano Plurianual 2018-2021.
+    </p>
+    <div class="nota">
+      Os arquivos foram organizados com nomes padronizados para facilitar a publicacao e
+      o acesso pelo Portal da Transparencia.
+    </div>
+    <div class="docs-lista">
+
+      <a href="documentos/ppa-2018-2021/ppa-2018-2021.pdf" target="_blank" rel="noopener" class="doc-item">
+        <span class="doc-icone" aria-hidden="true">PDF</span>
+        <div class="doc-info">
+          <strong>Documento Principal - PPA 2018-2021</strong>
+          <span>Plano Plurianual completo do quadriênio</span>
+        </div>
+      </a>
+
+      <a href="documentos/ppa-2018-2021/anexo-i.pdf" target="_blank" rel="noopener" class="doc-item">
+        <span class="doc-icone" aria-hidden="true">I</span>
+        <div class="doc-info">
+          <strong>Anexo I</strong>
+          <span>Documento integrante do PPA 2018-2021</span>
+        </div>
+      </a>
+
+      <a href="documentos/ppa-2018-2021/anexo-ii.pdf" target="_blank" rel="noopener" class="doc-item">
+        <span class="doc-icone" aria-hidden="true">II</span>
+        <div class="doc-info">
+          <strong>Anexo II</strong>
+          <span>Documento integrante do PPA 2018-2021</span>
+        </div>
+      </a>
+
+      <a href="documentos/ppa-2018-2021/anexo-iii.pdf" target="_blank" rel="noopener" class="doc-item">
+        <span class="doc-icone" aria-hidden="true">III</span>
+        <div class="doc-info">
+          <strong>Anexo III</strong>
+          <span>Documento integrante do PPA 2018-2021</span>
+        </div>
+      </a>
+
+      <a href="documentos/ppa-2018-2021/anexo-iv.pdf" target="_blank" rel="noopener" class="doc-item">
+        <span class="doc-icone" aria-hidden="true">IV</span>
+        <div class="doc-info">
+          <strong>Anexo IV</strong>
+          <span>Documento integrante do PPA 2018-2021</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <footer class="rodape">
+    <p>
+      Prefeitura Municipal de Arroio dos Ratos &mdash; Portal da Transparencia &mdash;
+      Duvidas? <a href="/esic/">Acesse o e-SIC</a>
+    </p>
+  </footer>
+
+</main>
+</body>
+</html>

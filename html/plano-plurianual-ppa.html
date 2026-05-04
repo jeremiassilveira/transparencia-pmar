@@ -1,0 +1,1039 @@
+<!--
+  PLANO PLURIANUAL (PPA) — Central de consulta
+  Prefeitura Municipal de Arroio dos Ratos
+
+  Uso:
+  1. Cole este HTML em uma página do WordPress no editor HTML.
+  2. Publique os posts dos PPAs na categoria com slug: plano-plurianual-ppa.
+  3. A página carrega os posts automaticamente pela API REST nativa do WordPress.
+  4. Exporta os dados visíveis em CSV, XLSX, JSON, ODS, XML e PDF.
+-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<div class="ppa-central-wrap">
+  <nav class="ppa-breadcrumb" aria-label="Caminho da página">
+    <a href="/">Início</a>
+    <span aria-hidden="true">&raquo;</span>
+    <a href="/planejamento-e-prestacao-de-contas/">Planejamento e Prestação de Contas</a>
+    <span aria-hidden="true">&raquo;</span>
+    <span>Plano Plurianual (PPA)</span>
+  </nav>
+
+  <header class="ppa-hero">
+    <span class="ppa-tag">Planejamento Governamental</span>
+    <h1>Plano Plurianual (PPA)</h1>
+    <p>
+      Consulta centralizada dos Planos Plurianuais publicados pela Prefeitura Municipal
+      de Arroio dos Ratos, com filtros, acesso aos documentos oficiais e exportação em
+      formatos abertos.
+    </p>
+  </header>
+
+  <section class="ppa-totalizadores" aria-label="Resumo dos registros">
+    <div class="ppa-total-card">
+      <span class="ppa-total-numero" id="ppa-total-registros">—</span>
+      <span class="ppa-total-label">registros localizados</span>
+    </div>
+    <div class="ppa-total-card">
+      <span class="ppa-total-numero" id="ppa-total-exercicios">—</span>
+      <span class="ppa-total-label">exercícios</span>
+    </div>
+    <div class="ppa-total-card">
+      <span class="ppa-total-numero" id="ppa-total-tipos">—</span>
+      <span class="ppa-total-label">tipos de documento</span>
+    </div>
+    <div class="ppa-total-card ppa-total-card--azul">
+      <span class="ppa-total-numero" id="ppa-total-visiveis">—</span>
+      <span class="ppa-total-label">resultado atual</span>
+    </div>
+  </section>
+
+  <section class="ppa-card">
+    <h2>Filtros</h2>
+    <div class="ppa-filtros">
+      <div class="ppa-filtro-grupo">
+        <label for="ppa-filtro-exercicio">Exercício / Vigência</label>
+        <select id="ppa-filtro-exercicio">
+          <option value="">Todos</option>
+        </select>
+      </div>
+      <div class="ppa-filtro-grupo">
+        <label for="ppa-filtro-tipo">Tipo de documento</label>
+        <select id="ppa-filtro-tipo">
+          <option value="">Todos</option>
+        </select>
+      </div>
+      <div class="ppa-filtro-grupo">
+        <label for="ppa-filtro-ano">Ano de publicação</label>
+        <select id="ppa-filtro-ano">
+          <option value="">Todos</option>
+        </select>
+      </div>
+      <div class="ppa-filtro-grupo ppa-filtro-grupo--largo">
+        <label for="ppa-filtro-busca">Buscar no título</label>
+        <input type="text" id="ppa-filtro-busca" placeholder="Ex: PPA 2022, anexo, 2026">
+      </div>
+    </div>
+
+    <div class="ppa-acoes">
+      <button id="ppa-btn-filtrar" type="button">Filtrar</button>
+      <button id="ppa-btn-limpar" type="button">Limpar</button>
+    </div>
+
+    <div id="ppa-resultado-filtro" class="ppa-resultado-filtro" style="display:none;"></div>
+  </section>
+
+  <section class="ppa-card">
+    <h2>Tabela do Plano Plurianual</h2>
+    <p class="ppa-nota">
+      Dados carregados automaticamente dos posts publicados na categoria
+      <strong>plano-plurianual-ppa</strong>. O link "Abrir" leva ao conteúdo oficial publicado.
+    </p>
+
+    <div id="ppa-barra-exportacao" class="ppa-export-bar" style="display:none;">
+      <span class="ppa-export-label">Exportar dados visíveis:</span>
+      <button class="ppa-btn-export" type="button" onclick="ppaExportarCSV()"><span class="dot dot-csv"></span>CSV</button>
+      <button class="ppa-btn-export" type="button" onclick="ppaExportarXLSX()"><span class="dot dot-xlsx"></span>XLSX</button>
+      <button class="ppa-btn-export" type="button" onclick="ppaExportarJSON()"><span class="dot dot-json"></span>JSON</button>
+      <button class="ppa-btn-export" type="button" onclick="ppaExportarODS()"><span class="dot dot-ods"></span>ODS</button>
+      <button class="ppa-btn-export" type="button" onclick="ppaExportarXML()"><span class="dot dot-xml"></span>XML</button>
+      <button class="ppa-btn-export" type="button" onclick="ppaExportarPDF()"><span class="dot dot-pdf"></span>PDF</button>
+    </div>
+
+    <p id="ppa-nota-exportacao" class="ppa-export-nota" style="display:none;">
+      Exporta somente os registros visíveis conforme os filtros aplicados.
+    </p>
+
+    <div id="ppa-loading" class="ppa-loading">
+      <span class="ppa-spinner"></span>
+      Carregando publicações do PPA...
+      <small id="ppa-loading-detalhe"></small>
+    </div>
+
+    <div id="ppa-erro" class="ppa-erro" style="display:none;"></div>
+
+    <div class="ppa-table-wrap" id="ppa-table-wrap" style="display:none;">
+      <table id="ppa-tabela">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Ano</th>
+            <th>Vigência</th>
+            <th>Tipo</th>
+            <th>Título / Objeto</th>
+            <th>Status</th>
+            <th>Abrir</th>
+          </tr>
+        </thead>
+        <tbody id="ppa-tbody"></tbody>
+      </table>
+    </div>
+
+    <div id="ppa-sem-resultado" class="ppa-sem-resultado" style="display:none;">
+      Nenhum registro encontrado com os filtros informados.
+      <a href="#" id="ppa-link-limpar">Limpar filtros</a>
+    </div>
+  </section>
+
+  <section class="ppa-card ppa-card--info">
+    <h2>Observação técnica</h2>
+    <p>
+      Para que esta página funcione corretamente, os conteúdos do Plano Plurianual devem
+      estar publicados como posts do WordPress na categoria de slug
+      <strong>plano-plurianual-ppa</strong>.
+    </p>
+    <p>
+      Recomenda-se usar títulos claros, como <em>Plano Plurianual 2022-2025</em> e
+      <em>Plano Plurianual 2026-2029</em>, pois a vigência é identificada automaticamente
+      a partir do título.
+    </p>
+  </section>
+</div>
+
+<style>
+:root{
+  --azul-escuro:#0b3d6e;
+  --azul:#0f5ea8;
+  --azul-hover:#0b4d89;
+  --azul-claro:#dbeafe;
+  --azul-suave:#f0f6ff;
+  --verde:#166534;
+  --verde-bg:#dcfce7;
+  --verde-borda:#86efac;
+  --amarelo:#854d0e;
+  --amarelo-bg:#fef3c7;
+  --amarelo-borda:#fcd34d;
+  --vermelho:#991b1b;
+  --vermelho-bg:#fee2e2;
+  --vermelho-borda:#fca5a5;
+  --cinza-900:#1f2937;
+  --cinza-700:#374151;
+  --cinza-500:#6b7280;
+  --cinza-300:#d1d5db;
+  --cinza-200:#dbe3ee;
+  --cinza-100:#f8fafc;
+  --branco:#ffffff;
+}
+
+.ppa-central-wrap{
+  max-width:1380px;
+  margin:0 auto;
+  padding:24px 28px;
+  font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+  color:var(--cinza-900);
+  background:var(--cinza-100);
+}
+
+.ppa-breadcrumb{
+  display:inline-flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  margin-bottom:16px;
+  padding:10px 14px;
+  border:1px solid var(--cinza-200);
+  border-radius:8px;
+  background:var(--branco);
+  color:var(--cinza-500);
+  font-size:13px;
+}
+.ppa-breadcrumb a{color:var(--azul);font-weight:700;text-decoration:none}
+.ppa-breadcrumb a:hover,.ppa-breadcrumb a:focus{text-decoration:underline}
+
+.ppa-hero{
+  margin-bottom:20px;
+  padding:34px 36px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 62%,#1a7fd4 100%);
+  color:#fff;
+  box-shadow:0 8px 32px rgba(11,61,110,.20);
+}
+.ppa-tag{
+  display:inline-block;
+  margin-bottom:10px;
+  padding:5px 10px;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+}
+.ppa-hero h1{margin:0 0 10px;color:#fff;font-size:32px;line-height:1.2}
+.ppa-hero p{max-width:900px;margin:0;color:rgba(255,255,255,.93);font-size:15px;line-height:1.7}
+
+.ppa-totalizadores{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:14px;
+  margin-bottom:20px;
+}
+.ppa-total-card{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  padding:18px 20px;
+  border:1px solid var(--cinza-200);
+  border-left:4px solid var(--azul);
+  border-radius:12px;
+  background:var(--branco);
+  box-shadow:0 2px 8px rgba(15,23,42,.05);
+}
+.ppa-total-card--azul{border-left-color:var(--azul-escuro)}
+.ppa-total-numero{color:var(--azul-escuro);font-size:22px;font-weight:900;line-height:1}
+.ppa-total-label{color:var(--cinza-500);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+
+.ppa-card{
+  margin-bottom:20px;
+  padding:24px 26px;
+  border:1px solid var(--cinza-200);
+  border-radius:16px;
+  background:var(--branco);
+  box-shadow:0 4px 16px rgba(15,23,42,.04);
+}
+.ppa-card h2{
+  margin:0 0 18px;
+  padding-bottom:12px;
+  border-bottom:2px solid var(--azul-claro);
+  color:var(--azul-escuro);
+  font-size:20px;
+  line-height:1.25;
+}
+.ppa-card p{margin:0 0 12px;color:var(--cinza-700);font-size:14px;line-height:1.75}
+.ppa-card p:last-child{margin-bottom:0}
+.ppa-card--info{border-left:4px solid var(--azul);background:var(--azul-suave)}
+
+.ppa-filtros{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:14px;
+}
+.ppa-filtro-grupo{display:flex;flex-direction:column;gap:5px}
+.ppa-filtro-grupo--largo{grid-column:span 2}
+.ppa-filtro-grupo label{
+  color:var(--cinza-500);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.ppa-filtros input,
+.ppa-filtros select{
+  width:100%;
+  height:42px;
+  padding:10px 12px;
+  border:1px solid #cfd8e3;
+  border-radius:8px;
+  background:var(--branco);
+  color:var(--cinza-900);
+  font-size:14px;
+}
+.ppa-filtros input:focus,
+.ppa-filtros select:focus{
+  outline:none;
+  border-color:var(--azul);
+  box-shadow:0 0 0 3px rgba(15,94,168,.12);
+}
+
+.ppa-acoes{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:18px;
+  padding-top:18px;
+  border-top:1px solid var(--cinza-200);
+}
+.ppa-acoes button{
+  min-height:42px;
+  padding:10px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:800;
+  cursor:pointer;
+}
+#ppa-btn-filtrar{border:1px solid var(--azul);background:var(--azul);color:#fff}
+#ppa-btn-filtrar:hover{background:var(--azul-hover)}
+#ppa-btn-limpar{border:1px solid var(--cinza-300);background:#f3f4f6;color:var(--cinza-700)}
+#ppa-btn-limpar:hover{background:#e5e7eb}
+
+.ppa-resultado-filtro{
+  margin-top:12px;
+  padding:8px 12px;
+  border-left:3px solid var(--azul);
+  border-radius:6px;
+  background:var(--azul-suave);
+  color:var(--azul);
+  font-size:13px;
+  font-weight:800;
+}
+
+.ppa-nota{
+  margin:-10px 0 16px;
+  padding:10px 14px;
+  border-left:3px solid var(--azul);
+  border-radius:8px;
+  background:var(--azul-suave);
+  color:var(--cinza-500);
+  font-size:13px;
+}
+
+.ppa-export-bar{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  margin-bottom:6px;
+  padding:12px 16px;
+  border:1px solid #dde1e8;
+  border-radius:10px;
+  background:#f5f6f8;
+}
+.ppa-export-label{
+  margin-right:4px;
+  color:var(--cinza-500);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.ppa-btn-export{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:6px 12px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  background:var(--branco);
+  color:var(--cinza-700);
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+}
+.ppa-btn-export:hover{background:#eef0f3;border-color:#aaa}
+.dot{display:inline-block;width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.dot-csv{background:#2e7d32}
+.dot-xlsx{background:#1565c0}
+.dot-json{background:#e65100}
+.dot-ods{background:#00695c}
+.dot-xml{background:#4527a0}
+.dot-pdf{background:#b71c1c}
+.ppa-export-nota{margin:0 0 14px 2px;color:var(--cinza-500);font-size:11px;font-style:italic}
+
+.ppa-loading{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px;
+  padding:20px 16px;
+  border:1px solid var(--azul-claro);
+  border-radius:8px;
+  background:var(--azul-suave);
+  color:var(--azul-escuro);
+  font-size:14px;
+}
+.ppa-loading small{display:block;width:100%;margin-left:28px;color:var(--cinza-500);font-size:12px}
+.ppa-spinner{
+  width:18px;
+  height:18px;
+  border:3px solid var(--azul-claro);
+  border-top-color:var(--azul);
+  border-radius:50%;
+  animation:ppaSpin .8s linear infinite;
+}
+@keyframes ppaSpin{to{transform:rotate(360deg)}}
+
+.ppa-erro{
+  padding:16px;
+  border:1px solid var(--vermelho-borda);
+  border-radius:8px;
+  background:var(--vermelho-bg);
+  color:var(--vermelho);
+  font-size:14px;
+  white-space:pre-wrap;
+}
+
+.ppa-table-wrap{
+  overflow-x:auto;
+  border:1px solid var(--cinza-200);
+  border-radius:12px;
+}
+#ppa-tabela{
+  width:100%;
+  min-width:980px;
+  border-collapse:collapse;
+  background:var(--branco);
+}
+#ppa-tabela thead th{
+  padding:13px 12px;
+  border-bottom:2px solid #072d52;
+  background:var(--azul-escuro);
+  color:#fff;
+  font-size:12px;
+  font-weight:800;
+  text-align:left;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  white-space:nowrap;
+}
+#ppa-tabela tbody td{
+  padding:13px 12px;
+  border-bottom:1px solid #eef2f7;
+  color:var(--cinza-900);
+  font-size:13.5px;
+  vertical-align:middle;
+}
+#ppa-tabela tbody tr:nth-child(even){background:#fafcff}
+#ppa-tabela tbody tr:hover{background:#f0f6ff}
+
+.ppa-badge{
+  display:inline-block;
+  padding:4px 12px;
+  border:1px solid var(--verde-borda);
+  border-radius:999px;
+  background:var(--verde-bg);
+  color:var(--verde);
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.ppa-btn-abrir{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:7px 13px;
+  border:1px solid #bfdbfe;
+  border-radius:8px;
+  background:var(--azul-claro);
+  color:#1d4ed8;
+  font-size:13px;
+  font-weight:800;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.ppa-btn-abrir:hover{background:#bfdbfe;color:#1e3a8a}
+
+.ppa-sem-resultado{
+  padding:32px;
+  color:var(--cinza-500);
+  font-size:14px;
+  text-align:center;
+}
+.ppa-sem-resultado a{color:var(--azul);font-weight:800}
+
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,
+.elementor-widget-theme-post-title,.elementor-page-title,
+.wp-block-post-title,h1.entry-title,h1.page-title,
+.post-title,.site-main .page-header{display:none !important}
+
+@media(max-width:900px){
+  .ppa-central-wrap{padding:14px 16px}
+  .ppa-hero{padding:22px 20px}
+  .ppa-hero h1{font-size:24px}
+  .ppa-card{padding:18px 16px}
+  .ppa-filtro-grupo--largo{grid-column:auto}
+  .ppa-acoes{flex-direction:column}
+  .ppa-acoes button{width:100%}
+  .ppa-btn-export{font-size:11px;padding:5px 9px}
+}
+
+@media print{
+  .ppa-breadcrumb,
+  .ppa-totalizadores,
+  .ppa-acoes,
+  .ppa-export-bar,
+  .ppa-export-nota,
+  .ppa-card--info,
+  .ppa-nota,
+  #ppa-resultado-filtro,
+  .ppa-btn-abrir{display:none !important}
+
+  header,footer,nav,#wpadminbar,
+  .site-header,.site-footer,.main-navigation,
+  .elementor-location-header,.elementor-location-footer{display:none !important}
+
+  .ppa-central-wrap{max-width:100%;padding:0;background:#fff}
+  .ppa-hero{
+    padding:12px 0;
+    border-bottom:2px solid #000;
+    border-radius:0;
+    background:none !important;
+    box-shadow:none;
+    color:#000 !important;
+  }
+  .ppa-hero h1{color:#000 !important;font-size:20px}
+  .ppa-hero p{color:#000 !important}
+  .ppa-card{padding:0;border:none;box-shadow:none}
+  #ppa-tabela thead th{background:#333 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #ppa-tabela tbody td{padding:8px 6px;font-size:11px}
+}
+</style>
+
+<script>
+(function(){
+  "use strict";
+
+  var CONFIG = {
+    slugsCategoria:[
+      "plano-plurianual-ppa",
+      "plano-plurianual",
+      "plano-plurianual-ppa-2020",
+      "plano-plurianal-2020"
+    ],
+    postsPorPagina:100,
+    maxPaginas:20
+  };
+
+  var API_BASE = (window.wpApiSettings && window.wpApiSettings.root)
+    ? window.wpApiSettings.root.replace(/\/$/,"")
+    : (window.location.origin + "/wp-json/wp/v2");
+
+  if (API_BASE.indexOf("/wp/v2") === -1) {
+    API_BASE = API_BASE.replace(/\/$/,"") + "/wp/v2";
+  }
+
+  var tbody = document.getElementById("ppa-tbody");
+  var loading = document.getElementById("ppa-loading");
+  var loadingDetalhe = document.getElementById("ppa-loading-detalhe");
+  var erroEl = document.getElementById("ppa-erro");
+  var tableWrap = document.getElementById("ppa-table-wrap");
+  var semResultado = document.getElementById("ppa-sem-resultado");
+  var linkLimpar = document.getElementById("ppa-link-limpar");
+  var barraExportacao = document.getElementById("ppa-barra-exportacao");
+  var notaExportacao = document.getElementById("ppa-nota-exportacao");
+  var resultadoFiltro = document.getElementById("ppa-resultado-filtro");
+
+  var filtroExercicio = document.getElementById("ppa-filtro-exercicio");
+  var filtroTipo = document.getElementById("ppa-filtro-tipo");
+  var filtroAno = document.getElementById("ppa-filtro-ano");
+  var filtroBusca = document.getElementById("ppa-filtro-busca");
+  var btnFiltrar = document.getElementById("ppa-btn-filtrar");
+  var btnLimpar = document.getElementById("ppa-btn-limpar");
+
+  var elTotalRegistros = document.getElementById("ppa-total-registros");
+  var elTotalExercicios = document.getElementById("ppa-total-exercicios");
+  var elTotalTipos = document.getElementById("ppa-total-tipos");
+  var elTotalVisiveis = document.getElementById("ppa-total-visiveis");
+
+  var dadosOriginais = [];
+  var dadosFiltrados = [];
+
+  function normalizar(str){
+    return (str || "").toString()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+      .toLowerCase().trim();
+  }
+
+  function stripHtml(html){
+    var d = document.createElement("div");
+    d.innerHTML = html || "";
+    return (d.textContent || d.innerText || "").trim();
+  }
+
+  function escHTML(s){
+    return String(s == null ? "" : s)
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;");
+  }
+
+  function escAttr(s){
+    return String(s == null ? "" : s)
+      .replace(/&/g,"&amp;")
+      .replace(/"/g,"&quot;")
+      .replace(/</g,"&lt;");
+  }
+
+  function formatarData(isoStr){
+    var m = (isoStr || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return m ? m[3] + "/" + m[2] + "/" + m[1] : "";
+  }
+
+  function anoDeIso(isoStr){
+    var m = (isoStr || "").match(/^(\d{4})/);
+    return m ? m[1] : "";
+  }
+
+  function extrairVigencia(titulo){
+    var t = titulo || "";
+    var m = t.match(/\b(20\d{2})\s*[-–—a]\s*(20\d{2})\b/i);
+    if (m) return m[1] + "-" + m[2];
+    m = t.match(/\b(20\d{2})\b/);
+    return m ? m[1] : "Não informado";
+  }
+
+  function inferirTipo(titulo){
+    var t = normalizar(titulo);
+    if (/anexo\s*iv|\banexo\s*4\b/.test(t)) return "Anexo IV";
+    if (/anexo\s*iii\s*c|\banexo\s*3\s*c\b/.test(t)) return "Anexo III C";
+    if (/anexo\s*iii\s*b|\banexo\s*3\s*b\b/.test(t)) return "Anexo III B";
+    if (/anexo\s*iii\s*a|\banexo\s*3\s*a\b/.test(t)) return "Anexo III A";
+    if (/anexo\s*iii|\banexo\s*3\b/.test(t)) return "Anexo III";
+    if (/anexo\s*ii|\banexo\s*2\b/.test(t)) return "Anexo II";
+    if (/anexo\s*i|\banexo\s*1\b/.test(t)) return "Anexo I";
+    if (/lei/.test(t)) return "Lei do PPA";
+    if (/plano\s+plurianual|\bppa\b/.test(t)) return "Plano Plurianual";
+    return "Documento do PPA";
+  }
+
+  async function buscarIdsCategorias(slugs){
+    var ids = [];
+
+    async function adicionarPorUrl(url){
+      var resp = await fetch(url,{credentials:"same-origin"});
+      if (!resp.ok) return;
+      var cats = await resp.json();
+      cats.forEach(function(cat){
+        if (cat && cat.id && ids.indexOf(cat.id) === -1) ids.push(cat.id);
+      });
+    }
+
+    for (var i = 0; i < slugs.length; i++) {
+      await adicionarPorUrl(API_BASE + "/categories?slug=" + encodeURIComponent(slugs[i]) + "&per_page=100&_fields=id,slug,name");
+    }
+
+    if (!ids.length) {
+      await adicionarPorUrl(API_BASE + "/categories?search=" + encodeURIComponent("Plano Plurianual") + "&per_page=100&_fields=id,slug,name");
+    }
+
+    if (!ids.length) {
+      await adicionarPorUrl(API_BASE + "/categories?search=" + encodeURIComponent("PPA") + "&per_page=100&_fields=id,slug,name");
+    }
+
+    return ids;
+  }
+
+  function postParaRegistro(post){
+    var titulo = stripHtml(post.title && post.title.rendered ? post.title.rendered : "");
+    var dataIso = post.date || "";
+    return {
+      data:formatarData(dataIso),
+      dataSort:dataIso,
+      ano:anoDeIso(dataIso),
+      vigencia:extrairVigencia(titulo),
+      tipo:inferirTipo(titulo),
+      titulo:titulo,
+      status:"Publicado",
+      link:post.link || "#"
+    };
+  }
+
+  function popularSelect(select,valores,placeholder){
+    var atual = select.value;
+    select.innerHTML = "";
+    var opt0 = document.createElement("option");
+    opt0.value = "";
+    opt0.textContent = placeholder;
+    select.appendChild(opt0);
+
+    valores.forEach(function(valor){
+      var opt = document.createElement("option");
+      opt.value = valor;
+      opt.textContent = valor;
+      select.appendChild(opt);
+    });
+
+    select.value = atual;
+  }
+
+  function prepararFiltros(dados){
+    var exercicios = Array.from(new Set(dados.map(function(d){return d.vigencia;}).filter(Boolean))).sort().reverse();
+    var tipos = Array.from(new Set(dados.map(function(d){return d.tipo;}).filter(Boolean))).sort();
+    var anos = Array.from(new Set(dados.map(function(d){return d.ano;}).filter(Boolean))).sort().reverse();
+
+    popularSelect(filtroExercicio,exercicios,"Todos");
+    popularSelect(filtroTipo,tipos,"Todos");
+    popularSelect(filtroAno,anos,"Todos");
+
+    elTotalRegistros.textContent = dados.length;
+    elTotalExercicios.textContent = exercicios.length;
+    elTotalTipos.textContent = tipos.length;
+    elTotalVisiveis.textContent = dados.length;
+  }
+
+  function renderTabela(lista){
+    tbody.innerHTML = "";
+    elTotalVisiveis.textContent = lista.length;
+
+    if (!lista.length) {
+      tableWrap.style.display = "none";
+      semResultado.style.display = "block";
+      return;
+    }
+
+    semResultado.style.display = "none";
+    tableWrap.style.display = "block";
+
+    var frag = document.createDocumentFragment();
+    lista.forEach(function(item){
+      var tr = document.createElement("tr");
+      tr.innerHTML =
+        "<td>" + escHTML(item.data || "—") + "</td>" +
+        "<td>" + escHTML(item.ano || "—") + "</td>" +
+        "<td>" + escHTML(item.vigencia || "—") + "</td>" +
+        "<td>" + escHTML(item.tipo || "—") + "</td>" +
+        "<td style='max-width:460px;word-break:break-word'>" + escHTML(item.titulo || "—") + "</td>" +
+        "<td><span class='ppa-badge'>" + escHTML(item.status) + "</span></td>" +
+        "<td><a class='ppa-btn-abrir' href='" + escAttr(item.link) + "' target='_blank' rel='noopener noreferrer'>Abrir</a></td>";
+      frag.appendChild(tr);
+    });
+    tbody.appendChild(frag);
+  }
+
+  function aplicarFiltros(){
+    var exercicio = normalizar(filtroExercicio.value);
+    var tipo = normalizar(filtroTipo.value);
+    var ano = normalizar(filtroAno.value);
+    var busca = normalizar(filtroBusca.value);
+
+    dadosFiltrados = dadosOriginais.filter(function(item){
+      return (!exercicio || normalizar(item.vigencia) === exercicio)
+        && (!tipo || normalizar(item.tipo) === tipo)
+        && (!ano || normalizar(item.ano) === ano)
+        && (!busca || normalizar(item.titulo).indexOf(busca) !== -1 || normalizar(item.vigencia).indexOf(busca) !== -1);
+    });
+
+    renderTabela(dadosFiltrados);
+
+    if (exercicio || tipo || ano || busca) {
+      resultadoFiltro.style.display = "block";
+      resultadoFiltro.textContent = dadosFiltrados.length + " registro(s) encontrado(s) com os filtros aplicados.";
+    } else {
+      resultadoFiltro.style.display = "none";
+    }
+  }
+
+  function limparFiltros(){
+    filtroExercicio.value = "";
+    filtroTipo.value = "";
+    filtroAno.value = "";
+    filtroBusca.value = "";
+    dadosFiltrados = dadosOriginais.slice();
+    resultadoFiltro.style.display = "none";
+    renderTabela(dadosFiltrados);
+  }
+
+  function getDadosVisiveis(){
+    return dadosFiltrados;
+  }
+
+  function downloadBlob(content,filename,mimeType){
+    var blob = new Blob([content],{type:mimeType});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function nomeArquivo(ext){
+    var hoje = new Date().toISOString().slice(0,10);
+    return "plano-plurianual-ppa-arroio-dos-ratos_" + hoje + "." + ext;
+  }
+
+  var CABECALHOS = ["Data","Ano","Vigência","Tipo","Título / Objeto","Status","Link"];
+
+  function registroParaLinha(item){
+    return [
+      item.data || "",
+      item.ano || "",
+      item.vigencia || "",
+      item.tipo || "",
+      item.titulo || "",
+      item.status || "",
+      item.link || ""
+    ];
+  }
+
+  function ppaExportarCSV(){
+    var lista = getDadosVisiveis();
+    if (!lista.length) { alert("Nenhum dado visível para exportar."); return; }
+    function q(v){ return '"' + String(v || "").replace(/"/g,'""') + '"'; }
+    var linhas = [CABECALHOS.map(q).join(";")];
+    lista.forEach(function(item){ linhas.push(registroParaLinha(item).map(q).join(";")); });
+    downloadBlob("\uFEFF" + linhas.join("\r\n"),nomeArquivo("csv"),"text/csv;charset=utf-8;");
+  }
+
+  function ppaExportarXLSX(){
+    if (typeof XLSX === "undefined") { alert("A biblioteca SheetJS não foi carregada."); return; }
+    var lista = getDadosVisiveis();
+    if (!lista.length) { alert("Nenhum dado visível para exportar."); return; }
+    var wsData = [CABECALHOS].concat(lista.map(registroParaLinha));
+    var ws = XLSX.utils.aoa_to_sheet(wsData);
+    ws["!cols"] = CABECALHOS.map(function(h,i){
+      var maxLen = Math.max(h.length,Math.max.apply(null,lista.map(function(item){
+        return String(registroParaLinha(item)[i] || "").length;
+      })),10);
+      return {wch:Math.min(maxLen,80)};
+    });
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,"Plano Plurianual");
+    XLSX.writeFile(wb,nomeArquivo("xlsx"));
+  }
+
+  function ppaExportarJSON(){
+    var lista = getDadosVisiveis();
+    if (!lista.length) { alert("Nenhum dado visível para exportar."); return; }
+    var dados = lista.map(function(item){
+      return {
+        data:item.data || "",
+        ano:item.ano || "",
+        vigencia:item.vigencia || "",
+        tipo:item.tipo || "",
+        titulo_objeto:item.titulo || "",
+        status:item.status || "",
+        link:item.link || ""
+      };
+    });
+    var json = JSON.stringify({
+      fonte:"Portal da Transparência — Prefeitura Municipal de Arroio dos Ratos",
+      categoria:"plano-plurianual-ppa",
+      exportado_em:new Date().toISOString(),
+      total_registros:dados.length,
+      dados:dados
+    },null,2);
+    downloadBlob(json,nomeArquivo("json"),"application/json;charset=utf-8;");
+  }
+
+  function ppaExportarODS(){
+    if (typeof XLSX === "undefined") { alert("A biblioteca SheetJS não foi carregada."); return; }
+    var lista = getDadosVisiveis();
+    if (!lista.length) { alert("Nenhum dado visível para exportar."); return; }
+    var ws = XLSX.utils.aoa_to_sheet([CABECALHOS].concat(lista.map(registroParaLinha)));
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,"Plano Plurianual");
+    XLSX.writeFile(wb,nomeArquivo("ods"));
+  }
+
+  function ppaExportarXML(){
+    var lista = getDadosVisiveis();
+    if (!lista.length) { alert("Nenhum dado visível para exportar."); return; }
+    function escXML(s){
+      return String(s || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&apos;");
+    }
+    var xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xml += "<plano_plurianual_ppa>\n";
+    xml += "  <fonte>" + escXML("Portal da Transparência — Prefeitura Municipal de Arroio dos Ratos") + "</fonte>\n";
+    xml += "  <categoria>plano-plurianual-ppa</categoria>\n";
+    xml += "  <exportado_em>" + new Date().toISOString() + "</exportado_em>\n";
+    xml += "  <total_registros>" + lista.length + "</total_registros>\n";
+    xml += "  <registros>\n";
+    lista.forEach(function(item){
+      xml += "    <registro>\n";
+      xml += "      <data>" + escXML(item.data) + "</data>\n";
+      xml += "      <ano>" + escXML(item.ano) + "</ano>\n";
+      xml += "      <vigencia>" + escXML(item.vigencia) + "</vigencia>\n";
+      xml += "      <tipo>" + escXML(item.tipo) + "</tipo>\n";
+      xml += "      <titulo_objeto>" + escXML(item.titulo) + "</titulo_objeto>\n";
+      xml += "      <status>" + escXML(item.status) + "</status>\n";
+      xml += "      <link>" + escXML(item.link) + "</link>\n";
+      xml += "    </registro>\n";
+    });
+    xml += "  </registros>\n";
+    xml += "</plano_plurianual_ppa>";
+    downloadBlob(xml,nomeArquivo("xml"),"application/xml;charset=utf-8;");
+  }
+
+  function ppaExportarPDF(){
+    window.print();
+  }
+
+  window.ppaExportarCSV = ppaExportarCSV;
+  window.ppaExportarXLSX = ppaExportarXLSX;
+  window.ppaExportarJSON = ppaExportarJSON;
+  window.ppaExportarODS = ppaExportarODS;
+  window.ppaExportarXML = ppaExportarXML;
+  window.ppaExportarPDF = ppaExportarPDF;
+
+  async function init(){
+    loading.style.display = "flex";
+    erroEl.style.display = "none";
+    tableWrap.style.display = "none";
+    semResultado.style.display = "none";
+    barraExportacao.style.display = "none";
+    notaExportacao.style.display = "none";
+
+    try {
+      loadingDetalhe.textContent = "Buscando categoria plano-plurianual-ppa...";
+      var ids = await buscarIdsCategorias(CONFIG.slugsCategoria);
+
+      async function buscarPosts(urlBase,rotulo){
+        loadingDetalhe.textContent = rotulo;
+        var resp1 = await fetch(urlBase + "&page=1",{credentials:"same-origin"});
+
+        if (!resp1.ok) {
+          var txt = await resp1.text().catch(function(){return "";});
+          throw new Error(
+            "A API REST retornou erro " + resp1.status + ".\n\n" +
+            "URL: " + urlBase + "\n\n" +
+            txt.substring(0,300)
+          );
+        }
+
+        var totalPaginas = parseInt(resp1.headers.get("X-WP-TotalPages") || "1",10);
+        var totalPosts = parseInt(resp1.headers.get("X-WP-Total") || "0",10);
+        var postsEncontrados = await resp1.json();
+
+        loadingDetalhe.textContent = totalPosts + " post(s) encontrado(s). Carregando páginas...";
+
+        var promessas = [];
+        for (var p = 2; p <= Math.min(totalPaginas,CONFIG.maxPaginas); p++) {
+          promessas.push(fetch(urlBase + "&page=" + p,{credentials:"same-origin"})
+            .then(function(r){return r.ok ? r.json() : [];})
+            .catch(function(){return [];}));
+        }
+
+        var extras = await Promise.all(promessas);
+        extras.forEach(function(lista){ postsEncontrados = postsEncontrados.concat(lista); });
+        return postsEncontrados;
+      }
+
+      var campos = "&_fields=id,date,title,link,categories&orderby=date&order=desc";
+      var posts = [];
+
+      if (ids.length) {
+        posts = await buscarPosts(
+          API_BASE + "/posts?per_page=" + CONFIG.postsPorPagina + campos + "&categories=" + ids.join(","),
+          "Carregando posts publicados na categoria do PPA..."
+        );
+      }
+
+      if (!posts.length) {
+        loadingDetalhe.textContent = "Categoria não encontrada ou sem posts. Buscando por título...";
+        var buscas = ["plano plurianual","ppa"];
+        for (var b = 0; b < buscas.length; b++) {
+          var encontrados = await buscarPosts(
+            API_BASE + "/posts?per_page=" + CONFIG.postsPorPagina + campos + "&search=" + encodeURIComponent(buscas[b]),
+            "Buscando posts por título: " + buscas[b]
+          );
+          posts = posts.concat(encontrados);
+        }
+      }
+
+      var vistos = {};
+      posts = posts.filter(function(post){
+        if (vistos[post.link]) return false;
+        vistos[post.link] = true;
+        return true;
+      });
+
+      posts = posts.filter(function(post){
+        var titulo = stripHtml(post.title && post.title.rendered ? post.title.rendered : "");
+        var t = normalizar(titulo);
+        return /plano\s+plurianual|\bppa\b/.test(t);
+      });
+
+      dadosOriginais = posts.map(postParaRegistro);
+      dadosOriginais.sort(function(a,b){ return b.dataSort.localeCompare(a.dataSort); });
+
+      if (!dadosOriginais.length) {
+        throw new Error(
+          "Nenhum post de PPA foi encontrado.\n\n" +
+          "A página tentou buscar pelas categorias configuradas e também por título contendo " +
+          "\"plano plurianual\" ou \"ppa\".\n\n" +
+          "Como referência, o post que aparece em Atos Oficiais precisa ter no título um desses termos."
+        );
+      }
+
+      prepararFiltros(dadosOriginais);
+      dadosFiltrados = dadosOriginais.slice();
+      renderTabela(dadosOriginais);
+
+      barraExportacao.style.display = "flex";
+      notaExportacao.style.display = "block";
+      loading.style.display = "none";
+    } catch (e) {
+      loading.style.display = "none";
+      erroEl.style.display = "block";
+      erroEl.textContent = "Erro ao carregar dados do Plano Plurianual:\n\n" + e.message;
+      console.error("[Plano Plurianual PPA]",e);
+    }
+  }
+
+  btnFiltrar.addEventListener("click",aplicarFiltros);
+  btnLimpar.addEventListener("click",limparFiltros);
+  filtroBusca.addEventListener("keydown",function(e){
+    if (e.key === "Enter") aplicarFiltros();
+  });
+  [filtroExercicio,filtroTipo,filtroAno].forEach(function(el){
+    el.addEventListener("change",aplicarFiltros);
+  });
+  if (linkLimpar) {
+    linkLimpar.addEventListener("click",function(e){
+      e.preventDefault();
+      limparFiltros();
+    });
+  }
+
+  init();
+})();
+</script>
