@@ -1,183 +1,110 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Relação dos fiscais de contrato designados pela Prefeitura Municipal de Arroio dos Ratos — vigentes e histórico a partir de 2023.">
-<title>Fiscais de Contrato – Prefeitura Municipal de Arroio dos Ratos</title>
+<title>Fiscais de Contrato - Prefeitura Municipal de Arroio dos Ratos</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --azul-escuro:#0b3d6e; --azul:#0f5ea8; --azul-hover:#0a4f8f;
-    --azul-claro:#dbeafe; --azul-suave:#f0f6ff;
-    --verde:#166534; --verde-claro:#22a054; --verde-bg:#dcfce7;
-    --cinza-900:#1f2937; --cinza-700:#374151; --cinza-500:#6b7280;
-    --cinza-300:#d1d5db; --cinza-200:#dbe3ee; --cinza-100:#f8fafc;
-    --branco:#fff;
-    --fonte:"Segoe UI","Helvetica Neue",Arial,sans-serif;
-  }
-  body { font-family:var(--fonte); background:var(--cinza-100); color:var(--cinza-900); font-size:14px; line-height:1.6; }
-
-  .breadcrumb { background:var(--azul-escuro); padding:10px 24px; font-size:12px; color:rgba(255,255,255,.7); }
-  .breadcrumb a { color:rgba(255,255,255,.85); text-decoration:none; }
-  .breadcrumb a:hover { color:#fff; text-decoration:underline; }
-  .breadcrumb span { margin:0 6px; }
-
-  .page-header { background:linear-gradient(135deg,var(--azul-escuro) 0%,var(--azul) 100%); color:#fff; padding:32px 24px 28px; border-bottom:4px solid var(--verde-claro); }
-  .page-header-inner { max-width:1280px; margin:0 auto; display:flex; align-items:flex-start; gap:18px; }
-  .page-header-icon { width:52px; height:52px; background:rgba(255,255,255,.15); border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:24px; }
-  .page-header h1 { font-size:22px; font-weight:700; margin-bottom:4px; }
-  .page-header p { font-size:13px; color:rgba(255,255,255,.82); max-width:700px; line-height:1.5; }
-  .base-legal { margin-top:8px; font-size:11px; color:rgba(255,255,255,.62); border-top:1px solid rgba(255,255,255,.2); padding-top:8px; }
-
-  .main-container { max-width:1280px; margin:0 auto; padding:24px 16px 48px; }
-
-  .status-bar { display:flex; align-items:center; gap:10px; background:var(--branco); border:1px solid var(--cinza-200); border-radius:8px; padding:10px 16px; margin-bottom:16px; font-size:12px; color:var(--cinza-500); box-shadow:0 1px 3px rgba(0,0,0,.05); }
-  .status-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-  .status-dot.carregando { background:#f59e0b; animation:pulsar 1s infinite; }
-  .status-dot.ok         { background:#10b981; }
-  .status-dot.erro       { background:#ef4444; }
-  @keyframes pulsar { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-  .filtros-bloco { background:var(--branco); border:1px solid var(--cinza-200); border-radius:10px; padding:20px 24px; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,.06); }
-  .filtros-titulo { font-size:11px; font-weight:700; color:var(--azul); margin-bottom:14px; display:flex; align-items:center; gap:8px; text-transform:uppercase; letter-spacing:.5px; }
-  .filtros-titulo::before { content:""; width:3px; height:14px; background:var(--verde-claro); border-radius:2px; }
-  .filtros-grid { display:grid; grid-template-columns:100px 140px 1fr 1fr 1fr 130px; gap:10px; }
-  .filtro-grupo label { display:block; font-size:10px; font-weight:700; color:var(--cinza-500); margin-bottom:5px; text-transform:uppercase; letter-spacing:.4px; }
-  .filtro-grupo input, .filtro-grupo select { width:100%; padding:8px 10px; border:1px solid var(--cinza-300); border-radius:6px; font-size:13px; color:var(--cinza-900); background:var(--cinza-100); outline:none; transition:border-color .2s; }
-  .filtro-grupo input:focus, .filtro-grupo select:focus { border-color:var(--azul); background:var(--branco); box-shadow:0 0 0 3px rgba(15,94,168,.1); }
-  .filtros-acoes { display:flex; gap:8px; margin-top:12px; justify-content:flex-end; flex-wrap:wrap; }
-
-  .btn { padding:8px 14px; border:none; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; transition:all .18s; display:inline-flex; align-items:center; gap:5px; white-space:nowrap; }
-  .btn-secondary { background:var(--cinza-100); color:var(--cinza-700); border:1px solid var(--cinza-300); } .btn-secondary:hover { background:var(--cinza-200); }
-  .btn-success   { background:var(--verde);    color:#fff; }                                                  .btn-success:hover   { background:var(--verde-claro); }
-  .btn-refresh   { background:var(--branco);   color:var(--azul); border:1px solid var(--azul-claro); }      .btn-refresh:hover   { background:var(--azul-suave); }
-
-  .barra-resultados { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:10px; }
-  .resumo-texto { font-size:13px; color:var(--cinza-500); }
-  .resumo-texto strong { color:var(--azul); }
-
-  .tabs-ano { display:flex; gap:4px; margin-bottom:16px; flex-wrap:wrap; }
-  .tab-btn { padding:7px 18px; border:1px solid var(--cinza-300); border-radius:20px; background:var(--branco); color:var(--cinza-500); font-size:12px; font-weight:600; cursor:pointer; transition:all .18s; }
-  .tab-btn:hover { border-color:var(--azul); color:var(--azul); }
-  .tab-btn.ativo { background:var(--azul); color:#fff; border-color:var(--azul); }
-  .badge-tab { display:inline-block; background:rgba(255,255,255,.25); border-radius:10px; padding:0 6px; font-size:10px; margin-left:4px; }
-  .tab-btn:not(.ativo) .badge-tab { background:var(--cinza-100); color:var(--cinza-500); }
-
-  .tabela-wrapper { background:var(--branco); border:1px solid var(--cinza-200); border-radius:10px; overflow-x:auto; box-shadow:0 1px 4px rgba(0,0,0,.06); }
-  table { width:100%; border-collapse:collapse; min-width:1000px; }
-  thead { background:linear-gradient(135deg,var(--azul-escuro) 0%,var(--azul) 100%); color:#fff; }
-  thead th { padding:11px 12px; text-align:left; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; white-space:nowrap; }
-  thead th:last-child { text-align:center; }
-  tbody tr { border-bottom:1px solid #edf1f7; transition:background .14s; }
-  tbody tr:last-child { border-bottom:none; }
-  tbody tr:hover { background:var(--azul-suave); }
-  td { padding:10px 12px; font-size:12.5px; vertical-align:middle; }
-
-  .td-num        { font-weight:700; color:var(--azul); white-space:nowrap; font-size:12px; }
-  .td-licit      { font-size:11px; color:var(--cinza-500); margin-top:2px; }
-  .td-contratado { font-weight:600; }
-  .td-cnpj       { font-size:10.5px; color:var(--cinza-500); margin-top:1px; font-family:monospace; }
-  .td-objeto     { max-width:240px; color:var(--cinza-700); font-size:12px; line-height:1.35; }
-  .td-valor      { white-space:nowrap; font-weight:700; color:var(--verde); font-size:12.5px; }
-  .td-fiscal     { font-weight:600; }
-  .mat-tag       { display:inline-block; background:var(--azul-suave); color:var(--azul); border-radius:4px; padding:1px 6px; font-size:10px; font-weight:700; margin-top:2px; }
-  .cargo-tag     { font-size:10.5px; color:var(--cinza-500); display:block; margin-top:1px; }
-
-  .badge-sit     { display:inline-block; padding:3px 9px; border-radius:12px; font-size:10.5px; font-weight:700; letter-spacing:.3px; white-space:nowrap; }
-  .sit-vigente   { background:var(--verde-bg); color:var(--verde); }
-  .sit-encerrado { background:#fee2e2; color:#991b1b; }
-  .sit-expirado  { background:#fef3c7; color:#92400e; }
-
-  td.td-integra { text-align:center; }
-  .btn-int { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; background:var(--azul); color:#fff; border-radius:6px; text-decoration:none; font-size:14px; transition:background .18s, transform .12s; }
-  .btn-int:hover { background:var(--azul-hover); transform:scale(1.1); }
-  .btn-int-off { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; background:var(--cinza-200); color:var(--cinza-500); border-radius:6px; font-size:12px; }
-
-  .skeleton { height:13px; background:linear-gradient(90deg,#e2e8f0 25%,#f1f5f9 50%,#e2e8f0 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:4px; }
-  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-
-  .estado-central { text-align:center; padding:48px 20px; }
-  .estado-central .icone { font-size:40px; margin-bottom:12px; opacity:.4; }
-  .estado-central p { color:var(--cinza-500); font-size:14px; }
-  .estado-central .sub { font-size:12px; color:var(--cinza-300); margin-top:4px; }
-
-  .tabela-rodape { padding:10px 16px; background:var(--cinza-100); border-top:1px solid var(--cinza-200); font-size:11px; color:var(--cinza-500); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; }
-
-  .nota-conf { margin-top:20px; background:var(--branco); border:1px solid var(--cinza-200); border-left:4px solid var(--verde-claro); border-radius:6px; padding:14px 18px; font-size:12px; color:var(--cinza-700); line-height:1.6; }
-  .nota-conf strong { color:var(--verde); }
-
-  @media print {
-    .breadcrumb,.filtros-bloco,.barra-acoes,.btn-int,.btn-int-off,.tabs-ano,.nota-conf,.status-bar { display:none !important; }
-    body { background:#fff; font-size:10px; }
-    .page-header { background:#fff !important; color:#000 !important; border-bottom:2px solid #000; padding:12px 0; }
-    .page-header h1,.page-header p { color:#000 !important; }
-    .main-container { padding:8px 0; }
-    .tabela-wrapper { border:1px solid #ccc; box-shadow:none; overflow:visible; }
-    table { min-width:unset; }
-    thead { background:var(--azul-escuro) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    tbody tr:hover { background:transparent; }
-    .td-objeto { max-width:none; }
-  }
-  @media (max-width:1100px) { .filtros-grid { grid-template-columns:1fr 1fr 1fr; } }
-  @media (max-width:640px)  { .filtros-grid { grid-template-columns:1fr 1fr; } .filtros-acoes { justify-content:stretch; } .filtros-acoes .btn { flex:1; justify-content:center; } }
+:root{--azul-escuro:#0b3d6e;--azul:#0f5ea8;--azul-hover:#0b4d89;--azul-claro:#dbeafe;--azul-suave:#f0f6ff;--verde:#166534;--verde-bg:#dcfce7;--amarelo:#854d0e;--amarelo-bg:#fef9c3;--cinza-900:#1f2937;--cinza-700:#374151;--cinza-500:#6b7280;--cinza-300:#d1d5db;--cinza-200:#dbe3ee;--cinza-100:#f8fafc;--branco:#fff}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900)}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,.elementor-widget-theme-post-title,.elementor-page-title,.wp-block-post-title,h1.entry-title,h1.page-title,.post-title,.site-main .page-header{display:none !important}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 28px 48px}
+.breadcrumb{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;padding:10px 14px;border:1px solid var(--cinza-200);border-radius:8px;background:var(--branco);color:var(--cinza-500);font-size:13px}
+.breadcrumb a{color:var(--azul);font-weight:700;text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+.hero{margin-bottom:20px;padding:34px 36px;border-radius:16px;background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 62%,#1a7fd4 100%);color:#fff;box-shadow:0 8px 32px rgba(11,61,110,.20)}
+.tag{display:inline-block;margin-bottom:10px;padding:5px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+.hero h1{margin:0 0 10px;color:#fff;font-size:32px;line-height:1.2}.hero p{max-width:920px;margin:0;color:rgba(255,255,255,.93);font-size:15px;line-height:1.7}
+.hero-legal{margin-top:8px;font-size:12px;color:rgba(255,255,255,.72)}
+.acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:800;line-height:1.2;text-decoration:none;border:1px solid rgba(255,255,255,.30);background:rgba(255,255,255,.12);color:#fff;transition:background .2s,transform .15s}.btn:hover{transform:translateY(-1px)}.btn.primary{background:#fff;color:var(--azul-escuro);border-color:#fff}
+.indicadores{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.indicador{padding:18px;border:1px solid var(--cinza-200);border-left:4px solid var(--azul);border-radius:14px;background:#fbfdff}
+.indicador strong{display:block;margin-bottom:6px;color:var(--cinza-500);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.indicador .valor{display:block;color:var(--azul-escuro);font-size:22px;font-weight:900;line-height:1.15}
+.indicador .fonte{display:block;margin-top:8px;color:var(--cinza-500);font-size:12px;line-height:1.35}
+.card{margin-bottom:20px;padding:24px 26px;border:1px solid var(--cinza-200);border-radius:16px;background:var(--branco);box-shadow:0 4px 16px rgba(15,23,42,.04)}
+.card h2{margin:0 0 16px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);color:var(--azul-escuro);font-size:20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}.card p{margin:0 0 12px;color:var(--cinza-700);font-size:14px;line-height:1.7}
+.controle{display:grid;grid-template-columns:1fr 130px 140px;gap:12px;align-items:end}.campo label{display:block;margin-bottom:6px;color:var(--cinza-700);font-size:13px;font-weight:800}.campo input,.campo select{width:100%;min-height:42px;padding:10px 12px;border:1px solid var(--cinza-300);border-radius:10px;font:inherit;font-size:14px}
+.controle-acoes{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}
+.btn-acao{min-height:42px;padding:10px 14px;border:1px solid var(--azul);border-radius:10px;background:var(--azul);color:#fff;font-weight:800;cursor:pointer}
+.btn-acao-ghost{background:var(--branco);color:var(--cinza-700);border-color:var(--cinza-300)}.btn-acao-ghost:hover{background:var(--cinza-100)}
+.status-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.status-chip.carregando{background:var(--amarelo-bg);color:var(--amarelo)}.status-chip.erro{background:#fee2e2;color:#991b1b}
+@keyframes pulsar{0%,100%{opacity:1}50%{opacity:.3}}
+.pulsar{animation:pulsar 1s infinite}
+.export-bar-pntp{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px;padding:12px 14px;border:1px solid var(--cinza-200);border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(15,23,42,.04)}
+.export-label{margin-right:4px;color:var(--cinza-700);font-size:13px;font-weight:800}
+.btn-export-fmt{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:7px 11px;border:1px solid var(--cinza-200);border-radius:8px;background:#f8fafc;color:var(--cinza-700);font-size:12px;font-weight:800;cursor:pointer}
+.btn-export-fmt:hover,.btn-export-fmt:focus{border-color:var(--azul-claro);background:var(--azul-suave);color:var(--azul-escuro)}
+.fmt-dot{width:9px;height:9px;border-radius:999px;display:inline-block}.dot-csv{background:#16a34a}.dot-xlsx{background:#15803d}.dot-json{background:#2563eb}.dot-ods{background:#65a30d}.dot-xml{background:#9333ea}.dot-pdf{background:#dc2626}
+.tabela-wrap{overflow-x:auto;border:1px solid var(--cinza-200);border-radius:12px}table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}th{padding:12px 14px;background:var(--azul-escuro);color:#fff;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}th:last-child{text-align:center}td{padding:11px 14px;border-bottom:1px solid var(--cinza-200);color:var(--cinza-700);vertical-align:middle}tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:#f8fafc}
+.badge-sit{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.sit-vigente{background:var(--verde-bg);color:var(--verde)}.sit-encerrado{background:#fee2e2;color:#991b1b}.sit-expirado{background:var(--amarelo-bg);color:var(--amarelo)}
+.td-num{font-weight:800;color:var(--azul);font-size:13px;white-space:nowrap}.td-licit{font-size:11px;color:var(--cinza-500);margin-top:2px}
+.td-contratado{font-weight:700}.td-cnpj{font-size:11px;color:var(--cinza-500);font-family:monospace;margin-top:1px}
+.td-objeto{max-width:220px;font-size:13px;line-height:1.4}
+.td-valor{font-weight:800;color:var(--verde);white-space:nowrap}
+.td-fiscal{font-weight:700}.mat-tag{display:inline-block;background:var(--azul-suave);color:var(--azul-escuro);border-radius:6px;padding:1px 7px;font-size:11px;font-weight:800;margin-top:3px}.cargo-tag{font-size:11px;color:var(--cinza-500);display:block;margin-top:1px}
+td.td-integra{text-align:center}
+.btn-integra{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:var(--azul);color:#fff;border-radius:8px;font-size:14px;transition:background .18s}.btn-integra:hover{background:var(--azul-hover)}
+.btn-integra-off{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:var(--cinza-200);color:var(--cinza-500);border-radius:8px;font-size:12px}
+.skeleton{height:13px;background:linear-gradient(90deg,#e2e8f0 25%,#f1f5f9 50%,#e2e8f0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:4px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.estado-vazio{text-align:center;padding:40px 20px;color:var(--cinza-500)}.estado-vazio-icone{font-size:36px;margin-bottom:10px;opacity:.4}
+.tabela-rodape{padding:8px 2px 0;font-size:12px;color:var(--cinza-500)}
+a{color:var(--azul);font-weight:800;text-decoration:none}a:hover{text-decoration:underline}
+.nota{padding:14px 16px;border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:12px;background:var(--azul-suave);color:var(--cinza-700);font-size:14px;line-height:1.7}
+.rodape{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:18px;padding:12px}
+@media(max-width:980px){.indicadores{grid-template-columns:repeat(2,1fr)}.controle{grid-template-columns:1fr 1fr}}
+@media(max-width:800px){.wrap{padding:16px 14px}.hero{padding:22px 18px}.hero h1{font-size:24px}.controle{grid-template-columns:1fr}.acoes{display:block}.btn{width:100%;margin-bottom:8px}.export-bar-pntp{align-items:stretch}.btn-export-fmt{flex:1 1 92px;justify-content:center}}
+@media(max-width:480px){.indicadores{grid-template-columns:1fr 1fr}}
+@media print{.breadcrumb,.acoes,.controle,.controle-acoes,.export-bar-pntp,.btn-integra,.btn-integra-off,.status-chip{display:none !important}.wrap{max-width:none;padding:0}.hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200)}.hero h1{color:var(--azul-escuro) !important}.hero p{color:var(--cinza-700) !important}.indicadores{break-inside:avoid}.td-objeto{max-width:none}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
+<main class="wrap">
+  <nav class="breadcrumb" aria-label="Caminho da página">
+    <a href="/">Início</a><span aria-hidden="true">&rsaquo;</span>
+    <a href="/transparencia-publica/">Transparência</a><span aria-hidden="true">&rsaquo;</span>
+    <a href="/consultardados/">Consultar Dados</a><span aria-hidden="true">&rsaquo;</span>
+    <span>Fiscais de Contrato</span>
+  </nav>
 
-<nav class="breadcrumb" aria-label="Caminho da página">
-  <a href="/">Início</a><span aria-hidden="true">›</span>
-  <a href="/transparencia">Portal da Transparência</a><span aria-hidden="true">›</span>
-  <a href="/contratos">Contratos</a><span aria-hidden="true">›</span>
-  <span>Fiscais de Contrato</span>
-</nav>
-
-<div class="page-header">
-  <div class="page-header-inner">
-    <div class="page-header-icon" aria-hidden="true">🔍</div>
-    <div>
-      <h1>Fiscais de Contrato</h1>
-      <p>Relação dos servidores designados como fiscais responsáveis pelos contratos celebrados pela Prefeitura Municipal de Arroio dos Ratos — vigentes e encerrados.</p>
-      <div class="base-legal">
-        <strong>Base legal:</strong> Art. 7º, VI e Art. 8º, §1º, IV — Lei nº 12.527/2011 (LAI) &nbsp;|&nbsp;
-        <strong>Critério PNTP 2026:</strong> 9.3 (Atricon) &nbsp;|&nbsp; Série histórica: 2023–2026
-      </div>
+  <header class="hero">
+    <span class="tag">PNTP 2026 — Critério 9.3</span>
+    <h1>Fiscais de Contrato</h1>
+    <p>Relação dos servidores designados como fiscais responsáveis pelos contratos celebrados pela Prefeitura Municipal de Arroio dos Ratos — vigentes e encerrados, com série histórica a partir de 2023.</p>
+    <p class="hero-legal"><strong>Base legal:</strong> Art. 7º, VI e Art. 8º, §1º, IV da Lei nº 12.527/2011 (LAI)</p>
+    <div class="acoes">
+      <a href="#tabela-fiscais" class="btn primary">Consultar fiscais</a>
+      <a href="documentos/fiscais-de-contrato/controle-de-contratos-com-fiscais-2026.xlsx" class="btn">Baixar planilha 2026</a>
+      <a href="https://portal.tce.rs.gov.br/aplicprod/f?p=50500:20:::NO:20,RIR:P20_PAG_RETORNO,F50500_CD_ORGAO:4,41100" target="_blank" rel="noopener" class="btn">Contratos no TCE-RS</a>
+      <a href="https://portal.tce.rs.gov.br/aplicprod/f?p=50500:32:::NO:32,RIR:P32_PAG_RETORNO,F50500_CD_ORGAO:4,41100&cs=1o4tU-JkPhK2JUnOFqfAxUtrXPm0" target="_blank" rel="noopener" class="btn">Licitacon</a>
     </div>
-  </div>
-</div>
+  </header>
 
-<div class="main-container">
+  <section class="indicadores" aria-label="Resumo dos fiscais de contrato">
+    <div class="indicador"><strong>Registros publicados</strong><span class="valor" id="ind-total">—</span><span class="fonte">contratos e instrumentos</span></div>
+    <div class="indicador"><strong>Fiscais distintos</strong><span class="valor" id="ind-fiscais">—</span><span class="fonte">nomes na série histórica</span></div>
+    <div class="indicador" style="border-left-color:var(--verde)"><strong>Vigentes</strong><span class="valor" style="color:var(--verde)" id="ind-vigentes">—</span><span class="fonte">contratos em vigor</span></div>
+    <div class="indicador" style="border-left-color:#dc2626"><strong>Encerrados</strong><span class="valor" style="color:#991b1b" id="ind-encerrados">—</span><span class="fonte">série histórica</span></div>
+  </section>
 
-  <div class="status-bar" id="statusBar" role="status" aria-live="polite">
-    <div class="status-dot carregando" id="statusDot"></div>
-    <span id="statusTexto">Carregando dados…</span>
-    <span style="margin-left:auto;font-size:11px;color:var(--cinza-300)">Fonte: WordPress REST API</span>
-  </div>
-
-  <div class="filtros-bloco">
-    <div class="filtros-titulo">Filtrar registros</div>
-    <div class="filtros-grid">
-      <div class="filtro-grupo">
-        <label for="filtroAno">Ano</label>
+  <section class="card">
+    <h2>Buscar e filtrar</h2>
+    <div class="controle">
+      <div class="campo">
+        <label for="busca">Buscar por contrato, objeto, licitação, contratado ou fiscal</label>
+        <input id="busca" type="search" placeholder="Ex.: Lucas Bertolino, Dispensa 001/2026, reforma">
+      </div>
+      <div class="campo">
+        <label for="filtroAno">Exercício</label>
         <select id="filtroAno"><option value="">Todos</option></select>
       </div>
-      <div class="filtro-grupo">
-        <label for="filtroNumero">Nº Contrato</label>
-        <input type="search" id="filtroNumero" placeholder="Ex: 001/2026">
-      </div>
-      <div class="filtro-grupo">
-        <label for="filtroContratado">Contratado</label>
-        <input type="search" id="filtroContratado" placeholder="Nome da empresa...">
-      </div>
-      <div class="filtro-grupo">
-        <label for="filtroFiscal">Fiscal</label>
-        <input type="search" id="filtroFiscal" placeholder="Nome do fiscal...">
-      </div>
-      <div class="filtro-grupo">
-        <label for="filtroObjeto">Objeto</label>
-        <input type="search" id="filtroObjeto" placeholder="Palavra-chave...">
-      </div>
-      <div class="filtro-grupo">
+      <div class="campo">
         <label for="filtroSituacao">Situação</label>
         <select id="filtroSituacao">
           <option value="">Todas</option>
@@ -187,73 +114,79 @@
         </select>
       </div>
     </div>
-    <div class="filtros-acoes">
-      <button class="btn btn-secondary" id="btnLimpar">✕ Limpar</button>
-      <button class="btn btn-refresh"   id="btnRecarregar">↺ Recarregar</button>
-      <button class="btn btn-success"   id="btnCSV">⬇ CSV</button>
+    <div class="controle-acoes">
+      <button class="btn-acao btn-acao-ghost" onclick="limparFiltros()">✕ Limpar</button>
+      <button class="btn-acao" id="btnRecarregar">↺ Recarregar</button>
     </div>
-  </div>
+  </section>
 
-  <div class="tabs-ano" id="tabsAno" role="tablist" aria-label="Filtrar por ano">
-    <button class="tab-btn ativo" data-ano="" role="tab" aria-selected="true">
-      Todos <span class="badge-tab" id="badge-todos">—</span>
-    </button>
-  </div>
+  <section class="card" id="tabela-fiscais">
+    <h2>
+      Relação de fiscais
+      <span class="status-chip carregando pulsar" id="statusChip">⏳ carregando…</span>
+    </h2>
 
-  <div class="barra-resultados">
-    <div class="resumo-texto" id="resumoTexto" aria-live="polite">Aguardando dados…</div>
-    <div class="barra-acoes">
-      <button class="btn btn-secondary" onclick="window.print()">🖨️ Imprimir</button>
+    <div id="barra-exportacao" class="export-bar-pntp" style="display:none">
+      <span class="export-label">Exportar dados visíveis:</span>
+      <button class="btn-export-fmt" onclick="exportarCSV()"  title="Exportar em CSV (separado por ponto-e-vírgula)"><span class="fmt-dot dot-csv"></span> CSV</button>
+      <button class="btn-export-fmt" onclick="exportarXLSX()" title="Exportar em planilha Excel (.xlsx)">           <span class="fmt-dot dot-xlsx"></span> XLSX</button>
+      <button class="btn-export-fmt" onclick="exportarJSON()" title="Exportar em JSON estruturado">                 <span class="fmt-dot dot-json"></span> JSON</button>
+      <button class="btn-export-fmt" onclick="exportarODS()"  title="Exportar em ODS (LibreOffice)">                <span class="fmt-dot dot-ods"></span> ODS</button>
+      <button class="btn-export-fmt" onclick="exportarXML()"  title="Exportar em XML estruturado">                  <span class="fmt-dot dot-xml"></span> XML</button>
+      <button class="btn-export-fmt" onclick="exportarPDF()"  title="Imprimir / salvar como PDF">                   <span class="fmt-dot dot-pdf"></span> PDF</button>
     </div>
-  </div>
 
-  <div class="tabela-wrapper">
-    <table aria-label="Fiscais de contrato">
-      <thead>
-        <tr>
-          <th scope="col">Ano</th>
-          <th scope="col">Contrato / Licitação</th>
-          <th scope="col">Contratado / CNPJ</th>
-          <th scope="col">Objeto</th>
-          <th scope="col">Valor</th>
-          <th scope="col">Vigência</th>
-          <th scope="col">Fiscal / Mat. / Cargo</th>
-          <th scope="col">Situação</th>
-          <th scope="col">Íntegra</th>
-        </tr>
-      </thead>
-      <tbody id="corpoTabela"></tbody>
-    </table>
-    <div class="tabela-rodape">
-      <span id="rodapeInfo">—</span>
-      <span>Atualizado em: <strong id="dataAtualizacao">—</strong></span>
+    <div class="tabela-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Contrato / Licitação</th>
+            <th>Contratado</th>
+            <th>Objeto</th>
+            <th>Valor</th>
+            <th>Vigência</th>
+            <th>Fiscal / Mat. / Cargo</th>
+            <th>Situação</th>
+            <th>Íntegra</th>
+          </tr>
+        </thead>
+        <tbody id="corpoTabela"></tbody>
+      </table>
     </div>
-  </div>
+    <div class="tabela-rodape"><span id="rodapeInfo">—</span> &nbsp;|&nbsp; Atualizado em: <span id="dataAtualizacao">—</span></div>
+  </section>
 
-  <div class="nota-conf">
-    <strong>ℹ️ Conformidade PNTP 2026 — Critério 9.3:</strong>
-    Relação completa dos fiscais de contrato — vigentes e encerrados — conforme Art. 7º, VI e Art. 8º, §1º, IV da Lei nº 12.527/2011 (LAI).
-    Dados gerenciados pelo setor de Compras e Licitações e publicados automaticamente.
-    Série histórica disponível a partir de 2023. Exportação em CSV disponível.
-  </div>
+  <section class="card">
+    <h2>Conformidade e observações</h2>
+    <div class="nota">
+      <strong>PNTP 2026 — Critério 9.3 (Atricon):</strong> Relação completa de fiscais de contrato — vigentes e encerrados — conforme Art. 7º, VI e Art. 8º, §1º, IV da Lei nº 12.527/2011 (LAI).
+      Dados gerenciados pelo setor de Compras e Licitações e publicados automaticamente via WordPress. Série histórica disponível a partir de 2023.
+      Exportação disponível em CSV, XLSX, JSON, ODS, XML e PDF conforme exigência da Cartilha PNTP.
+    </div>
+  </section>
 
-</div>
+  <div class="rodape">Última atualização: <span id="rodapeData">—</span> | Responsável pela informação: Setor de Licitações e Contratos e Coordenação de Informática.</div>
+</main>
 
 <script>
 (function () {
   'use strict';
 
-  // ── Helpers ──────────────────────────────────────────────────────────
+  // ── Helpers de segurança ─────────────────────────────────────────────
   function escHTML(v) {
     return String(v == null ? '' : v)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
   function escURL(v) {
     var s = String(v == null ? '' : v).trim();
     return /^https?:\/\//i.test(s) ? s : '';
   }
+  function escXML(v) {
+    return String(v == null ? '' : v)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+  }
   function normStr(s) {
-    return String(s == null ? '' : s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    return String(s == null ? '' : s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
   }
 
   // ── Configuração ─────────────────────────────────────────────────────
@@ -273,26 +206,28 @@
 
   // ── Estado ────────────────────────────────────────────────────────────
   var todosContratos = [];
-  var filtroAnoAtivo = '';
 
-  // ── Status bar ────────────────────────────────────────────────────────
-  function setStatus(tipo, msg) {
-    document.getElementById('statusDot').className = 'status-dot ' + tipo;
-    document.getElementById('statusTexto').textContent = msg;
+  // ── Status chip ───────────────────────────────────────────────────────
+  function setStatus(tipo, texto) {
+    var chip = document.getElementById('statusChip');
+    chip.className = 'status-chip ' + tipo + (tipo === 'carregando' ? ' pulsar' : '');
+    chip.textContent = texto;
+    chip.style.display = tipo === 'ok' ? 'none' : '';
   }
 
   // ── Skeleton ──────────────────────────────────────────────────────────
   function renderSkeleton() {
-    var widths = [40, 90, 160, 200, 80, 80, 140, 70, 30];
-    var row = '<tr>' + widths.map(function (w) {
-      return '<td><div class="skeleton" style="width:' + w + 'px"></div></td>';
-    }).join('') + '</tr>';
-    document.getElementById('corpoTabela').innerHTML = row + row + row;
+    var w = [100,140,180,60,80,130,60,30];
+    var rows = '';
+    for (var i = 0; i < 4; i++) {
+      rows += '<tr>' + w.map(function(n){ return '<td><div class="skeleton" style="width:'+n+'px"></div></td>'; }).join('') + '</tr>';
+    }
+    document.getElementById('corpoTabela').innerHTML = rows;
   }
 
   // ── Carregamento ──────────────────────────────────────────────────────
   async function carregarTodos() {
-    setStatus('carregando', 'Carregando contratos do WordPress…');
+    setStatus('carregando', '⏳ carregando…');
     var wpData = [];
     try {
       var pagina = 1, total = 0;
@@ -303,203 +238,229 @@
         if (pagina === 1) total = parseInt(resp.headers.get('X-WP-Total') || '0');
         var dados = await resp.json();
         if (!dados.length) break;
-        dados.forEach(function (p) {
+        dados.forEach(function(p) {
           wpData.push({ titulo: (p.title && p.title.rendered) || '', meta: p.meta || {} });
         });
         if (wpData.length >= total) break;
         pagina++;
       }
-      setStatus('ok', wpData.length + ' do WordPress + ' + HISTORICO.length + ' históricos = ' + (wpData.length + HISTORICO.length) + ' total');
     } catch (err) {
-      console.error(err);
-      setStatus('erro', 'Erro ao carregar do WordPress. Exibindo apenas dados históricos.');
+      console.error('WordPress API:', err);
+      setStatus('erro', '⚠ WordPress offline — exibindo dados históricos');
     }
 
     todosContratos = wpData.concat(HISTORICO);
-    todosContratos.sort(function (a, b) {
+    todosContratos.sort(function(a, b) {
       var da = (a.meta || {}).ano || '', db = (b.meta || {}).ano || '';
       if (db !== da) return db.localeCompare(da);
       return (a.titulo || '').localeCompare(b.titulo || '');
     });
 
     var anosSet = {};
-    todosContratos.forEach(function (r) { var a = (r.meta || {}).ano; if (a) anosSet[a] = true; });
-    var anos = Object.keys(anosSet).sort(function (a, b) { return b.localeCompare(a); });
+    todosContratos.forEach(function(r) { var a = (r.meta || {}).ano; if (a) anosSet[a] = true; });
+    var anos = Object.keys(anosSet).sort(function(a, b){ return b.localeCompare(a); });
+    document.getElementById('filtroAno').innerHTML =
+      '<option value="">Todos</option>' +
+      anos.map(function(a){ return '<option value="'+escHTML(a)+'">'+escHTML(a)+'</option>'; }).join('');
 
-    atualizarSelectAnos(anos);
-    atualizarTabs(anos);
-    document.getElementById('dataAtualizacao').textContent =
-      new Date().toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    var agora = new Date().toLocaleString('pt-BR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    document.getElementById('dataAtualizacao').textContent = agora;
+    document.getElementById('rodapeData').textContent = agora;
+
+    if (wpData.length > 0) setStatus('ok', '');
+    atualizarIndicadores();
     renderTabela(getFiltrado());
+    document.getElementById('barra-exportacao').style.display = 'flex';
   }
 
-  // ── Render ────────────────────────────────────────────────────────────
-  var SITUACAO_MAP = {
-    vigente:   ['sit-vigente',   'Vigente'],
-    encerrado: ['sit-encerrado', 'Encerrado'],
-    expirado:  ['sit-expirado',  'Expirado'],
-    vencido:   ['sit-expirado',  'Vencido'],
+  // ── Indicadores ───────────────────────────────────────────────────────
+  function atualizarIndicadores() {
+    var fiscaisSet = {}, vigentes = 0, encerrados = 0;
+    todosContratos.forEach(function(r) {
+      var m = r.meta || {};
+      if (m.fiscal) fiscaisSet[m.fiscal] = true;
+      if (String(m.situacao || '').toLowerCase().trim() === 'vigente') vigentes++;
+      else encerrados++;
+    });
+    document.getElementById('ind-total').textContent     = todosContratos.length;
+    document.getElementById('ind-fiscais').textContent   = Object.keys(fiscaisSet).length;
+    document.getElementById('ind-vigentes').textContent  = vigentes;
+    document.getElementById('ind-encerrados').textContent = encerrados;
+  }
+
+  // ── Render tabela ─────────────────────────────────────────────────────
+  var SIT_MAP = {
+    vigente:  ['sit-vigente',   'Vigente'],
+    encerrado:['sit-encerrado', 'Encerrado'],
+    expirado: ['sit-expirado',  'Expirado'],
+    vencido:  ['sit-expirado',  'Vencido'],
   };
 
   function badgeSit(s) {
     var norm  = String(s || '').toLowerCase().trim();
-    var entry = SITUACAO_MAP[norm] || ['sit-encerrado', escHTML(norm) || '—'];
+    var entry = SIT_MAP[norm] || ['sit-encerrado', escHTML(norm) || '—'];
     return '<span class="badge-sit ' + entry[0] + '">' + entry[1] + '</span>';
   }
 
   function renderTabela(lista) {
     var tbody = document.getElementById('corpoTabela');
+    document.getElementById('rodapeInfo').textContent =
+      lista.length + ' de ' + todosContratos.length + ' registros exibidos';
+
     if (!lista.length) {
       tbody.innerHTML =
-        '<tr><td colspan="9"><div class="estado-central">' +
-        '<div class="icone">🔎</div>' +
-        '<p>Nenhum contrato encontrado</p>' +
-        '<p class="sub">Tente ajustar os filtros ou recarregue a página</p>' +
+        '<tr><td colspan="8"><div class="estado-vazio">' +
+        '<div class="estado-vazio-icone">🔎</div>' +
+        '<p>Nenhum contrato encontrado para os filtros aplicados.</p>' +
         '</div></td></tr>';
-      atualizarResumo(0);
       return;
     }
 
-    tbody.innerHTML = lista.map(function (r) {
+    tbody.innerHTML = lista.map(function(r) {
       var m       = r.meta || {};
       var safeUrl = escURL(m.url_integra);
       var intBtn  = safeUrl
-        ? '<a href="' + escHTML(safeUrl) + '" target="_blank" rel="noopener noreferrer" class="btn-int" title="Acessar íntegra">📄</a>'
-        : '<span class="btn-int-off">—</span>';
-      var cnpjDiv  = m.cnpj      ? '<div class="td-cnpj">'                         + escHTML(m.cnpj)       + '</div>' : '';
-      var matTag   = m.matricula ? '<span class="mat-tag">Mat. '                   + escHTML(m.matricula)  + '</span>' : '';
-      var cargoTag = m.cargo     ? '<span class="cargo-tag">'                      + escHTML(m.cargo)      + '</span>' : '';
-      var termino  = m.termino && m.termino !== m.inicio
-        ? '<br><span style="color:var(--cinza-500)">→</span> ' + escHTML(m.termino) : '';
+        ? '<a href="' + escHTML(safeUrl) + '" target="_blank" rel="noopener noreferrer" class="btn-integra" title="Acessar íntegra do contrato">📄</a>'
+        : '<span class="btn-integra-off" title="Sem documento">—</span>';
+      var cnpjDiv  = m.cnpj      ? '<br><span class="td-cnpj">'  + escHTML(m.cnpj)       + '</span>' : '';
+      var matTag   = m.matricula ? '<span class="mat-tag">Mat. ' + escHTML(m.matricula)  + '</span>' : '';
+      var cargoTag = m.cargo     ? '<span class="cargo-tag">'    + escHTML(m.cargo)      + '</span>' : '';
+      var vigencia = m.termino && m.termino !== m.inicio
+        ? escHTML(m.inicio || '—') + ' → ' + escHTML(m.termino)
+        : escHTML(m.inicio || '—');
 
       return '<tr>' +
-        '<td style="font-weight:600;color:var(--cinza-700);white-space:nowrap;">' + (escHTML(m.ano)           || '—') + '</td>' +
-        '<td><div class="td-num">'          + (escHTML(r.titulo)      || '—') + '</div><div class="td-licit">' + (escHTML(m.licitacao) || '—') + '</div></td>' +
-        '<td><div class="td-contratado">'   + (escHTML(m.contratado)  || '—') + '</div>' + cnpjDiv + '</td>' +
-        '<td class="td-objeto">'            + (escHTML(m.objeto)      || '—') + '</td>' +
-        '<td class="td-valor">'             + (escHTML(m.valor)       || '—') + '</td>' +
-        '<td style="white-space:nowrap;font-size:12px;color:var(--cinza-700);">' + (escHTML(m.inicio) || '—') + termino + '</td>' +
-        '<td class="td-fiscal">'            + (escHTML(m.fiscal)      || '—') + '<br>' + matTag + cargoTag + '</td>' +
-        '<td>'  + badgeSit(m.situacao) + '</td>' +
+        '<td><span class="td-num">'     + (escHTML(r.titulo)     || '—') + '</span>' +
+             '<div class="td-licit">'   + (escHTML(m.licitacao)  || '—') + '</div></td>' +
+        '<td><span class="td-contratado">' + (escHTML(m.contratado) || '—') + '</span>' + cnpjDiv + '</td>' +
+        '<td class="td-objeto">'        + (escHTML(m.objeto)     || '—') + '</td>' +
+        '<td class="td-valor">'         + (escHTML(m.valor)      || '—') + '</td>' +
+        '<td style="white-space:nowrap;font-size:13px">' + vigencia + '</td>' +
+        '<td><span class="td-fiscal">'  + (escHTML(m.fiscal)     || '—') + '</span><br>' + matTag + cargoTag + '</td>' +
+        '<td>' + badgeSit(m.situacao) + '</td>' +
         '<td class="td-integra">' + intBtn + '</td>' +
         '</tr>';
     }).join('');
-
-    atualizarResumo(lista.length);
-  }
-
-  function atualizarResumo(n) {
-    document.getElementById('resumoTexto').innerHTML =
-      'Exibindo <strong>' + n + '</strong> de <strong>' + todosContratos.length + '</strong> registros';
-    document.getElementById('rodapeInfo').textContent =
-      n + ' contratos · Série histórica: 2023–' + new Date().getFullYear();
   }
 
   // ── Filtros ───────────────────────────────────────────────────────────
   function getFiltrado() {
-    var ano  = document.getElementById('filtroAno').value || filtroAnoAtivo;
-    var num  = normStr(document.getElementById('filtroNumero').value);
-    var cont = normStr(document.getElementById('filtroContratado').value);
-    var fisc = normStr(document.getElementById('filtroFiscal').value);
-    var obj  = normStr(document.getElementById('filtroObjeto').value);
-    var sit  = (document.getElementById('filtroSituacao').value || '').toLowerCase();
-    return todosContratos.filter(function (r) {
+    var termo = normStr(document.getElementById('busca').value);
+    var ano   = document.getElementById('filtroAno').value;
+    var sit   = (document.getElementById('filtroSituacao').value || '').toLowerCase();
+    return todosContratos.filter(function(r) {
       var m = r.meta || {};
-      if (ano  && (m.ano || '')                              !== ano)   return false;
-      if (num  && normStr(r.titulo)    .indexOf(num)         < 0)       return false;
-      if (cont && normStr(m.contratado).indexOf(cont)        < 0)       return false;
-      if (fisc && normStr(m.fiscal)    .indexOf(fisc)        < 0)       return false;
-      if (obj  && normStr(m.objeto)    .indexOf(obj)         < 0)       return false;
+      if (ano  && (m.ano || '') !== ano) return false;
       if (sit  && String(m.situacao || '').toLowerCase().trim() !== sit) return false;
+      if (termo) {
+        var hay = normStr([r.titulo, m.licitacao, m.contratado, m.objeto, m.fiscal].join(' '));
+        if (hay.indexOf(termo) < 0) return false;
+      }
       return true;
     });
   }
 
-  function setTabAtivo(ano) {
-    document.querySelectorAll('.tab-btn').forEach(function (b) {
-      var ativo = b.dataset.ano === ano;
-      b.classList.toggle('ativo', ativo);
-      b.setAttribute('aria-selected', ativo ? 'true' : 'false');
-    });
-  }
-
   function limparFiltros() {
-    ['filtroNumero', 'filtroContratado', 'filtroFiscal', 'filtroObjeto'].forEach(function (id) {
-      document.getElementById(id).value = '';
-    });
-    document.getElementById('filtroAno').value      = '';
+    document.getElementById('busca').value = '';
+    document.getElementById('filtroAno').value = '';
     document.getElementById('filtroSituacao').value = '';
-    filtroAnoAtivo = '';
-    setTabAtivo('');
     renderTabela(getFiltrado());
   }
 
-  function filtrarPorAno(btn, ano) {
-    filtroAnoAtivo = ano;
-    setTabAtivo(ano);
-    document.getElementById('filtroAno').value = ano;
-    renderTabela(getFiltrado());
-  }
+  // ── Exportação ────────────────────────────────────────────────────────
+  var COLUNAS = ['Nº Contrato','Licitação','Contratado','CNPJ','Objeto','Valor','Início','Término','Fiscal','Matrícula','Cargo','Situação'];
 
-  function atualizarSelectAnos(anos) {
-    document.getElementById('filtroAno').innerHTML =
-      '<option value="">Todos</option>' +
-      anos.map(function (a) { return '<option value="' + escHTML(a) + '">' + escHTML(a) + '</option>'; }).join('');
-  }
-
-  function atualizarTabs(anos) {
-    var container = document.getElementById('tabsAno');
-    Array.prototype.forEach.call(container.querySelectorAll('.tab-btn[data-ano]:not([data-ano=""])'), function (b) { b.remove(); });
-    anos.forEach(function (ano) {
-      var count = todosContratos.filter(function (r) { return (r.meta || {}).ano === ano; }).length;
-      var btn = document.createElement('button');
-      btn.className = 'tab-btn';
-      btn.dataset.ano = ano;
-      btn.setAttribute('role', 'tab');
-      btn.setAttribute('aria-selected', 'false');
-      btn.innerHTML = escHTML(ano) + ' <span class="badge-tab">' + count + '</span>';
-      btn.addEventListener('click', function () { filtrarPorAno(btn, ano); });
-      container.appendChild(btn);
-    });
-    document.getElementById('badge-todos').textContent = todosContratos.length;
-  }
-
-  // ── Exportação CSV ────────────────────────────────────────────────────
-  function exportarCSV() {
-    var lista = getFiltrado();
-    if (!lista.length) { alert('Nenhum dado para exportar.'); return; }
-    var cab = ['Ano','Numero','Licitação','Contratado','CNPJ','Objeto','Valor','Início','Término','Fiscal','Matrícula','Cargo','Situação'];
-    var linhas = [cab.map(function (v) { return '"' + v + '"'; }).join(';')];
-    lista.forEach(function (r) {
+  function linhasDados() {
+    return getFiltrado().map(function(r) {
       var m = r.meta || {};
-      linhas.push([m.ano, r.titulo, m.licitacao, m.contratado, m.cnpj, m.objeto, m.valor, m.inicio, m.termino, m.fiscal, m.matricula, m.cargo, m.situacao]
-        .map(function (v) { return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; }).join(';'));
+      return [r.titulo, m.licitacao, m.contratado, m.cnpj, m.objeto, m.valor, m.inicio, m.termino, m.fiscal, m.matricula, m.cargo, m.situacao];
     });
+  }
+
+  function planilha() { return [COLUNAS].concat(linhasDados()); }
+
+  function baixar(nome, tipo, conteudo) {
     var a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob(['﻿' + linhas.join('\n')], { type: 'text/csv;charset=utf-8;' }));
-    a.download = 'fiscais-contrato-arroio' + (filtroAnoAtivo ? '-' + filtroAnoAtivo : '') + '.csv';
+    a.href = URL.createObjectURL(new Blob([conteudo], { type: tipo }));
+    a.download = nome;
     a.click();
     URL.revokeObjectURL(a.href);
   }
 
+  function nomearq(ext) {
+    var ano = document.getElementById('filtroAno').value;
+    return 'fiscais-contrato-arroio' + (ano ? '-' + ano : '') + '.' + ext;
+  }
+
+  window.exportarCSV = function () {
+    var csv = planilha().map(function(row) {
+      return row.map(function(v){ return '"' + String(v == null ? '' : v).replace(/"/g,'""') + '"'; }).join(';');
+    }).join('\n');
+    baixar(nomearq('csv'), 'text/csv;charset=utf-8', '﻿' + csv);
+  };
+
+  window.exportarXLSX = function () {
+    if (!window.XLSX) { alert('Biblioteca XLSX não carregada.'); return; }
+    var ws = XLSX.utils.aoa_to_sheet(planilha());
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Fiscais');
+    XLSX.writeFile(wb, nomearq('xlsx'));
+  };
+
+  window.exportarJSON = function () {
+    var payload = {
+      fonte: 'Portal da Transparência – Prefeitura Municipal de Arroio dos Ratos',
+      pagina: 'Fiscais de Contrato',
+      geradoEm: new Date().toISOString(),
+      totalRegistros: getFiltrado().length,
+      dados: getFiltrado().map(function(r) {
+        var m = r.meta || {};
+        return { numero:r.titulo, licitacao:m.licitacao, contratado:m.contratado, cnpj:m.cnpj, objeto:m.objeto, valor:m.valor, inicio:m.inicio, termino:m.termino, fiscal:m.fiscal, matricula:m.matricula, cargo:m.cargo, situacao:m.situacao };
+      })
+    };
+    baixar(nomearq('json'), 'application/json;charset=utf-8', JSON.stringify(payload, null, 2));
+  };
+
+  window.exportarODS = function () {
+    if (!window.XLSX) { alert('Biblioteca XLSX não carregada.'); return; }
+    var ws = XLSX.utils.aoa_to_sheet(planilha());
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Fiscais');
+    XLSX.writeFile(wb, nomearq('ods'));
+  };
+
+  window.exportarXML = function () {
+    var xml = '<?xml version="1.0" encoding="UTF-8"?>\n<fiscaisContrato geradoEm="' + escXML(new Date().toISOString()) + '">\n';
+    getFiltrado().forEach(function(r) {
+      var m = r.meta || {};
+      xml += '  <registro>\n' +
+        '    <numero>'     + escXML(r.titulo    || '') + '</numero>\n' +
+        '    <licitacao>'  + escXML(m.licitacao || '') + '</licitacao>\n' +
+        '    <contratado>' + escXML(m.contratado|| '') + '</contratado>\n' +
+        '    <cnpj>'       + escXML(m.cnpj      || '') + '</cnpj>\n' +
+        '    <objeto>'     + escXML(m.objeto    || '') + '</objeto>\n' +
+        '    <valor>'      + escXML(m.valor     || '') + '</valor>\n' +
+        '    <inicio>'     + escXML(m.inicio    || '') + '</inicio>\n' +
+        '    <termino>'    + escXML(m.termino   || '') + '</termino>\n' +
+        '    <fiscal>'     + escXML(m.fiscal    || '') + '</fiscal>\n' +
+        '    <matricula>'  + escXML(m.matricula || '') + '</matricula>\n' +
+        '    <cargo>'      + escXML(m.cargo     || '') + '</cargo>\n' +
+        '    <situacao>'   + escXML(m.situacao  || '') + '</situacao>\n' +
+        '  </registro>\n';
+    });
+    xml += '</fiscaisContrato>\n';
+    baixar(nomearq('xml'), 'application/xml;charset=utf-8', xml);
+  };
+
+  window.exportarPDF = function () { window.print(); };
+
   // ── Init ──────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
     renderSkeleton();
-
-    ['filtroNumero', 'filtroContratado', 'filtroFiscal', 'filtroObjeto'].forEach(function (id) {
-      document.getElementById(id).addEventListener('input', function () { renderTabela(getFiltrado()); });
-    });
-    document.getElementById('filtroAno').addEventListener('change', function () {
-      filtroAnoAtivo = this.value;
-      setTabAtivo(this.value);
-      renderTabela(getFiltrado());
-    });
-    document.getElementById('filtroSituacao').addEventListener('change', function () { renderTabela(getFiltrado()); });
-
-    document.getElementById('btnLimpar').addEventListener('click', limparFiltros);
+    document.getElementById('busca').addEventListener('input', function() { renderTabela(getFiltrado()); });
+    document.getElementById('filtroAno').addEventListener('change', function() { renderTabela(getFiltrado()); });
+    document.getElementById('filtroSituacao').addEventListener('change', function() { renderTabela(getFiltrado()); });
     document.getElementById('btnRecarregar').addEventListener('click', carregarTodos);
-    document.getElementById('btnCSV').addEventListener('click', exportarCSV);
-
     carregarTodos();
   });
 }());
