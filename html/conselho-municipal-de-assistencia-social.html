@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conselho Municipal de Assistência Social - Prefeitura Municipal de Arroio dos Ratos</title>
+<style>
+:root{--azul-escuro:#0b3d6e;--azul:#0f5ea8;--azul-claro:#dbeafe;--azul-suave:#f0f6ff;--verde:#166534;--verde-bg:#dcfce7;--amarelo:#854d0e;--amarelo-bg:#fef9c3;--vermelho:#991b1b;--vermelho-bg:#fee2e2;--cinza-900:#1f2937;--cinza-700:#374151;--cinza-500:#6b7280;--cinza-300:#d1d5db;--cinza-200:#dbe3ee;--cinza-100:#f8fafc;--branco:#fff}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:var(--cinza-100);color:var(--cinza-900)}
+.entry-title,.page-title,.ast-page-title,.ast-page-title-wrap,.elementor-widget-theme-post-title,.elementor-page-title,.wp-block-post-title,h1.entry-title,h1.page-title,.post-title,.site-main .page-header{display:none !important}
+.cmas-wrap{max-width:1200px;margin:0 auto;padding:24px 28px 48px}
+.breadcrumb{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;padding:10px 14px;border:1px solid var(--cinza-200);border-radius:8px;background:var(--branco);color:var(--cinza-500);font-size:13px}
+.breadcrumb a{color:var(--azul);font-weight:700;text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+.hero{margin-bottom:0;padding:34px 36px;border-radius:16px 16px 0 0;background:linear-gradient(135deg,#0b3d6e 0%,#0f5ea8 62%,#12805c 100%);color:#fff;box-shadow:0 8px 32px rgba(11,61,110,.20)}
+.tag{display:inline-block;margin-bottom:10px;padding:5px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800;text-transform:uppercase}
+.hero h1{margin:0 0 10px;color:#fff;font-size:32px;line-height:1.2}
+.hero p{max-width:920px;margin:0;color:rgba(255,255,255,.93);font-size:15px;line-height:1.7}
+.nav{position:sticky;top:0;z-index:20;margin-bottom:22px;padding:0 10px;border-radius:0 0 12px 12px;background:var(--azul-escuro);box-shadow:0 4px 14px rgba(11,61,110,.20)}
+.nav ul{display:flex;flex-wrap:wrap;gap:0;margin:0;padding:0;list-style:none}
+.nav a{display:block;padding:11px 10px;border-bottom:3px solid transparent;color:rgba(255,255,255,.88);font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap}
+.nav a:hover{border-bottom-color:#93c5fd;color:#fff;text-decoration:none}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{background:var(--branco);border:1px solid var(--cinza-200);border-top:4px solid var(--azul);border-radius:12px;padding:16px 18px;text-align:center;box-shadow:0 2px 8px rgba(15,23,42,.05)}
+.stat-numero{display:block;font-size:28px;font-weight:800;color:var(--azul-escuro)}
+.stat-label{display:block;margin-top:4px;color:var(--cinza-500);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase}
+.card{margin-bottom:20px;padding:24px 26px;border:1px solid var(--cinza-200);border-radius:16px;background:var(--branco);box-shadow:0 4px 16px rgba(15,23,42,.04);scroll-margin-top:70px}
+.card h2{margin:0 0 16px;padding-bottom:12px;border-bottom:2px solid var(--azul-claro);color:var(--azul-escuro);font-size:20px}
+.card h3{margin:18px 0 10px;color:var(--azul-escuro);font-size:16px}
+.card p,.card li{color:var(--cinza-700);font-size:14px;line-height:1.7}
+.card p{margin:0 0 12px}
+.nota{padding:14px 16px;border:1px solid var(--azul-claro);border-left:4px solid var(--azul);border-radius:12px;background:var(--azul-suave);color:var(--cinza-700);font-size:14px;line-height:1.7}
+.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.info-item{padding:14px 16px;border:1px solid var(--cinza-200);border-radius:10px;background:#fbfdff}
+.info-item strong{display:block;margin-bottom:4px;color:var(--azul-escuro);font-size:13px;text-transform:uppercase}
+.acoes{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 12px;border:1px solid var(--azul-claro);border-radius:9px;background:var(--azul-suave);color:var(--azul-escuro);font-size:13px;font-weight:800;text-decoration:none}
+.btn:hover{border-color:var(--azul);text-decoration:none}
+.badge{display:inline-block;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.b-pub{background:var(--verde-bg);color:var(--verde)}.b-info{background:var(--azul-suave);color:var(--azul-escuro);border:1px solid var(--azul-claro)}.b-pendente{background:var(--amarelo-bg);color:var(--amarelo)}
+.tabela-wrap{overflow-x:auto;border:1px solid var(--cinza-200);border-radius:12px}
+table{width:100%;border-collapse:collapse;background:var(--branco);font-size:14px}
+th{padding:12px 14px;background:var(--azul-escuro);color:#fff;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--cinza-200);color:var(--cinza-700);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:#f8fafc}
+.filtros{display:grid;grid-template-columns:1fr 180px 160px;gap:12px;align-items:end;margin-bottom:14px}
+.campo label{display:block;margin-bottom:6px;color:var(--cinza-700);font-size:13px;font-weight:800}
+.campo input,.campo select{width:100%;min-height:42px;padding:10px 12px;border:1px solid var(--cinza-300);border-radius:10px;font:inherit;font-size:14px}
+.campo input:focus,.campo select:focus{outline:none;border-color:var(--azul);box-shadow:0 0 0 3px rgba(15,94,168,.12)}
+a{color:var(--azul);font-weight:800;text-decoration:none}a:hover{text-decoration:underline}
+.sem-resultado{display:none;padding:20px;text-align:center;color:var(--cinza-500)}
+.rodape{font-size:13px;color:var(--cinza-500);text-align:center;margin-top:18px;padding:12px}
+@media(max-width:760px){.cmas-wrap{padding:16px 14px}.hero{padding:22px 18px}.hero h1{font-size:24px}.info-grid,.filtros{grid-template-columns:1fr}.nav{position:static}.nav a{white-space:normal}.card{padding:20px 18px}}
+@media print{.breadcrumb,.nav,.filtros{display:none !important}.hero{background:none !important;color:var(--cinza-900) !important;box-shadow:none;border:1px solid var(--cinza-200);border-radius:12px}.hero h1{color:var(--azul-escuro) !important}.hero p{color:var(--cinza-700) !important}}
+</style>
+</head>
+<body>
+<main class="cmas-wrap">
+  <nav class="breadcrumb" aria-label="Caminho da página">
+    <a href="/">Início</a><span aria-hidden="true">&rsaquo;</span>
+    <a href="/transparencia-publica/">Transparência</a><span aria-hidden="true">&rsaquo;</span>
+    <a href="/conselhos-municipais/">Conselhos Municipais</a><span aria-hidden="true">&rsaquo;</span>
+    <span>Conselho Municipal de Assistência Social</span>
+  </nav>
+
+  <header class="hero">
+    <span class="tag">Controle social · Assistência Social · PNTP 2026</span>
+    <h1>Conselho Municipal de Assistência Social</h1>
+    <p>O Conselho Municipal de Assistência Social de Arroio dos Ratos é órgão deliberativo, de caráter permanente e âmbito municipal, responsável pelo acompanhamento, fiscalização e deliberação da Política Municipal de Assistência Social e dos recursos do Fundo Municipal de Assistência Social.</p>
+  </header>
+
+  <nav class="nav" aria-label="Navegação interna">
+    <ul>
+      <li><a href="#base-legal">Base legal</a></li>
+      <li><a href="#contato">Funcionamento</a></li>
+      <li><a href="#composicao">Composição</a></li>
+      <li><a href="#calendario">Calendário</a></li>
+      <li><a href="#pautas">Pautas</a></li>
+      <li><a href="#atas">Atas</a></li>
+      <li><a href="#resolucoes">Resoluções</a></li>
+      <li><a href="#oficios">Ofícios</a></li>
+      <li><a href="#documentos">Documentos</a></li>
+    </ul>
+  </nav>
+
+  <div class="stats-grid" aria-label="Resumo do Conselho Municipal de Assistência Social">
+    <div class="stat-card"><span class="stat-numero">1995</span><span class="stat-label">Ano de criação</span></div>
+    <div class="stat-card"><span class="stat-numero">24</span><span class="stat-label">Representantes</span></div>
+    <div class="stat-card"><span class="stat-numero">39</span><span class="stat-label">Atas listadas</span></div>
+    <div class="stat-card"><span class="stat-numero">143</span><span class="stat-label">Ofícios listados</span></div>
+  </div>
+
+  <section class="card" id="base-legal">
+    <h2>Base Legal e Finalidade</h2>
+    <p>Conforme a Lei Municipal nº 1.404/1995, compete ao CMAS definir prioridades da Política de Assistência Social, estabelecer diretrizes para o Plano Municipal, aprovar a Política Municipal de Assistência Social, acompanhar a execução da política pública, fiscalizar recursos do Fundo Municipal de Assistência Social, acompanhar serviços públicos e privados, elaborar seu regimento interno e convocar a Conferência Municipal de Assistência Social.</p>
+    <div class="tabela-wrap">
+      <table aria-label="Base legal do Conselho Municipal de Assistência Social">
+        <thead><tr><th>Documento</th><th>Descrição</th><th>Acesso</th></tr></thead>
+        <tbody>
+          <tr><td>Lei Municipal nº 1.404/1995</td><td>Criação do Conselho Municipal de Assistência Social.</td><td><span class="badge b-pendente">Incluir link da lei</span></td></tr>
+          <tr><td>Lei Municipal nº 1.484/1996</td><td>Altera dispositivo sobre a Conferência Municipal de Assistência Social.</td><td><span class="badge b-pendente">Incluir link da lei</span></td></tr>
+          <tr><td>Lei Municipal nº 1.788/1999</td><td>Norma relacionada ao CMAS.</td><td><span class="badge b-pendente">Incluir link da lei</span></td></tr>
+          <tr><td>Lei Municipal nº 1.813/1999</td><td>Norma relacionada ao CMAS.</td><td><span class="badge b-pendente">Incluir link da lei</span></td></tr>
+          <tr><td>Lei Municipal nº 2.987/2008</td><td>Referência legal constante na lista de conselhos municipais.</td><td><span class="badge b-pendente">Incluir link da lei</span></td></tr>
+          <tr><td>Lei Municipal nº 3.673/2014</td><td>Norma relacionada ao CMAS.</td><td><span class="badge b-pendente">Incluir link da lei</span></td></tr>
+          <tr><td>Regimento Interno de 2000</td><td>Regras de organização e funcionamento do Conselho.</td><td><a href="/wp-content/uploads/conselho/REGIMENTO%20INTERNO%2015%20de%20mar%C3%A7o%20de%202000.doc">Abrir</a></td></tr>
+          <tr><td>Regimento Interno CMAS 2014</td><td>Atualização do regimento interno.</td><td><a href="/wp-content/uploads/conselho/REGIMENTO%20INTERNO%20CMAS%202014.doc">Abrir</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota">Os links das leis devem ser substituídos pelos URLs oficiais quando os arquivos estiverem publicados na mídia do WordPress ou na página de legislação municipal.</p>
+  </section>
+
+  <section class="card" id="contato">
+    <h2>Funcionamento e Contato</h2>
+    <div class="info-grid">
+      <div class="info-item"><strong>Local</strong>CRAS Santa Bárbara</div>
+      <div class="info-item"><strong>Endereço</strong>Rua Doutor Roberto Cardoso, 213, bairro Santa Bárbara</div>
+      <div class="info-item"><strong>Horário de atendimento</strong>08h às 12h e 13h às 17h</div>
+      <div class="info-item"><strong>Reuniões ordinárias</strong>Segunda quarta-feira de cada mês</div>
+      <div class="info-item"><strong>E-mail</strong><a href="mailto:cmas@arroiodosratos.rs.gov.br">cmas@arroiodosratos.rs.gov.br</a></div>
+      <div class="info-item"><strong>Telefone</strong>(51) 3656-4341 ou (51) 3656-3298</div>
+    </div>
+  </section>
+
+  <section class="card" id="composicao">
+    <h2>Composição Atual</h2>
+    <p>Composição indicada na Portaria nº 864/2026.</p>
+    <h3>Representação governamental</h3>
+    <div class="tabela-wrap">
+      <table aria-label="Composição governamental do CMAS">
+        <thead><tr><th>Segmento</th><th>Titular</th><th>Suplente</th></tr></thead>
+        <tbody>
+          <tr><td>Secretaria Municipal de Cidadania e Assistência Social</td><td>Jurema Teresinha Feiten</td><td>Carla Cristina Franke de Siqueira</td></tr>
+          <tr><td>Secretaria Municipal de Educação</td><td>Juliana Santos Schaun Huff</td><td>Sandra Mara Bortolotti Martins</td></tr>
+          <tr><td>Secretaria Municipal de Saúde</td><td>Jurema de Oliveira Ferreira</td><td>Juçara Teresinha Lopes da Silva</td></tr>
+          <tr><td>Secretaria Municipal da Fazenda</td><td>Juliane Martini Pinto</td><td>Darciria Gross Eberhardt</td></tr>
+          <tr><td>Secretaria Municipal de Desenvolvimento Econômico e Social</td><td>Camila Lazzari Ghisleni</td><td>Lucas Bertolino Cardoso</td></tr>
+          <tr><td>Procuradoria Municipal</td><td>Paola Caroline Teixeira dos Santos</td><td>Alessandra Tassoni Silva</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Representação da sociedade civil</h3>
+    <div class="tabela-wrap">
+      <table aria-label="Composição da sociedade civil do CMAS">
+        <thead><tr><th>Segmento</th><th>Titular</th><th>Suplente</th></tr></thead>
+        <tbody>
+          <tr><td>Pessoa com Deficiência</td><td>Gabriela de Souza Alves</td><td>Maria Carolina Garcia Lopes</td></tr>
+          <tr><td>Idoso</td><td>Gilma Coutinho Nass</td><td>Virce de Lourdes Tissot de Lima</td></tr>
+          <tr><td>Família</td><td>Jamir Fortunato Dalenogare</td><td>Marcelo da Silva Fortes</td></tr>
+          <tr><td>Usuários</td><td>Silsa Araújo da Silva</td><td>Silvia Vaz de Oliveira</td></tr>
+          <tr><td>Profissionais da Área (CRESS)</td><td>Morgana de Oliveira Ferreira</td><td>Loriane Costa do Amaral</td></tr>
+          <tr><td>Profissionais da Área (CRP)</td><td>Patricia Alexandra de Mattos Ramos</td><td>Renata Blanco da Silva Iankoski</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Diretoria atual</h3>
+    <div class="info-grid">
+      <div class="info-item"><strong>Presidente</strong>Morgana de Oliveira Ferreira</div>
+      <div class="info-item"><strong>Vice-presidente</strong>Juliane Martini Pinto</div>
+      <div class="info-item"><strong>1ª Secretária</strong>Paola Caroline Teixeira dos Santos</div>
+      <div class="info-item"><strong>2ª Secretária</strong>Renata Blanco da Silva Iankoski</div>
+      <div class="info-item"><strong>Secretária Executiva</strong>Juliana Silveira de Abreu</div>
+      <div class="info-item"><strong>Mandato anterior</strong><a href="/wp-content/uploads/conselho/fwdcomposiomandatoanteriorportarias2023.zip">Baixar portarias anteriores</a></div>
+    </div>
+  </section>
+
+  <section class="card" id="calendario">
+    <h2>Cronograma de Reuniões</h2>
+    <p>Calendário de 2026 conforme Resolução CMAS nº 61/2025. As plenárias de janeiro e fevereiro foram suspensas pela Resolução CMAS nº 64/2025.</p>
+    <div class="tabela-wrap">
+      <table aria-label="Cronograma de reuniões do CMAS em 2026">
+        <thead><tr><th>Mês</th><th>Data</th><th>Situação</th></tr></thead>
+        <tbody>
+          <tr><td>Janeiro</td><td>-</td><td><span class="badge b-pendente">Plenária suspensa</span></td></tr>
+          <tr><td>Fevereiro</td><td>-</td><td><span class="badge b-pendente">Plenária suspensa</span></td></tr>
+          <tr><td>Março</td><td>11/03/2026</td><td><span class="badge b-info">Prevista</span></td></tr>
+          <tr><td>Abril</td><td>08/04/2026</td><td><span class="badge b-info">Prevista</span></td></tr>
+          <tr><td>Maio</td><td>13/05/2026</td><td><span class="badge b-info">Prevista</span></td></tr>
+          <tr><td>Junho</td><td>10/06/2026</td><td><span class="badge b-info">Prevista</span></td></tr>
+          <tr><td>Julho</td><td>08/07/2026</td><td><span class="badge b-info">Prevista</span></td></tr>
+          <tr><td>Agosto</td><td>12/08/2026</td><td><span class="badge b-info">Prevista</span></td></tr>
+          <tr><td>Setembro</td><td>09/09/2026</td><td><span class="badge b-info">Prevista</span></td></tr>
+          <tr><td>Outubro</td><td>14/10/2026</td><td><span class="badge b-info">Prevista</span></td></tr>
+          <tr><td>Novembro</td><td>11/11/2026</td><td><span class="badge b-info">Prevista</span></td></tr>
+          <tr><td>Dezembro</td><td>09/12/2026</td><td><span class="badge b-info">Prevista</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" id="pautas">
+    <h2>Pautas</h2>
+    <p>As pautas e documentos de reunião disponíveis na pasta do Conselho foram organizados abaixo. O documento institucional informa que as convocações são feitas por aviso no grupo de WhatsApp do colegiado.</p>
+    <div class="acoes">
+      <a class="btn" href="/wp-content/uploads/conselho/PAUTA%20m%C3%AAs%2001.pdf">Pauta mês 01 - PDF</a>
+      <a class="btn" href="/wp-content/uploads/conselho/PAUTA%20m%C3%AAs%2002.pdf">Pauta mês 02 - PDF</a>
+    </div>
+    <div class="tabela-wrap" style="margin-top:14px">
+      <table aria-label="Pautas do CMAS">
+        <thead><tr><th>Mês</th><th>Documentos disponíveis</th></tr></thead>
+        <tbody>
+          <tr><td>01</td><td><a href="/wp-content/uploads/conselho/PAUTA%20m%C3%AAs%2001.doc">DOC</a> · <a href="/wp-content/uploads/conselho/PAUTA%20m%C3%AAs%2001%20(1).doc">DOC 1</a> · <a href="/wp-content/uploads/conselho/PAUTA%20m%C3%AAs%2001%20(2).doc">DOC 2</a> · <a href="/wp-content/uploads/conselho/PAUTA%20m%C3%AAs%2001.pdf">PDF</a></td></tr>
+          <tr><td>02</td><td><a href="/wp-content/uploads/conselho/PAUTA%20m%C3%AAs%2002.doc">DOC</a> · <a href="/wp-content/uploads/conselho/PAUTA%20m%C3%AAs%2002%20fevereiro.doc">Fevereiro</a> · <a href="/wp-content/uploads/conselho/PAUTA%20m%C3%AAs%2002%20abril.doc">Abril</a> · <a href="/wp-content/uploads/conselho/PAUTA%20m%C3%AAs%2002.pdf">PDF</a></td></tr>
+          <tr><td>03 a 12</td><td>Arquivos DOC disponíveis na pasta <code>conselho</code>, nomeados como <code>PAUTA mês 03</code> até <code>PAUTA mês 12</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" id="atas">
+    <h2>Atas das Reuniões</h2>
+    <div class="filtros">
+      <div class="campo"><label for="busca-atas">Buscar nas atas</label><input id="busca-atas" type="search" placeholder="Ex.: prestação de contas, FEAS, SUAS"></div>
+      <div class="campo"><label for="ano-atas">Exercício</label><select id="ano-atas"><option value="">Todos</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></div>
+      <div class="campo"><label for="tipo-atas">Tipo</label><select id="tipo-atas"><option value="">Todos</option><option>Plenária</option><option>Comissão</option></select></div>
+    </div>
+    <div class="tabela-wrap">
+      <table id="tabela-atas" aria-label="Atas do CMAS">
+        <thead><tr><th>Ano</th><th>Documento</th><th>Tipo</th><th>Acesso</th></tr></thead>
+        <tbody>
+          <tr data-ano="2023" data-tipo="Plenária"><td>2023</td><td>Atas 001 a 013 de 2023</td><td>Plenária</td><td><a href="/wp-content/uploads/conselho/fwdatas2023.zip">Baixar pacote</a></td></tr>
+          <tr data-ano="2023" data-tipo="Comissão"><td>2023</td><td>Atas de comissões 2023</td><td>Comissão</td><td><a href="/wp-content/uploads/conselho/fwdatascomissescmas2023.zip">Baixar pacote</a></td></tr>
+          <tr data-ano="2024" data-tipo="Plenária"><td>2024</td><td>Atas 01 a 10 de 2024</td><td>Plenária</td><td><a href="/wp-content/uploads/conselho/fwdatas2024.zip">Baixar pacote</a></td></tr>
+          <tr data-ano="2025" data-tipo="Plenária"><td>2025</td><td>Atas 001 a 013 de 2025</td><td>Plenária</td><td><a href="/wp-content/uploads/conselho/fwdatascmas2025.zip">Baixar pacote</a></td></tr>
+          <tr data-ano="2025" data-tipo="Comissão"><td>2025</td><td>Atas de comissões 2025</td><td>Comissão</td><td><a href="/wp-content/uploads/conselho/fwdatascomissescmas2025.zip">Baixar pacote</a></td></tr>
+          <tr data-ano="2026" data-tipo="Plenária"><td>2026</td><td>Atas 001 a 003 de 2026</td><td>Plenária</td><td><a href="/wp-content/uploads/conselho/fwdatascmas2026.zip">Baixar pacote</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="sem-resultado" id="sem-atas">Nenhuma ata encontrada para os filtros informados.</div>
+  </section>
+
+  <section class="card" id="resolucoes">
+    <h2>Resoluções</h2>
+    <p>Resoluções deliberadas pelo CMAS, organizadas por exercício. Os pacotes mantêm os arquivos originais recebidos.</p>
+    <div class="tabela-wrap">
+      <table aria-label="Resoluções do CMAS por exercício">
+        <thead><tr><th>Ano</th><th>Quantidade</th><th>Conteúdo</th><th>Acesso</th></tr></thead>
+        <tbody>
+          <tr><td>2024</td><td>37</td><td>Resoluções 01 a 37 de 2024, incluindo cronograma, atas, metas, FEAS/FNAS, planos e inscrições de entidades.</td><td><a href="/wp-content/uploads/conselho/fwdresoluescmas2024.zip">Baixar pacote</a></td></tr>
+          <tr><td>2025</td><td>64</td><td>Resoluções 01 a 64 de 2025, incluindo colegiado, cronograma, conferência, benefícios eventuais, PPA e Plano Municipal de Assistência Social.</td><td><a href="/wp-content/uploads/conselho/fwdresoluescmas2025.zip">Baixar pacote</a></td></tr>
+          <tr><td>2026</td><td>14</td><td>Resoluções 001 a 014 de 2026.</td><td><a href="/wp-content/uploads/conselho/fwdresoluocmas2026.zip">Baixar pacote</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" id="oficios">
+    <h2>Ofícios, Pareceres e Manifestações</h2>
+    <div class="tabela-wrap">
+      <table aria-label="Ofícios do CMAS por exercício">
+        <thead><tr><th>Ano</th><th>Quantidade</th><th>Descrição</th><th>Acesso</th></tr></thead>
+        <tbody>
+          <tr><td>2023</td><td>76</td><td>Ofícios expedidos pelo CMAS em 2023.</td><td><a href="/wp-content/uploads/conselho/fwdoficios2023.zip">Baixar pacote</a></td></tr>
+          <tr><td>2024</td><td>36</td><td>Ofícios expedidos pelo CMAS em 2024.</td><td><a href="/wp-content/uploads/conselho/fwdoficios2024.zip">Baixar pacote</a></td></tr>
+          <tr><td>2025</td><td>27</td><td>Ofícios expedidos pelo CMAS em 2025.</td><td><a href="/wp-content/uploads/conselho/fwdoficios2025.zip">Baixar pacote</a></td></tr>
+          <tr><td>2026</td><td>4</td><td>Ofícios expedidos pelo CMAS em 2026.</td><td><a href="/wp-content/uploads/conselho/fwdofcios2026.zip">Baixar pacote</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" id="documentos">
+    <h2>Documentos Aprovados e Complementares</h2>
+    <p>As aprovações constam nas atas e resoluções do Conselho. A lista abaixo destaca documentos de planejamento, prestação de contas, benefícios eventuais, inscrições e deliberações recentes.</p>
+    <div class="tabela-wrap">
+      <table aria-label="Documentos aprovados pelo CMAS">
+        <thead><tr><th>Ano</th><th>Documento</th><th>Referência</th><th>Acesso</th></tr></thead>
+        <tbody>
+          <tr><td>2023</td><td>Plano de Ação 2024 MDS</td><td>Resolução CMAS 76/2023</td><td><a href="/wp-content/uploads/conselho/76%20PLANO%20DE%20A%C3%87%C3%83O%202024%20MDS.doc">Abrir</a></td></tr>
+          <tr><td>2023</td><td>Planos de Trabalho das Entidades</td><td>Resolução CMAS 78/2023</td><td><a href="/wp-content/uploads/conselho/78%20PLANOS%20DE%20TRABALHO%20DAS%20ENTIDADES.doc">Abrir</a></td></tr>
+          <tr><td>2024</td><td>Plano de Ação Alojamento</td><td>Resolução CMAS 15/2024</td><td><a href="/wp-content/uploads/conselho/fwdresoluescmas2024/15%20de%202024%20Plano%20de%20A%C3%A7%C3%A3o%20Alojamento.doc">Abrir</a></td></tr>
+          <tr><td>2024</td><td>Plano de Ação Aluguel Social</td><td>Resolução CMAS 16/2024</td><td><a href="/wp-content/uploads/conselho/fwdresoluescmas2024/16%20de%202024%20Plano%20de%20A%C3%A7%C3%A3o%20Aluguel%20Social.doc">Abrir</a></td></tr>
+          <tr><td>2025</td><td>Plano Municipal de Assistência Social</td><td>Resolução CMAS 51/2025</td><td><a href="/wp-content/uploads/conselho/fwdresoluescmas2025/51%20PLANO%20MUNICIPAL%20DE%20ASSIST%C3%8ANCIA%20SOCIAL.doc">Abrir</a></td></tr>
+          <tr><td>2025</td><td>Plano de Ação Piso Gaúcho Regular</td><td>Resolução CMAS 55/2025</td><td><a href="/wp-content/uploads/conselho/fwdresoluescmas2025/55%20PLANO%20DE%20A%C3%87%C3%83O%20PISO%20GAUCHO%20REGULAR.doc">Abrir</a></td></tr>
+          <tr><td>2026</td><td>Plano de Ação Piso Gaúcho Regular</td><td>Resolução CMAS 014/2026</td><td><a href="/wp-content/uploads/conselho/fwdresoluocmas2026/resolu%C3%A7%C3%A3o%20CMAS%20014%20DE%202026%20PLANO%20DE%20A%C3%87%C3%83O%20PISO%20GAUCHO%20REGULAR.doc">Abrir</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="rodape">
+    <strong>Última atualização:</strong> Maio de 2026 &nbsp;|&nbsp;
+    <strong>Responsável pelas informações:</strong> Conselho Municipal de Assistência Social / Secretaria Municipal de Cidadania e Assistência Social &nbsp;|&nbsp;
+    <strong>Manutenção:</strong> Coordenação de Informática
+  </footer>
+</main>
+
+<script>
+(function(){
+  function normalizar(texto){return (texto||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+  var busca=document.getElementById('busca-atas');
+  var ano=document.getElementById('ano-atas');
+  var tipo=document.getElementById('tipo-atas');
+  var linhas=[].slice.call(document.querySelectorAll('#tabela-atas tbody tr'));
+  var vazio=document.getElementById('sem-atas');
+  function filtrar(){
+    var termo=normalizar(busca.value.trim());
+    var anoValor=ano.value;
+    var tipoValor=tipo.value;
+    var visiveis=0;
+    linhas.forEach(function(tr){
+      var okTexto=!termo||normalizar(tr.textContent).indexOf(termo)!==-1;
+      var okAno=!anoValor||tr.getAttribute('data-ano')===anoValor;
+      var okTipo=!tipoValor||tr.getAttribute('data-tipo')===tipoValor;
+      var mostrar=okTexto&&okAno&&okTipo;
+      tr.style.display=mostrar?'':'none';
+      if(mostrar)visiveis++;
+    });
+    vazio.style.display=visiveis?'none':'block';
+  }
+  [busca,ano,tipo].forEach(function(el){el.addEventListener('input',filtrar);el.addEventListener('change',filtrar);});
+})();
+</script>
+</body>
+</html>
+
